@@ -1,0 +1,43 @@
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap"><a class="brand" href="index.html" aria-label="SPILLWAY home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="var(--on-accent)"/><path d="M20 14l5 2.5-5 2.5z" fill="var(--on-accent)"/></svg>SPILLWAY</a><nav class="nav-links" aria-label="Sections"><a class="backlink" id="backlink" href="index.html#results"><span aria-hidden="true">←</span><span class="bl-l">Back to the project page</span><span class="bl-s">Back</span></a><a href="SPILLWAY_preprint.pdf">Paper</a><a class="gh" href="@@REPO@@">GitHub</a></nav></div></header>
+<main id="main">
+<section class="band" aria-labelledby="r-h"><div class="wrap">
+  <div class="head stack"><p class="eyebrow">Full results · from the preprint</p><h1 id="r-h" style="font-size:var(--fs-h2)">The home page's result tables, in full.</h1>
+  <p class="jump"><a href="#grid">Table 2</a><a href="#cells">Table 1</a><a href="#cells-bu">Table 1, benign</a><a href="#fig4a">Fig. 4a</a><a href="#calls">Fig. 2</a><a href="#stress">Tables 4 and 7</a><a href="#rope">Table 8</a><a href="#reproduce">Reproduce</a><a href="#faq">FAQ</a></p>
+  <p>AgentDojo suite v1.2.2 (and AgentDyn in the ROPE comparison), full grid of user and injection tasks, with a common backbone, temperature 0, seed 42 and scorer. Spotlighting adds instructions to the default prompt. DRIFT keeps its authors' prompt, as detailed in the <a href="@@REPO@@/blob/main/reproduce/README.md">reproduction guide</a>. The same values are in <a href="results.json">results.json</a> and in <a href="@@REPO@@/tree/main/benchmarks/results">benchmarks/results</a>. The script <code>benchmarks/scripts/make_tables.py</code> regenerates Tables 1 to 3, the ChatInject columns, Table 8 and the cost values from those files. The AutoDojo and PISmith columns are copied from Tables 4 and 7 of the preprint.</p></div>
+  <figure class="rt" id="grid"><figcaption class="cap"><span class="tn">Preprint Table 2</span><h2 id="means">Twelve-cell means, standard attack</h2></figcaption><div class="scroll">@@T_GRID@@</div>
+  <p class="tnote">gpt-4o-mini, qwen3-coder:30b, qwen3:8b × Banking, Slack, Travel, Workspace, 949 attacked pairs per backbone. NRP (BU) = benign utility × (1 − ASR). NRP (UAU) = utility under attack × (1 − ASR), as in <a href="https://arxiv.org/abs/2510.15994">MCP Security Bench</a>. ERS = harmonic mean of (1 − ASR) and benign utility. ROPE's router is the cell's own backbone.</p></figure>
+  <figure class="rt" id="cells"><figcaption class="cap"><span class="tn">Preprint Table 1</span><h2>Every cell: utility under attack and in-scope ASR</h2></figcaption><div class="scroll">@@T_CELLS@@</div>
+  <p class="tnote">Benign utility per cell is in the next table. ROPE's router is the cell's own backbone.</p></figure>
+  <figure class="rt" id="cells-bu"><figcaption class="cap"><span class="tn">Preprint Table 1</span><h2>Every cell: benign utility</h2></figcaption><div class="scroll">@@T_CELLS_BU@@</div>
+  <p class="tnote">Task success with no injection, per backbone and suite. Their twelve-cell means are the first column of Table 2 above.</p></figure>
+  <figure class="rt" id="fig4a"><figcaption class="cap"><span class="tn">Preprint Figure 4a, values</span><h2>Standard attack on gpt-4o-mini, every defense</h2></figcaption><div class="scroll">@@T_FIG4A@@</div>
+  <p class="tnote">Each value is a four-suite mean on gpt-4o-mini: the gpt-4o-mini cells of Table 1, and for ROPE (its authors' Claude Opus 4.8 router) the AgentDojo rows of Table 8. Undefended is a reference row, separate from the defenses. The home page's chart plots these points.</p></figure>
+  <figure class="rt" id="calls"><figcaption class="cap"><span class="tn">Preprint Figure 2 (Workspace and Slack), values</span><h2>Added model calls and wall-clock per benign episode</h2></figcaption><div class="scroll">@@T_COST@@</div>
+  <p class="tnote">qwen3:8b, benign Workspace and Slack episodes, one RTX PRO 6000 (Figure 2 and the cost paragraph of the preprint). SPILLWAY's count is its judge calls plus any change in backbone calls. Its seconds were timed in a separate session.</p></figure>
+  <figure class="rt" id="stress"><figcaption class="cap"><span class="tn">Preprint Tables 4 and 7</span><h2>Stress tests</h2></figcaption><div class="scroll">@@T_STRESS@@</div>
+  <p class="tnote">ChatInject on qwen3:8b (560 Workspace, 105 Slack pairs). AutoDojo on gpt-4o-mini, optimized against Progent (144, 105, 140 pairs). SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs. Held-out Banking sets give .007 by AgentDojo's check, .014 counting a second transfer that check misses (2 of 144), and .000. PISmith: released RL attacker replayed open-loop, ten variants per injection, four-suite macro on gpt-4o-mini. The home page's Figure 4 panels (b) to (d) are means of these columns.</p>
+  <p class="tnote">@@MARK_LEGEND@@</p></figure>
+  <figure class="rt" id="rope"><figcaption class="cap"><span class="tn">Preprint Table 8</span><h2>Against ROPE on AgentDojo and AgentDyn</h2></figcaption><div class="scroll">@@T_ROPE@@</div>
+  <p class="tnote">gpt-4o-mini under the standard attack, one run per suite (seed 42). ROPE runs with its authors' Claude Opus 4.8 router and, in the last two columns, with gpt-4o-mini, the agent's own model, as router: its mean utility falls from @@RA_FROM@@ to @@RA_MEAN@@ and it leaks on Shopping (@@RA_SHOP@@) and Slack (@@RA_SLACK@@).</p></figure>
+</div></section>
+@@MOVED@@
+</main>
+<script>
+// The back button returns to the home section the reader came from: each table here belongs to one chart there.
+(function () {
+  var back = { grid: 'c-util', means: 'leaks', 'cells-bu': 'c-util', cells: 'leaks', fig4a: 'top', calls: 'c-calls', stress: 'all-attacks', rope: 'vs-rope', reproduce: 'reproduce', faq: 'faq' };
+  var a = document.getElementById('backlink');
+  function set() { var h = location.hash.slice(1), k = h.indexOf('faq') === 0 ? 'faq' : h; a.href = 'index.html#' + (back[k] || 'results'); }
+  set(); var moved = false; window.addEventListener('hashchange', function () { moved = true; set(); });
+  // Arrived from the home page in this tab and not moved since: go back in history, and the browser restores the exact
+  // spot. Otherwise (a direct visit, or after moving inside this page) follow the link; the home page restores the spot.
+  a.addEventListener('click', function (e) {
+    var ret = null, ref = document.referrer;
+    try { ret = JSON.parse(sessionStorage.getItem('spw-ret') || 'null'); } catch (x) {}
+    if (!ret || moved || history.length < 2 || Date.now() - ret.t > 1800000 || ref.indexOf(location.origin) !== 0 || ref.indexOf('results.html') >= 0) return;
+    e.preventDefault(); history.back();
+  });
+})();
+</script>
+<footer><div class="wrap"><nav aria-label="Footer"><a href="index.html">Home</a><a href="@@REPO@@">GitHub</a><a href="SPILLWAY_preprint.pdf">Preprint</a><a href="results.json">results.json</a><a href="llms.txt">llms.txt</a><a href="@@REPO@@/blob/main/SECURITY.md">Security policy</a><a href="@@REPO@@/blob/main/LICENSE">License</a></nav></div></footer>

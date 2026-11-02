@@ -1,0 +1,1147 @@
+{
+ "source": "SPILLWAY preprint, AgentDojo v1.2.2",
+ "notes": {
+  "grid_means": "Table 2: twelve-cell means over 3 backbones x 4 suites; nrp_bu = bu x (1 - asr_in_scope), nrp_uau = uau x (1 - asr_in_scope) as in MCP Security Bench; ROPE's router is the cell's own backbone",
+  "standard_attack_gpt_4o_mini_suite_means_figure_4a": "Figure 4a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
+  "delegated_routing_vs_rope": "Table 8: gpt-4o-mini, standard attack, one run per suite (seed 42); rope_uau and rope_asr use its authors' Claude Opus 4.8 router, the rope_gpt_4o_mini_router columns the agent's own model",
+  "pismith_gpt_4o_mini_by_suite": "the run records behind Table 7 (benchmarks/results/pismith_a4); the preprint prints only each method's mean over these four suites",
+  "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop) on gpt-4o-mini; ROPE's router is the agent's own model in all three. SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs; held-out Banking sets give .007 and .000"
+ },
+ "grid_means": {
+  "Undefended": {
+   "bu": 0.54,
+   "uau": 0.417,
+   "asr_in_scope": 0.305,
+   "nrp_bu": 0.375,
+   "nrp_uau": 0.29,
+   "ers": 0.608,
+   "cells_leaking_of_12": 12
+  },
+  "SPILLWAY": {
+   "bu": 0.52,
+   "uau": 0.484,
+   "asr_in_scope": 0.0,
+   "nrp_bu": 0.52,
+   "nrp_uau": 0.484,
+   "ers": 0.684,
+   "cells_leaking_of_12": 0
+  },
+  "MELON": {
+   "bu": 0.526,
+   "uau": 0.314,
+   "asr_in_scope": 0.094,
+   "nrp_bu": 0.477,
+   "nrp_uau": 0.284,
+   "ers": 0.666,
+   "cells_leaking_of_12": 10
+  },
+  "Progent": {
+   "bu": 0.437,
+   "uau": 0.371,
+   "asr_in_scope": 0.031,
+   "nrp_bu": 0.423,
+   "nrp_uau": 0.359,
+   "ers": 0.602,
+   "cells_leaking_of_12": 11
+  },
+  "DRIFT": {
+   "bu": 0.46,
+   "uau": 0.453,
+   "asr_in_scope": 0.016,
+   "nrp_bu": 0.453,
+   "nrp_uau": 0.446,
+   "ers": 0.627,
+   "cells_leaking_of_12": 7
+  },
+  "ROPE": {
+   "bu": 0.395,
+   "uau": 0.345,
+   "asr_in_scope": 0.005,
+   "nrp_bu": 0.393,
+   "nrp_uau": 0.343,
+   "ers": 0.566,
+   "cells_leaking_of_12": 3
+  },
+  "Spotlighting": {
+   "bu": 0.528,
+   "uau": 0.403,
+   "asr_in_scope": 0.283,
+   "nrp_bu": 0.379,
+   "nrp_uau": 0.289,
+   "ers": 0.608,
+   "cells_leaking_of_12": 12
+  },
+  "PI detector": {
+   "bu": 0.332,
+   "uau": 0.23,
+   "asr_in_scope": 0.06,
+   "nrp_bu": 0.312,
+   "nrp_uau": 0.216,
+   "ers": 0.491,
+   "cells_leaking_of_12": 10
+  }
+ },
+ "cells": [
+  {
+   "suite": "Banking",
+   "backbone": "gpt-4o-mini",
+   "methods": {
+    "Undefended": {
+     "bu": 0.562,
+     "uau": 0.424,
+     "asr": 0.556
+    },
+    "SPILLWAY": {
+     "bu": 0.562,
+     "uau": 0.521,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.438,
+     "uau": 0.306,
+     "asr": 0.049
+    },
+    "Progent": {
+     "bu": 0.375,
+     "uau": 0.299,
+     "asr": 0.097
+    },
+    "DRIFT": {
+     "bu": 0.438,
+     "uau": 0.431,
+     "asr": 0.111
+    },
+    "ROPE": {
+     "bu": 0.438,
+     "uau": 0.431,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.5,
+     "uau": 0.431,
+     "asr": 0.549
+    },
+    "PI detector": {
+     "bu": 0.5,
+     "uau": 0.375,
+     "asr": 0.118
+    }
+   }
+  },
+  {
+   "suite": "Banking",
+   "backbone": "qwen3-coder:30b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.375,
+     "uau": 0.486,
+     "asr": 0.299
+    },
+    "SPILLWAY": {
+     "bu": 0.375,
+     "uau": 0.5,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.375,
+     "uau": 0.299,
+     "asr": 0.125
+    },
+    "Progent": {
+     "bu": 0.312,
+     "uau": 0.354,
+     "asr": 0.056
+    },
+    "DRIFT": {
+     "bu": 0.688,
+     "uau": 0.542,
+     "asr": 0.014
+    },
+    "ROPE": {
+     "bu": 0.375,
+     "uau": 0.375,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.375,
+     "uau": 0.41,
+     "asr": 0.382
+    },
+    "PI detector": {
+     "bu": 0.5,
+     "uau": 0.424,
+     "asr": 0.097
+    }
+   }
+  },
+  {
+   "suite": "Banking",
+   "backbone": "qwen3:8b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.5,
+     "uau": 0.403,
+     "asr": 0.181
+    },
+    "SPILLWAY": {
+     "bu": 0.438,
+     "uau": 0.438,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.5,
+     "uau": 0.403,
+     "asr": 0.215
+    },
+    "Progent": {
+     "bu": 0.375,
+     "uau": 0.361,
+     "asr": 0.0
+    },
+    "DRIFT": {
+     "bu": 0.562,
+     "uau": 0.41,
+     "asr": 0.028
+    },
+    "ROPE": {
+     "bu": 0.438,
+     "uau": 0.438,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.562,
+     "uau": 0.431,
+     "asr": 0.188
+    },
+    "PI detector": {
+     "bu": 0.438,
+     "uau": 0.34,
+     "asr": 0.083
+    }
+   }
+  },
+  {
+   "suite": "Slack",
+   "backbone": "gpt-4o-mini",
+   "methods": {
+    "Undefended": {
+     "bu": 0.762,
+     "uau": 0.514,
+     "asr": 0.629
+    },
+    "SPILLWAY": {
+     "bu": 0.714,
+     "uau": 0.524,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.714,
+     "uau": 0.133,
+     "asr": 0.0
+    },
+    "Progent": {
+     "bu": 0.667,
+     "uau": 0.4,
+     "asr": 0.076
+    },
+    "DRIFT": {
+     "bu": 0.714,
+     "uau": 0.486,
+     "asr": 0.0
+    },
+    "ROPE": {
+     "bu": 0.524,
+     "uau": 0.343,
+     "asr": 0.019
+    },
+    "Spotlighting": {
+     "bu": 0.619,
+     "uau": 0.524,
+     "asr": 0.562
+    },
+    "PI detector": {
+     "bu": 0.238,
+     "uau": 0.162,
+     "asr": 0.086
+    }
+   }
+  },
+  {
+   "suite": "Slack",
+   "backbone": "qwen3-coder:30b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.667,
+     "uau": 0.467,
+     "asr": 0.724
+    },
+    "SPILLWAY": {
+     "bu": 0.571,
+     "uau": 0.429,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.667,
+     "uau": 0.19,
+     "asr": 0.076
+    },
+    "Progent": {
+     "bu": 0.476,
+     "uau": 0.362,
+     "asr": 0.01
+    },
+    "DRIFT": {
+     "bu": 0.286,
+     "uau": 0.276,
+     "asr": 0.0
+    },
+    "ROPE": {
+     "bu": 0.429,
+     "uau": 0.276,
+     "asr": 0.019
+    },
+    "Spotlighting": {
+     "bu": 0.524,
+     "uau": 0.39,
+     "asr": 0.581
+    },
+    "PI detector": {
+     "bu": 0.19,
+     "uau": 0.171,
+     "asr": 0.124
+    }
+   }
+  },
+  {
+   "suite": "Slack",
+   "backbone": "qwen3:8b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.619,
+     "uau": 0.419,
+     "asr": 0.448
+    },
+    "SPILLWAY": {
+     "bu": 0.476,
+     "uau": 0.286,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.571,
+     "uau": 0.362,
+     "asr": 0.457
+    },
+    "Progent": {
+     "bu": 0.19,
+     "uau": 0.105,
+     "asr": 0.019
+    },
+    "DRIFT": {
+     "bu": 0.429,
+     "uau": 0.314,
+     "asr": 0.01
+    },
+    "ROPE": {
+     "bu": 0.333,
+     "uau": 0.2,
+     "asr": 0.019
+    },
+    "Spotlighting": {
+     "bu": 0.429,
+     "uau": 0.295,
+     "asr": 0.467
+    },
+    "PI detector": {
+     "bu": 0.19,
+     "uau": 0.162,
+     "asr": 0.086
+    }
+   }
+  },
+  {
+   "suite": "Travel",
+   "backbone": "gpt-4o-mini",
+   "methods": {
+    "Undefended": {
+     "bu": 0.5,
+     "uau": 0.336,
+     "asr": 0.229
+    },
+    "SPILLWAY": {
+     "bu": 0.55,
+     "uau": 0.571,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.55,
+     "uau": 0.3,
+     "asr": 0.0
+    },
+    "Progent": {
+     "bu": 0.55,
+     "uau": 0.529,
+     "asr": 0.029
+    },
+    "DRIFT": {
+     "bu": 0.4,
+     "uau": 0.607,
+     "asr": 0.0
+    },
+    "ROPE": {
+     "bu": 0.35,
+     "uau": 0.35,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.6,
+     "uau": 0.429,
+     "asr": 0.179
+    },
+    "PI detector": {
+     "bu": 0.3,
+     "uau": 0.107,
+     "asr": 0.014
+    }
+   }
+  },
+  {
+   "suite": "Travel",
+   "backbone": "qwen3-coder:30b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.5,
+     "uau": 0.414,
+     "asr": 0.129
+    },
+    "SPILLWAY": {
+     "bu": 0.5,
+     "uau": 0.407,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.55,
+     "uau": 0.393,
+     "asr": 0.029
+    },
+    "Progent": {
+     "bu": 0.45,
+     "uau": 0.414,
+     "asr": 0.007
+    },
+    "DRIFT": {
+     "bu": 0.1,
+     "uau": 0.443,
+     "asr": 0.0
+    },
+    "ROPE": {
+     "bu": 0.25,
+     "uau": 0.264,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.55,
+     "uau": 0.414,
+     "asr": 0.136
+    },
+    "PI detector": {
+     "bu": 0.25,
+     "uau": 0.2,
+     "asr": 0.0
+    }
+   }
+  },
+  {
+   "suite": "Travel",
+   "backbone": "qwen3:8b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.25,
+     "uau": 0.229,
+     "asr": 0.229
+    },
+    "SPILLWAY": {
+     "bu": 0.25,
+     "uau": 0.343,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.25,
+     "uau": 0.186,
+     "asr": 0.157
+    },
+    "Progent": {
+     "bu": 0.15,
+     "uau": 0.164,
+     "asr": 0.036
+    },
+    "DRIFT": {
+     "bu": 0.3,
+     "uau": 0.264,
+     "asr": 0.0
+    },
+    "ROPE": {
+     "bu": 0.2,
+     "uau": 0.157,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.3,
+     "uau": 0.171,
+     "asr": 0.15
+    },
+    "PI detector": {
+     "bu": 0.05,
+     "uau": 0.05,
+     "asr": 0.0
+    }
+   }
+  },
+  {
+   "suite": "Workspace",
+   "backbone": "gpt-4o-mini",
+   "methods": {
+    "Undefended": {
+     "bu": 0.825,
+     "uau": 0.398,
+     "asr": 0.184
+    },
+    "SPILLWAY": {
+     "bu": 0.875,
+     "uau": 0.838,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.775,
+     "uau": 0.33,
+     "asr": 0.002
+    },
+    "Progent": {
+     "bu": 0.8,
+     "uau": 0.621,
+     "asr": 0.041
+    },
+    "DRIFT": {
+     "bu": 0.525,
+     "uau": 0.607,
+     "asr": 0.009
+    },
+    "ROPE": {
+     "bu": 0.625,
+     "uau": 0.539,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.825,
+     "uau": 0.43,
+     "asr": 0.148
+    },
+    "PI detector": {
+     "bu": 0.625,
+     "uau": 0.254,
+     "asr": 0.07
+    }
+   }
+  },
+  {
+   "suite": "Workspace",
+   "backbone": "qwen3-coder:30b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.5,
+     "uau": 0.48,
+     "asr": 0.036
+    },
+    "SPILLWAY": {
+     "bu": 0.475,
+     "uau": 0.543,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.5,
+     "uau": 0.43,
+     "asr": 0.004
+    },
+    "Progent": {
+     "bu": 0.475,
+     "uau": 0.482,
+     "asr": 0.002
+    },
+    "DRIFT": {
+     "bu": 0.575,
+     "uau": 0.53,
+     "asr": 0.002
+    },
+    "ROPE": {
+     "bu": 0.4,
+     "uau": 0.42,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.6,
+     "uau": 0.452,
+     "asr": 0.039
+    },
+    "PI detector": {
+     "bu": 0.425,
+     "uau": 0.275,
+     "asr": 0.025
+    }
+   }
+  },
+  {
+   "suite": "Workspace",
+   "backbone": "qwen3:8b",
+   "methods": {
+    "Undefended": {
+     "bu": 0.425,
+     "uau": 0.434,
+     "asr": 0.02
+    },
+    "SPILLWAY": {
+     "bu": 0.45,
+     "uau": 0.414,
+     "asr": 0.0
+    },
+    "MELON": {
+     "bu": 0.425,
+     "uau": 0.441,
+     "asr": 0.011
+    },
+    "Progent": {
+     "bu": 0.425,
+     "uau": 0.366,
+     "asr": 0.004
+    },
+    "DRIFT": {
+     "bu": 0.5,
+     "uau": 0.523,
+     "asr": 0.014
+    },
+    "ROPE": {
+     "bu": 0.375,
+     "uau": 0.352,
+     "asr": 0.0
+    },
+    "Spotlighting": {
+     "bu": 0.45,
+     "uau": 0.457,
+     "asr": 0.02
+    },
+    "PI detector": {
+     "bu": 0.275,
+     "uau": 0.243,
+     "asr": 0.014
+    }
+   }
+  }
+ ],
+ "added_model_calls_per_benign_episode_qwen3_8b": {
+  "SPILLWAY": {
+   "workspace": 0.19,
+   "slack": 0.39
+  },
+  "MELON": {
+   "workspace": 3.25,
+   "slack": 5.29
+  },
+  "Progent": {
+   "workspace": 5.94,
+   "slack": 8.67
+  },
+  "DRIFT": {
+   "workspace": 9.59,
+   "slack": 9.91
+  }
+ },
+ "added_wall_clock_seconds_per_benign_episode_qwen3_8b": {
+  "MELON": {
+   "workspace": 7.9,
+   "slack": 4.9
+  },
+  "Progent": {
+   "workspace": 2.3,
+   "slack": 1.6
+  },
+  "DRIFT": {
+   "workspace": 10.5,
+   "slack": 9.9
+  }
+ },
+ "spillway_wall_clock_within_seconds": 0.5,
+ "spillway_judge_calls_per_benign_episode_qwen3_8b": {
+  "workspace": 0.05,
+  "slack": 0.43
+ },
+ "stress": {
+  "columns": [
+   "ChatInject \u00b7 Workspace",
+   "ChatInject \u00b7 Slack",
+   "AutoDojo \u00b7 Banking",
+   "AutoDojo \u00b7 Slack",
+   "AutoDojo \u00b7 Travel",
+   "PISmith \u00b7 4 suites"
+  ],
+  "rows": {
+   "Undefended": [
+    {
+     "uau": 0.052,
+     "asr_in_scope": 0.245
+    },
+    {
+     "uau": 0.095,
+     "asr_in_scope": 0.648
+    },
+    {
+     "uau": 0.444,
+     "asr_in_scope": 0.354
+    },
+    {
+     "uau": 0.524,
+     "asr_in_scope": 0.571
+    },
+    {
+     "uau": 0.329,
+     "asr_in_scope": 0.329
+    },
+    {
+     "uau": 0.128,
+     "asr_in_scope": 0.568
+    }
+   ],
+   "SPILLWAY": [
+    {
+     "uau": 0.371,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.286,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.486,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.533,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.55,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.265,
+     "asr_in_scope": 0.007
+    }
+   ],
+   "MELON": [
+    {
+     "uau": 0.084,
+     "asr_in_scope": 0.02
+    },
+    {
+     "uau": 0.095,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.34,
+     "asr_in_scope": 0.021
+    },
+    {
+     "uau": 0.286,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.293,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.114,
+     "asr_in_scope": 0.061
+    }
+   ],
+   "Progent": [
+    {
+     "uau": 0.161,
+     "asr_in_scope": 0.005
+    },
+    {
+     "uau": 0.057,
+     "asr_in_scope": 0.01
+    },
+    {
+     "uau": 0.306,
+     "asr_in_scope": 0.104
+    },
+    {
+     "uau": 0.467,
+     "asr_in_scope": 0.124
+    },
+    {
+     "uau": 0.414,
+     "asr_in_scope": 0.121
+    },
+    {
+     "uau": 0.166,
+     "asr_in_scope": 0.096
+    }
+   ],
+   "DRIFT": [
+    {
+     "uau": 0.393,
+     "asr_in_scope": 0.062
+    },
+    {
+     "uau": 0.352,
+     "asr_in_scope": 0.019
+    },
+    {
+     "uau": 0.438,
+     "asr_in_scope": 0.09
+    },
+    {
+     "uau": 0.543,
+     "asr_in_scope": 0.01
+    },
+    {
+     "uau": 0.486,
+     "asr_in_scope": 0.086
+    },
+    {
+     "uau": 0.428,
+     "asr_in_scope": 0.064
+    }
+   ],
+   "ROPE": [
+    {
+     "uau": 0.157,
+     "asr_in_scope": 0.002
+    },
+    {
+     "uau": 0.162,
+     "asr_in_scope": 0.095
+    },
+    {
+     "uau": 0.424,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.352,
+     "asr_in_scope": 0.019
+    },
+    {
+     "uau": 0.3,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.173,
+     "asr_in_scope": 0.007
+    }
+   ],
+   "Spotlighting": [
+    {
+     "uau": 0.191,
+     "asr_in_scope": 0.013
+    },
+    {
+     "uau": 0.076,
+     "asr_in_scope": 0.181
+    },
+    {
+     "uau": 0.431,
+     "asr_in_scope": 0.306
+    },
+    {
+     "uau": 0.543,
+     "asr_in_scope": 0.514
+    },
+    {
+     "uau": 0.343,
+     "asr_in_scope": 0.279
+    },
+    {
+     "uau": 0.151,
+     "asr_in_scope": 0.489
+    }
+   ],
+   "PI detector": [
+    {
+     "uau": 0.05,
+     "asr_in_scope": 0.021
+    },
+    {
+     "uau": 0.162,
+     "asr_in_scope": 0.0
+    },
+    {
+     "uau": 0.403,
+     "asr_in_scope": 0.049
+    },
+    {
+     "uau": 0.219,
+     "asr_in_scope": 0.067
+    },
+    {
+     "uau": 0.214,
+     "asr_in_scope": 0.029
+    },
+    {
+     "uau": 0.155,
+     "asr_in_scope": 0.025
+    }
+   ]
+  }
+ },
+ "pismith_gpt_4o_mini_by_suite": {
+  "Undefended": {
+   "Banking": {
+    "uau": 0.25,
+    "asr_in_scope": 0.5833
+   },
+   "Slack": {
+    "uau": 0.1143,
+    "asr_in_scope": 0.6381
+   },
+   "Travel": {
+    "uau": 0.0714,
+    "asr_in_scope": 0.5643
+   },
+   "Workspace": {
+    "uau": 0.0768,
+    "asr_in_scope": 0.4875
+   }
+  },
+  "MELON": {
+   "Banking": {
+    "uau": 0.2569,
+    "asr_in_scope": 0.0903
+   },
+   "Slack": {
+    "uau": 0.0857,
+    "asr_in_scope": 0.0571
+   },
+   "Travel": {
+    "uau": 0.05,
+    "asr_in_scope": 0.0643
+   },
+   "Workspace": {
+    "uau": 0.0625,
+    "asr_in_scope": 0.0321
+   }
+  },
+  "Spotlighting": {
+   "Banking": {
+    "uau": 0.2431,
+    "asr_in_scope": 0.5069
+   },
+   "Slack": {
+    "uau": 0.1619,
+    "asr_in_scope": 0.5143
+   },
+   "Travel": {
+    "uau": 0.1,
+    "asr_in_scope": 0.4929
+   },
+   "Workspace": {
+    "uau": 0.1,
+    "asr_in_scope": 0.4411
+   }
+  },
+  "PI detector": {
+   "Banking": {
+    "uau": 0.3611,
+    "asr_in_scope": 0.0
+   },
+   "Slack": {
+    "uau": 0.0571,
+    "asr_in_scope": 0.0
+   },
+   "Travel": {
+    "uau": 0.1429,
+    "asr_in_scope": 0.0214
+   },
+   "Workspace": {
+    "uau": 0.0589,
+    "asr_in_scope": 0.0768
+   }
+  },
+  "SPILLWAY": {
+   "Banking": {
+    "uau": 0.3403,
+    "asr_in_scope": 0.0069
+   },
+   "Slack": {
+    "uau": 0.1238,
+    "asr_in_scope": 0.0095
+   },
+   "Travel": {
+    "uau": 0.3071,
+    "asr_in_scope": 0.0071
+   },
+   "Workspace": {
+    "uau": 0.2875,
+    "asr_in_scope": 0.0054
+   }
+  },
+  "Progent": {
+   "Banking": {
+    "uau": 0.2431,
+    "asr_in_scope": 0.0694
+   },
+   "Slack": {
+    "uau": 0.2381,
+    "asr_in_scope": 0.0381
+   },
+   "Travel": {
+    "uau": 0.0786,
+    "asr_in_scope": 0.1786
+   },
+   "Workspace": {
+    "uau": 0.1054,
+    "asr_in_scope": 0.0964
+   }
+  },
+  "DRIFT": {
+   "Banking": {
+    "uau": 0.3681,
+    "asr_in_scope": 0.125
+   },
+   "Slack": {
+    "uau": 0.3714,
+    "asr_in_scope": 0.0667
+   },
+   "Travel": {
+    "uau": 0.5714,
+    "asr_in_scope": 0.0214
+   },
+   "Workspace": {
+    "uau": 0.4018,
+    "asr_in_scope": 0.0446
+   }
+  },
+  "ROPE": {
+   "Banking": {
+    "uau": 0.34,
+    "asr_in_scope": 0.0
+   },
+   "Slack": {
+    "uau": 0.191,
+    "asr_in_scope": 0.029
+   },
+   "Travel": {
+    "uau": 0.064,
+    "asr_in_scope": 0.0
+   },
+   "Workspace": {
+    "uau": 0.096,
+    "asr_in_scope": 0.0
+   }
+  }
+ },
+ "standard_attack_gpt_4o_mini_suite_means_figure_4a": {
+  "Undefended": {
+   "uau": 0.418,
+   "asr_in_scope": 0.4
+  },
+  "SPILLWAY": {
+   "uau": 0.614,
+   "asr_in_scope": 0.0
+  },
+  "MELON": {
+   "uau": 0.267,
+   "asr_in_scope": 0.013
+  },
+  "Progent": {
+   "uau": 0.462,
+   "asr_in_scope": 0.061
+  },
+  "DRIFT": {
+   "uau": 0.533,
+   "asr_in_scope": 0.03
+  },
+  "ROPE": {
+   "uau": 0.531,
+   "asr_in_scope": 0.012
+  },
+  "Spotlighting": {
+   "uau": 0.454,
+   "asr_in_scope": 0.36
+  },
+  "PI detector": {
+   "uau": 0.225,
+   "asr_in_scope": 0.072
+  }
+ },
+ "delegated_routing_vs_rope": [
+  {
+   "suite": "Banking",
+   "spillway_uau": 0.521,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.438,
+   "rope_asr": 0.0,
+   "benchmark": "AgentDojo v1.2.2",
+   "rope_gpt_4o_mini_router_uau": 0.431,
+   "rope_gpt_4o_mini_router_asr": 0.0
+  },
+  {
+   "suite": "Slack",
+   "spillway_uau": 0.524,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.514,
+   "rope_asr": 0.048,
+   "benchmark": "AgentDojo v1.2.2",
+   "rope_gpt_4o_mini_router_uau": 0.343,
+   "rope_gpt_4o_mini_router_asr": 0.019
+  },
+  {
+   "suite": "Travel",
+   "spillway_uau": 0.571,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.5,
+   "rope_asr": 0.0,
+   "benchmark": "AgentDojo v1.2.2",
+   "rope_gpt_4o_mini_router_uau": 0.35,
+   "rope_gpt_4o_mini_router_asr": 0.0
+  },
+  {
+   "suite": "Workspace",
+   "spillway_uau": 0.838,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.67,
+   "rope_asr": 0.0,
+   "benchmark": "AgentDojo v1.2.2",
+   "rope_gpt_4o_mini_router_uau": 0.539,
+   "rope_gpt_4o_mini_router_asr": 0.0
+  },
+  {
+   "suite": "GitHub",
+   "spillway_uau": 0.6,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.5,
+   "rope_asr": 0.0,
+   "benchmark": "AgentDyn",
+   "rope_gpt_4o_mini_router_uau": 0.383,
+   "rope_gpt_4o_mini_router_asr": 0.0
+  },
+  {
+   "suite": "DailyLife",
+   "spillway_uau": 0.435,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.295,
+   "rope_asr": 0.01,
+   "benchmark": "AgentDyn",
+   "rope_gpt_4o_mini_router_uau": 0.15,
+   "rope_gpt_4o_mini_router_asr": 0.0
+  },
+  {
+   "suite": "Shopping",
+   "spillway_uau": 0.383,
+   "spillway_asr": 0.0,
+   "rope_uau": 0.361,
+   "rope_asr": 0.044,
+   "benchmark": "AgentDyn",
+   "rope_gpt_4o_mini_router_uau": 0.333,
+   "rope_gpt_4o_mini_router_asr": 0.072
+  }
+ ]
+}

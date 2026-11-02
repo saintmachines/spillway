@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: "Fraunces"; src: url("../assets/fonts/fraunces.woff2") format("woff2"); font-weight: 400 700; }
+@font-face { font-family: "IBM Plex Sans"; src: url("../assets/fonts/ibm-plex-sans.woff2") format("woff2"); font-weight: 100 700; }
+@font-face { font-family: "IBM Plex Mono"; src: url("../assets/fonts/ibm-plex-mono-500.woff2") format("woff2"); font-weight: 500; }
+html, body { margin: 0; width: 1200px; height: 630px; background: #0b1220; color: #edf2f8; font-family: "IBM Plex Sans", Arial, sans-serif; }
+.c { box-sizing: border-box; width: 1200px; height: 630px; padding: 64px 72px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden; }
+.brand { display: flex; align-items: center; gap: 14px; font: 700 30px/1 "Fraunces", Georgia; letter-spacing: .03em; }
+.brand svg { width: 44px; height: 44px; }
+h1 { margin: 34px 0 0; font: 700 70px/1.04 "Fraunces", Georgia; letter-spacing: -.022em; max-width: 16ch; }
+.m { display: flex; gap: 32px; align-items: flex-end; border-top: 1px solid #24324a; padding-top: 26px; }
+.m > div:not(.pip) { align-self: flex-start; }  /* numbers on one line whatever their captions' length */
+.m div b { display: block; font: 700 46px/1 "Fraunces", Georgia; color: #8ccfff; letter-spacing: -.02em; }
+.m div span { display: block; margin-top: 8px; font-size: 20px; color: #b3c0d0; white-space: nowrap; }
+.m .pip { margin-left: auto; white-space: nowrap; font: 500 20px/1 "IBM Plex Mono", Menlo, monospace; background: #1a2740; border: 1px solid rgba(232,238,245,.16); padding: 16px 20px; border-radius: 12px; color: #e8eef5; }
+.m .pip i { font-style: normal; color: #7cc4f0; margin-right: 10px; }
+</style></head><body><div class="c">
+<div class="brand"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#3d9be0"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="#04131f"/><path d="M20 14l5 2.5-5 2.5z" fill="#04131f"/></svg>SPILLWAY</div>
+<h1>SPILLWAY checks recipients against the task and typed fields.</h1>
+<div class="m"><div><b>0 / 12</b><span>AgentDojo cells with<br>an in-scope leak</span></div><div><b>.484</b><span>utility under attack,<br>highest of the<br>seven defenses</span></div><div><b>13&nbsp;to&nbsp;50×</b><span>fewer added calls than<br>MELON, Progent, DRIFT on<br>benign qwen3:8b Workspace<br>and Slack episodes</span></div><div class="pip"><i>$</i>pip install spillway-guard</div></div>
+</div></body></html>

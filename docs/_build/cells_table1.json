@@ -1,0 +1,554 @@
+[
+ {
+  "suite": "Banking",
+  "backbone": "gpt-4o-mini",
+  "methods": {
+   "Undefended": {
+    "bu": 0.562,
+    "uau": 0.424,
+    "asr": 0.556
+   },
+   "SPILLWAY": {
+    "bu": 0.562,
+    "uau": 0.521,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.438,
+    "uau": 0.306,
+    "asr": 0.049
+   },
+   "Progent": {
+    "bu": 0.375,
+    "uau": 0.299,
+    "asr": 0.097
+   },
+   "DRIFT": {
+    "bu": 0.438,
+    "uau": 0.431,
+    "asr": 0.111
+   },
+   "ROPE": {
+    "bu": 0.438,
+    "uau": 0.431,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.5,
+    "uau": 0.431,
+    "asr": 0.549
+   },
+   "PI detector": {
+    "bu": 0.5,
+    "uau": 0.375,
+    "asr": 0.118
+   }
+  }
+ },
+ {
+  "suite": "Banking",
+  "backbone": "qwen3-coder:30b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.375,
+    "uau": 0.486,
+    "asr": 0.299
+   },
+   "SPILLWAY": {
+    "bu": 0.375,
+    "uau": 0.5,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.375,
+    "uau": 0.299,
+    "asr": 0.125
+   },
+   "Progent": {
+    "bu": 0.312,
+    "uau": 0.354,
+    "asr": 0.056
+   },
+   "DRIFT": {
+    "bu": 0.688,
+    "uau": 0.542,
+    "asr": 0.014
+   },
+   "ROPE": {
+    "bu": 0.375,
+    "uau": 0.375,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.375,
+    "uau": 0.41,
+    "asr": 0.382
+   },
+   "PI detector": {
+    "bu": 0.5,
+    "uau": 0.424,
+    "asr": 0.097
+   }
+  }
+ },
+ {
+  "suite": "Banking",
+  "backbone": "qwen3:8b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.5,
+    "uau": 0.403,
+    "asr": 0.181
+   },
+   "SPILLWAY": {
+    "bu": 0.438,
+    "uau": 0.438,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.5,
+    "uau": 0.403,
+    "asr": 0.215
+   },
+   "Progent": {
+    "bu": 0.375,
+    "uau": 0.361,
+    "asr": 0.0
+   },
+   "DRIFT": {
+    "bu": 0.562,
+    "uau": 0.41,
+    "asr": 0.028
+   },
+   "ROPE": {
+    "bu": 0.438,
+    "uau": 0.438,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.562,
+    "uau": 0.431,
+    "asr": 0.188
+   },
+   "PI detector": {
+    "bu": 0.438,
+    "uau": 0.34,
+    "asr": 0.083
+   }
+  }
+ },
+ {
+  "suite": "Slack",
+  "backbone": "gpt-4o-mini",
+  "methods": {
+   "Undefended": {
+    "bu": 0.762,
+    "uau": 0.514,
+    "asr": 0.629
+   },
+   "SPILLWAY": {
+    "bu": 0.714,
+    "uau": 0.524,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.714,
+    "uau": 0.133,
+    "asr": 0.0
+   },
+   "Progent": {
+    "bu": 0.667,
+    "uau": 0.4,
+    "asr": 0.076
+   },
+   "DRIFT": {
+    "bu": 0.714,
+    "uau": 0.486,
+    "asr": 0.0
+   },
+   "ROPE": {
+    "bu": 0.524,
+    "uau": 0.343,
+    "asr": 0.019
+   },
+   "Spotlighting": {
+    "bu": 0.619,
+    "uau": 0.524,
+    "asr": 0.562
+   },
+   "PI detector": {
+    "bu": 0.238,
+    "uau": 0.162,
+    "asr": 0.086
+   }
+  }
+ },
+ {
+  "suite": "Slack",
+  "backbone": "qwen3-coder:30b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.667,
+    "uau": 0.467,
+    "asr": 0.724
+   },
+   "SPILLWAY": {
+    "bu": 0.571,
+    "uau": 0.429,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.667,
+    "uau": 0.19,
+    "asr": 0.076
+   },
+   "Progent": {
+    "bu": 0.476,
+    "uau": 0.362,
+    "asr": 0.01
+   },
+   "DRIFT": {
+    "bu": 0.286,
+    "uau": 0.276,
+    "asr": 0.0
+   },
+   "ROPE": {
+    "bu": 0.429,
+    "uau": 0.276,
+    "asr": 0.019
+   },
+   "Spotlighting": {
+    "bu": 0.524,
+    "uau": 0.39,
+    "asr": 0.581
+   },
+   "PI detector": {
+    "bu": 0.19,
+    "uau": 0.171,
+    "asr": 0.124
+   }
+  }
+ },
+ {
+  "suite": "Slack",
+  "backbone": "qwen3:8b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.619,
+    "uau": 0.419,
+    "asr": 0.448
+   },
+   "SPILLWAY": {
+    "bu": 0.476,
+    "uau": 0.286,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.571,
+    "uau": 0.362,
+    "asr": 0.457
+   },
+   "Progent": {
+    "bu": 0.19,
+    "uau": 0.105,
+    "asr": 0.019
+   },
+   "DRIFT": {
+    "bu": 0.429,
+    "uau": 0.314,
+    "asr": 0.01
+   },
+   "ROPE": {
+    "bu": 0.333,
+    "uau": 0.2,
+    "asr": 0.019
+   },
+   "Spotlighting": {
+    "bu": 0.429,
+    "uau": 0.295,
+    "asr": 0.467
+   },
+   "PI detector": {
+    "bu": 0.19,
+    "uau": 0.162,
+    "asr": 0.086
+   }
+  }
+ },
+ {
+  "suite": "Travel",
+  "backbone": "gpt-4o-mini",
+  "methods": {
+   "Undefended": {
+    "bu": 0.5,
+    "uau": 0.336,
+    "asr": 0.229
+   },
+   "SPILLWAY": {
+    "bu": 0.55,
+    "uau": 0.571,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.55,
+    "uau": 0.3,
+    "asr": 0.0
+   },
+   "Progent": {
+    "bu": 0.55,
+    "uau": 0.529,
+    "asr": 0.029
+   },
+   "DRIFT": {
+    "bu": 0.4,
+    "uau": 0.607,
+    "asr": 0.0
+   },
+   "ROPE": {
+    "bu": 0.35,
+    "uau": 0.35,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.6,
+    "uau": 0.429,
+    "asr": 0.179
+   },
+   "PI detector": {
+    "bu": 0.3,
+    "uau": 0.107,
+    "asr": 0.014
+   }
+  }
+ },
+ {
+  "suite": "Travel",
+  "backbone": "qwen3-coder:30b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.5,
+    "uau": 0.414,
+    "asr": 0.129
+   },
+   "SPILLWAY": {
+    "bu": 0.5,
+    "uau": 0.407,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.55,
+    "uau": 0.393,
+    "asr": 0.029
+   },
+   "Progent": {
+    "bu": 0.45,
+    "uau": 0.414,
+    "asr": 0.007
+   },
+   "DRIFT": {
+    "bu": 0.1,
+    "uau": 0.443,
+    "asr": 0.0
+   },
+   "ROPE": {
+    "bu": 0.25,
+    "uau": 0.264,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.55,
+    "uau": 0.414,
+    "asr": 0.136
+   },
+   "PI detector": {
+    "bu": 0.25,
+    "uau": 0.2,
+    "asr": 0.0
+   }
+  }
+ },
+ {
+  "suite": "Travel",
+  "backbone": "qwen3:8b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.25,
+    "uau": 0.229,
+    "asr": 0.229
+   },
+   "SPILLWAY": {
+    "bu": 0.25,
+    "uau": 0.343,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.25,
+    "uau": 0.186,
+    "asr": 0.157
+   },
+   "Progent": {
+    "bu": 0.15,
+    "uau": 0.164,
+    "asr": 0.036
+   },
+   "DRIFT": {
+    "bu": 0.3,
+    "uau": 0.264,
+    "asr": 0.0
+   },
+   "ROPE": {
+    "bu": 0.2,
+    "uau": 0.157,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.3,
+    "uau": 0.171,
+    "asr": 0.15
+   },
+   "PI detector": {
+    "bu": 0.05,
+    "uau": 0.05,
+    "asr": 0.0
+   }
+  }
+ },
+ {
+  "suite": "Workspace",
+  "backbone": "gpt-4o-mini",
+  "methods": {
+   "Undefended": {
+    "bu": 0.825,
+    "uau": 0.398,
+    "asr": 0.184
+   },
+   "SPILLWAY": {
+    "bu": 0.875,
+    "uau": 0.838,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.775,
+    "uau": 0.33,
+    "asr": 0.002
+   },
+   "Progent": {
+    "bu": 0.8,
+    "uau": 0.621,
+    "asr": 0.041
+   },
+   "DRIFT": {
+    "bu": 0.525,
+    "uau": 0.607,
+    "asr": 0.009
+   },
+   "ROPE": {
+    "bu": 0.625,
+    "uau": 0.539,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.825,
+    "uau": 0.43,
+    "asr": 0.148
+   },
+   "PI detector": {
+    "bu": 0.625,
+    "uau": 0.254,
+    "asr": 0.07
+   }
+  }
+ },
+ {
+  "suite": "Workspace",
+  "backbone": "qwen3-coder:30b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.5,
+    "uau": 0.48,
+    "asr": 0.036
+   },
+   "SPILLWAY": {
+    "bu": 0.475,
+    "uau": 0.543,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.5,
+    "uau": 0.43,
+    "asr": 0.004
+   },
+   "Progent": {
+    "bu": 0.475,
+    "uau": 0.482,
+    "asr": 0.002
+   },
+   "DRIFT": {
+    "bu": 0.575,
+    "uau": 0.53,
+    "asr": 0.002
+   },
+   "ROPE": {
+    "bu": 0.4,
+    "uau": 0.42,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.6,
+    "uau": 0.452,
+    "asr": 0.039
+   },
+   "PI detector": {
+    "bu": 0.425,
+    "uau": 0.275,
+    "asr": 0.025
+   }
+  }
+ },
+ {
+  "suite": "Workspace",
+  "backbone": "qwen3:8b",
+  "methods": {
+   "Undefended": {
+    "bu": 0.425,
+    "uau": 0.434,
+    "asr": 0.02
+   },
+   "SPILLWAY": {
+    "bu": 0.45,
+    "uau": 0.414,
+    "asr": 0.0
+   },
+   "MELON": {
+    "bu": 0.425,
+    "uau": 0.441,
+    "asr": 0.011
+   },
+   "Progent": {
+    "bu": 0.425,
+    "uau": 0.366,
+    "asr": 0.004
+   },
+   "DRIFT": {
+    "bu": 0.5,
+    "uau": 0.523,
+    "asr": 0.014
+   },
+   "ROPE": {
+    "bu": 0.375,
+    "uau": 0.352,
+    "asr": 0.0
+   },
+   "Spotlighting": {
+    "bu": 0.45,
+    "uau": 0.457,
+    "asr": 0.02
+   },
+   "PI detector": {
+    "bu": 0.275,
+    "uau": 0.243,
+    "asr": 0.014
+   }
+  }
+ }
+]

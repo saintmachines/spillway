@@ -1,0 +1,81 @@
+SPILLWAY (spillway-guard)
+Copyright 2026 SPILLWAY authors
+
+This product is licensed under the Apache License, Version 2.0. See LICENSE.
+
+This product includes material from AgentDojo
+(https://github.com/ethz-spylab/agentdojo), which is licensed under the MIT
+License. The AgentDojo copyright notice and license text are reproduced at the
+end of this file, copied from licenses/LICENSE in the agentdojo 0.1.35
+distribution.
+
+Files that derive from AgentDojo:
+
+  src/spillway_guard/agentdojo/agentdojo_default_prompt.txt
+    AgentDojo's default system prompt, the "default" entry of
+    agentdojo/data/system_messages.yaml, byte for byte.
+    Ships in the wheel and in the source distribution.
+
+  reference/harness/21_agentdojo_full_benchmark.py
+    Contains code copied and adapted from
+    agentdojo/agent_pipeline/tool_execution.py and
+    agentdojo/agent_pipeline/llms/google_llm.py.
+    Ships in the source distribution.
+
+  reference/harness/24_agentdojo_gemini_backbone.py
+    Contains code copied and adapted from
+    agentdojo/agent_pipeline/llms/google_llm.py.
+    Ships in the source distribution.
+
+Test inputs in tests/, the self-test in reference/spillway_gate.py and the
+template patterns in src/spillway_guard/sanitizer.py reuse AgentDojo's
+important_instructions injection template, addresses and tool names. The typed
+fixtures in tests/test_floor.py are shaped like AgentDojo's return models, and
+the prompt listed above is also copied into
+reference/harness/21_agentdojo_full_benchmark.py.
+
+The project page under docs/ shows one recorded AgentDojo episode. Its task,
+tool returns and injection text come from AgentDojo's task suites.
+
+The lexicon in src/spillway_guard/lexicon.py and the harness under
+reference/harness/ use tool-argument names and one sentence of the default
+prompt of AgentDyn (https://github.com/SaFo-Lab/AgentDyn), which is under the
+MIT License with the same copyright line as AgentDojo.
+
+Other licenses. The Apache License does not cover these files:
+
+  docs/assets/fonts/
+    Fraunces and IBM Plex, under the SIL Open Font License 1.1. The license
+    texts sit beside the fonts.
+
+  docs/assets/saintmachines_lockup.svg, docs/assets/saintmachines_lockup_white.svg
+    Logos. No license to these or to the SPILLWAY and SAINT Machines names is
+    granted, as section 6 of the Apache License says of trademarks.
+
+  docs/SPILLWAY_preprint.pdf
+    The paper, under the license it carries on arXiv.
+
+
+AgentDojo license (agentdojo 0.1.35, licenses/LICENSE):
+
+MIT License
+
+Copyright (c) 2024 Edoardo Debenedetti, Jie Zhang, Mislav Balunovic, Luca Beurer-Kellner, Marc Fischer, and Florian Tramèr
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

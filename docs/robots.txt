@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://saintmachines.github.io/spillway/sitemap.xml

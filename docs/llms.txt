@@ -1,0 +1,17 @@
+# SPILLWAY
+
+> Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, a model reviews refusals. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, reviews only refused calls, never one whose target lies in removed text.
+
+- Install: `pip install spillway-guard` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
+- Paper: [SPILLWAY preprint (PDF)](SPILLWAY_preprint.pdf)
+- Code: https://github.com/saintmachines/spillway
+- Results as JSON: [results.json](results.json). Full tables: [results.html](results.html)
+
+## Headline results (AgentDojo v1.2.2, 3 backbones x 4 suites, in-scope attack success)
+- SPILLWAY: 0 of 12 cells leak, utility under attack .484, benign utility .520 (undefended .540).
+- MELON, Progent, DRIFT leak on 10, 11 and 7 of 12 cells. On benign qwen3:8b Workspace and Slack episodes they add 3.25 to 9.91 model calls per episode. SPILLWAY adds 0.19 to 0.39, judge included.
+- Against ROPE with its authors' Claude Opus 4.8 router, gpt-4o-mini, AgentDyn's three suites and AgentDojo's four: SPILLWAY's in-scope attack success is .000 on every suite and its utility under attack is higher on each (mean .553 against .468). ROPE leaks on three suites.
+- Stress tests: ChatInject raw zero. AutoDojo in-scope .000 on the 389 released pairs (descriptive). On two held-out Banking sets .000 and .007 by AgentDojo's check, .014 counting a second transfer that check misses. PISmith in-scope .007.
+
+## Scope
+The stated property covers identity targets. A tool that writes an attacker's value into a typed identity field, content-only effects, and a target that never appears verbatim in tool output are out of scope.
