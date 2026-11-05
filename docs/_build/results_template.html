@@ -1,8 +1,11 @@
 <a class="skip" href="#main">Skip to content</a>
-<header class="nav"><div class="wrap"><a class="brand" href="index.html" aria-label="SPILLWAY home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="var(--on-accent)"/><path d="M20 14l5 2.5-5 2.5z" fill="var(--on-accent)"/></svg>SPILLWAY</a><nav class="nav-links" aria-label="Sections"><a class="backlink" id="backlink" href="index.html#results"><span aria-hidden="true">←</span><span class="bl-l">Back to the project page</span><span class="bl-s">Back</span></a><a href="SPILLWAY_preprint.pdf">Paper</a><a class="gh" href="@@REPO@@">GitHub</a></nav></div></header>
+<p class="sr" id="copy-status" role="status" aria-live="polite"></p>
+@@ORG@@
+@@PRODUCT_HEADER@@
 <main id="main">
 <section class="band" aria-labelledby="r-h"><div class="wrap">
   <div class="head stack"><p class="eyebrow">Full results · from the preprint</p><h1 id="r-h" style="font-size:var(--fs-h2)">The home page's result tables, in full.</h1>
+  <p><a class="backlink" id="backlink" href="index.html#results">← Back to the project page</a> · <a href="integrate.html">Connect a tool app</a></p>
   <p class="jump"><a href="#grid">Table 2</a><a href="#cells">Table 1</a><a href="#cells-bu">Table 1, benign</a><a href="#fig4a">Fig. 1a</a><a href="#calls">Fig. 3</a><a href="#stress">Tables 4 and 7</a><a href="#rope">Table 8</a><a href="#reproduce">Reproduce</a><a href="#faq">FAQ</a></p>
   <p>AgentDojo suite v1.2.2 (and AgentDyn in the ROPE comparison), full grid of user and injection tasks, with a common backbone, temperature 0, seed 42 and scorer. Spotlighting adds instructions to the default prompt. DRIFT keeps its authors' prompt, as detailed in the <a href="@@REPO@@/blob/main/reproduce/README.md">reproduction guide</a>. The same values are in <a href="results.json">results.json</a> and in <a href="@@REPO@@/tree/main/benchmarks/results">benchmarks/results</a>. The script <code>benchmarks/scripts/make_tables.py</code> regenerates Tables 1 to 3, the ChatInject columns, Table 8 and the cost values from those files. The AutoDojo and PISmith columns are copied from Tables 4 and 7 of the preprint.</p></div>
   <figure class="rt" id="grid"><figcaption class="cap"><span class="tn">Preprint Table 2</span><h2 id="means">Twelve-cell means, standard attack</h2></figcaption><div class="scroll">@@T_GRID@@</div>

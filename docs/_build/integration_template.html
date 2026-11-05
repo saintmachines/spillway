@@ -1,0 +1,51 @@
+<a class="skip" href="#main">Skip to content</a>
+<p class="sr" id="copy-status" role="status" aria-live="polite"></p>
+@@ORG@@
+@@PRODUCT_HEADER@@
+<main id="main">
+<section class="band" aria-labelledby="integrate-h"><div class="wrap">
+  <div class="head stack">
+    <p class="eyebrow">Build with SPILLWAY · Python 3.10+</p>
+    <h1 id="integrate-h" style="font-size:var(--fs-h2)">Connect your tool loop.</h1>
+    <p>Put the guard between proposed actions and your tools. Try a working local HTTP example, then use its boundary with your application's own tool contracts.</p>
+    <p><a href="index.html#start">Minimal example</a> · <a href="#run">Run the app example</a> · <a href="#boundary">The four steps</a> · <a href="#data">Data paths</a></p>
+  </div>
+  <div class="head stack" id="run">
+    <h2>Run it without model credentials.</h2>
+    <p>The example starts a temporary server on <code>127.0.0.1</code>, runs a fixed sequence of proposed calls with synthetic data, records the HTTP requests and effects, and shuts the server down. It uses the SPILLWAY 0.1.0 API, Pydantic and the standard library.</p>
+  </div>
+  <div class="code app-commands"><button class="copy" type="button" data-copy="#app-command" aria-label="Copy the app example commands">Copy</button><pre id="app-command">git clone https://github.com/saintmachines/spillway.git
+cd spillway
+python -m pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
+python docs/examples/local_app_demo.py --report app-check.json</pre></div>
+  <p class="note" style="margin-top:16px">Use the current repository checkout for these examples. They are separate from the wheel and source distribution. The test app stores messages and notes in memory and sends no email. <a href="@@REPO@@/blob/main/docs/examples/README.md">Read the example guide</a> · <a href="examples/boundary.py" download>Boundary source</a> · <a href="examples/local_app_demo.py" download>Runnable example</a>.</p>
+</div></section>
+<section class="band alt" aria-labelledby="boundary-h"><div class="wrap" id="boundary">
+  <div class="head stack"><p class="eyebrow">The application boundary</p><h2 id="boundary-h">Validate, check, execute, observe.</h2><p>Give the agent only the text returned by the boundary. Keep a separate execution record for the application.</p></div>
+  <ol class="steps">
+    <li><span class="n">1</span><h3>Validate the call</h3><p>Register literal tool names and strict argument models. Reject unknown tools, extra fields and malformed recipient collections before transport.</p></li>
+    <li><span class="n">2</span><h3>Check before execution</h3><p>Reads are checked too. The guard sees the same canonical arguments the application will send. A refusal makes no HTTP request.</p></li>
+    <li><span class="n">3</span><h3>Run the allowed tool</h3><p>The example uses a fixed loopback endpoint with bounded responses and timeouts. It follows no redirects and uses no environment proxy.</p></li>
+    <li><span class="n">4</span><h3>Observe the return</h3><p>Validate raw responses before observing them. Observe error bodies as untyped text. Return only sanitized <code>model_text</code> to the agent.</p></li>
+  </ol>
+  <p class="note" style="margin-top:24px">Use one guard for each user task and keep this example sequential. The tool owner supplies trusted schemas and a complete role vocabulary. Schema validation does not authenticate a sender or infer new roles.</p>
+</div></section>
+<section class="band" aria-labelledby="data-h"><div class="wrap" id="data">
+  <div class="head stack"><p class="eyebrow">Ordinary data and adapters</p><h2 id="data-h">Keep the tool's contract at the boundary.</h2><p>The library accepts typed models, dictionaries, lists and text. What becomes an admitted identity depends on the tool's declared type and role contract.</p></div>
+  <div class="scroll"><table class="rt"><thead><tr><th>Input</th><th>How to connect it</th></tr></thead><tbody>
+    <tr><td>Pydantic models and nested results</td><td>Pass the raw declared model before serialization. Only read-only returns can add typed identities.</td></tr>
+    <tr><td>JSON dictionaries and lists</td><td>Use provider-controlled routing keys and a declared schema. A dictionary key name is a role convention, not sender authentication.</td></tr>
+    <tr><td>Text, retrieved context and memory</td><td>Observe and sanitize it before the agent reads it. Text alone does not declare trusted identity fields.</td></tr>
+    <tr><td>CSV</td><td>Parse rows explicitly and validate them with the tool's model. Raw CSV remains text.</td></tr>
+    <tr><td>New tool or argument names</td><td>Declare read/write and target roles with <code>Lexicon.extend</code>. The example uses the existing <code>sender</code> and <code>recipients</code> vocabulary.</td></tr>
+  </tbody></table></div>
+  <p class="note" style="margin-top:16px"><a href="@@REPO@@/blob/main/SECURITY.md">Integration conditions</a> · <a href="@@REPO@@/blob/main/src/spillway_guard/guard.py">Guard API</a> · <a href="@@REPO@@/blob/main/src/spillway_guard/lexicon.py">Role vocabulary</a>.</p>
+</div></section>
+<section class="band alt" aria-labelledby="record-h"><div class="wrap">
+  <div class="head stack"><p class="eyebrow">Read the execution record</p><h2 id="record-h">An error can arrive after a write.</h2><p><code>requests_sent=0</code> means transport was never attempted, <code>1</code> means an HTTP response confirmed a request, and <code>None</code> means delivery is unknown after a transport failure. A write's effects remain <code>unknown</code> until the application reconciles them. The fixture records its actual effects separately.</p></div>
+  <p>Do not retry a write blindly or return unchecked text after a guard failure. The example safely stops a failed final-answer check and never falls back to the original answer. Use your application's authentication, idempotency and reconciliation when adapting its transport.</p>
+  <p class="note" style="margin-top:16px">This is a local integration example with synthetic data and fixed proposals. Live model or Gmail/Slack account integration, framework plugins, concurrent execution and long-running operation are separate verification tasks.</p>
+  <p class="morelinks" style="margin-top:24px"><a href="index.html#start">Back to Quickstart</a><a href="index.html#demo">Recorded benchmark demo</a><a href="results.html">Paper results</a><a href="@@REPO@@">GitHub</a></p>
+</div></section>
+</main>
+@@FOOTER@@

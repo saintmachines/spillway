@@ -39,3 +39,12 @@ served locally, regenerate it at 1200 by 630 pixels:
 ```bash
 PLAYWRIGHT_CORE=/path/to/playwright-core/index.mjs node docs/_build/make_og_card.mjs http://127.0.0.1:8000/
 ```
+
+`build_page.py` also writes `integrate.html`. The results and integration pages
+take the company bar, product header and footer from the rendered home page.
+Their small navigation helper is `assets/subpage.js`. Keep these shared routes
+and the current page marker covered when adding a page.
+
+The runnable app examples under `docs/examples/` are checkout documentation.
+They exercise the 0.1.0 API and are excluded from the wheel and source
+distribution together with the rest of `docs/`.

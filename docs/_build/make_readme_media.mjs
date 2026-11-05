@@ -25,6 +25,9 @@ const KEEP_OUT = 'header.nav,.menu-panel,#tip,.swipe-hint,.pager,.tv,.copy,butto
 // sel: the region. vw: the window width that lays the region out as the README shows it. A window widens by what a
 // region would scroll sideways, by at most 200 px. hide: parts left out.
 const SHOTS = [
+  {name: 'summary', sel: '#top .hstats', vw: {desk: WIDTH.desk, phone: WIDTH.phone},
+   css: '#top .hero-grid{display:block!important}#top .hero-grid>:not(.hstats){display:none!important}#top .hstats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;margin:0!important;padding:20px!important;border:1px solid var(--line)!important;border-radius:16px!important;background:var(--surface)!important}',
+   phone: '#top .hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important;padding:16px!important}#top .hstats>div{padding:0!important;border:0!important}#top .hstats dt{font-size:22px!important}#top .hstats dd{font-size:12px!important}'},
   // the footnote it marks (#tm) is left out, so its mark is too
   {name: 'hero', sel: '#top .hero-grid', vw: {desk: 1100, phone: WIDTH.phone},
    hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn'},
@@ -88,7 +91,7 @@ async function shoot(browser, url, s, kind, vw = s.vw[kind]) {
   await page.evaluate(() => document.fonts.ready);
   const fonts = await page.evaluate(F => F.filter(f => !document.fonts.check('16px "' + f + '"')), FONTS);
   if (fonts.length) throw new Error(`${s.name} ${kind}: web fonts not loaded: ${fonts.join(', ')}`);
-  await page.addStyleTag({content: KEEP_OUT + (kind === 'phone' && s.phone ? s.phone : '') + (s.hide ? s.hide + '{display:none!important}' : '')});
+  await page.addStyleTag({content: KEEP_OUT + (s.css || '') + (kind === 'phone' && s.phone ? s.phone : '') + (s.hide ? s.hide + '{display:none!important}' : '')});
   await page.waitForTimeout(800);
   const box = await page.evaluate(sel => {
     const e = document.querySelector(sel);

@@ -1275,7 +1275,9 @@ def build():
     assert menu, "the header menu panel"
     _ids = set(re.findall(r'\sid="([^"]+)"', page))
     _hrefs = re.findall(r'href="([^"]*)"', menu.group(1))
-    assert _hrefs and all(h[:1] == "#" and h[1:] in _ids for h in _hrefs), [h for h in _hrefs if h[:1] != "#" or h[1:] not in _ids]
+    menu_destinations = {"integrate.html", "https://saintmachines.ai", "https://saintmachines.github.io/MUSTER/"}
+    assert _hrefs and all((h.startswith("#") and h[1:] in _ids) or h in menu_destinations for h in _hrefs), [
+        h for h in _hrefs if not ((h.startswith("#") and h[1:] in _ids) or h in menu_destinations)]
     check_marks(page)
     return page
 
@@ -1388,17 +1390,31 @@ def tv_panels():
     return out
 
 
+def shared_subpage_parts(page, filename, title):
+    """Use the home page's actual company bar, product menu, footer and theme styles."""
+    head = re.search(r"<head>.*?</head>", page, re.S).group(0)
+    head = re.sub(r"<title>.*?</title>", f"<title>{esc(title)}</title>", head, count=1)
+    head = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{SITE}{filename}">', head)
+    head = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{SITE}{filename}">', head)
+    head = head.replace("</head>", '<script src="assets/subpage.js" defer></script>\n</head>')
+    org = re.search(r"<!--@ORG-->(.*?)<!--@END:ORG-->", page, re.S).group(1)
+    header = re.search(r'<header class="nav">.*?</header>', page, re.S).group(0)
+    header = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', header)
+    header = header.replace('href="index.html#results"', 'href="results.html"')
+    header = header.replace(f'href="{filename}"', f'href="{filename}" aria-current="page"')
+    footer = re.search(r"<footer>.*?</footer>", page, re.S).group(0)
+    footer = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', footer)
+    return head, {"@@ORG@@": org, "@@PRODUCT_HEADER@@": header, "@@FOOTER@@": footer}
+
+
 def build_results_page(page):
     """docs/results.html: the full tables, with the main page's head and styles."""
-    head = re.search(r"<head>.*?</head>", page, re.S).group(0)
-    head = re.sub(r"<title>.*?</title>", "<title>SPILLWAY results</title>", head, count=1)
-    head = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{SITE}results.html">', head)
-    head = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{SITE}results.html">', head)
+    head, shared = shared_subpage_parts(page, "results.html", "SPILLWAY results")
     body = RESULTS_TEMPLATE
     moved = MOVED["reproduce"] + "\n\n" + MOVED["faq"]
     own = set(re.findall(r'id="([^"]+)"', moved + RESULTS_TEMPLATE))
     moved = re.sub(r'href="#([^"]+)"', lambda m: m.group(0) if m.group(1) in own else f'href="index.html#{m.group(1)}"', moved)  # home anchors stay home
-    for k, v in {"@@MOVED@@": moved, **results_subs()}.items():
+    for k, v in {"@@MOVED@@": moved, **shared, **results_subs()}.items():
         body = body.replace(k, v)
     footer = re.search(r"<footer>.*?</footer>", page, re.S).group(0)
     footer = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', footer)
@@ -1407,12 +1423,25 @@ def build_results_page(page):
     return "<!DOCTYPE html>\n<html lang=\"en\">\n" + head + "\n<body>\n" + body + "\n</body>\n</html>\n"
 
 
+def build_integration_page(page):
+    head, shared = shared_subpage_parts(page, "integrate.html", "SPILLWAY | connect a tool app")
+    head = "\n".join(line.rstrip() for line in head.splitlines())
+    body = (pathlib.Path(__file__).with_name("integration_template.html")).read_text()
+    for key, value in {**shared, "@@REPO@@": REPO}.items():
+        body = body.replace(key, value)
+    assert not re.findall(r"@@[A-Z_0-9]+@@", body)
+    for rel in ("examples/boundary.py", "examples/local_app_demo.py", "examples/README.md"):
+        assert (DOCS / rel).is_file(), rel
+    return '<!DOCTYPE html>\n<html lang="en">\n' + head + "\n<body>\n" + body + "\n</body>\n</html>\n"
+
+
 RESULTS_TEMPLATE = (pathlib.Path(__file__).with_name("results_template.html")).read_text()
 
 if __name__ == "__main__":
     out = build()
     outdir = (pathlib.Path(sys.argv[sys.argv.index("--out") + 1]).parent if "--out" in sys.argv else DOCS)
     (outdir / "results.html").write_text(build_results_page(out))
+    (outdir / "integrate.html").write_text(build_integration_page(out))
     (outdir / "results.json").write_text(results_json())
     target = pathlib.Path(sys.argv[sys.argv.index("--out") + 1]) if "--out" in sys.argv else DOCS / "index.html"
     target.write_text(out)

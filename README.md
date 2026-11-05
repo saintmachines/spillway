@@ -1,19 +1,33 @@
-<h1 align="center">
-  <a href="https://saintmachines.github.io/spillway/"><picture>
-    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
-    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, a model reviews refusals. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. Its core check, the egress floor, is a set lookup, and delegation rules recheck refusals only. The two-view judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
-  </picture></a>
-</h1>
+<p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
-<p align="center">An earlier version was accepted at the Third Workshop on Agents in the Wild: Safety, Security, and Beyond (NeurIPS 2026).</p>
+<h1 align="center">SPILLWAY</h1>
+
+<p align="center"><b>A prompt-injection defense for tool-using agents: structure decides where an agent acts, a model reviews refusals.</b></p>
+
+<p align="center">Woosang Lim<sup>1,2,*</sup> · Yeseul Chang<sup>3</sup> · Jaewoo Lee<sup>3</sup><br>
+<sup>1</sup>SAINT Machines · <sup>2</sup>KAIST · <sup>3</sup>Chung-Ang University<br>
+<a href="mailto:woosang_lim@kaist.ac.kr">* Corresponding author</a></p>
 
 <p align="center">
+  <a href="#60-second-usage"><b>Try it</b></a> ·
   <a href="https://saintmachines.github.io/spillway/"><b>Project page</b></a> ·
+  <a href="docs/examples/README.md"><b>App integration</b></a> ·
   <a href="https://github.com/saintmachines/spillway/blob/main/docs/SPILLWAY_preprint.pdf"><b>Paper (PDF)</b></a> ·
-  <a href="https://saintmachines.github.io/spillway/results.html"><b>Results page</b></a> ·
+  <a href="https://saintmachines.github.io/spillway/results.html"><b>Results</b></a> ·
   <a href="#reproduce"><b>Reproduce</b></a> ·
-  <a href="#citation"><b>Cite</b></a>
+  <a href="#citation"><b>Cite</b></a> ·
+  <a href="https://saintmachines.github.io/MUSTER/"><b>MUSTER</b></a>
 </p>
+
+```bash
+pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
+```
+
+<p align="center"><picture>
+  <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/summary_phone.png">
+  <img src="docs/assets/readme_page/summary.png" alt="SPILLWAY on AgentDojo: zero of twelve cells with an in-scope leak, mean utility under attack .484, 13 to 50 times fewer added model calls than MELON, Progent and DRIFT on benign qwen3:8b Workspace and Slack episodes, and at most 0.5 seconds added time in the reported timing session.">
+</picture></p>
+<p align="center"><sub>AgentDojo v1.2.2, three backbones × four suites. The judge is enabled in these results and off by default in the library. <a href="https://saintmachines.github.io/spillway/results.html">Values and conditions</a>.</sub></p>
 
 <p align="center">
   <a href="https://github.com/saintmachines/spillway/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
@@ -23,37 +37,9 @@
   <a href="https://saintmachines.github.io/spillway/"><img src="https://img.shields.io/badge/project-page-0a66c2.svg" alt="Project page"></a>
 </p>
 
-**A prompt-injection defense for tool-using agents: structure decides where an agent acts, a model reviews refusals.** SPILLWAY admits a side-effecting call when every new target came from a typed identity field or from the user's task, so an address an attacker wrote into free text is refused by a set lookup, and fixed delegation rules and an optional two-view judge look again only at the calls it refuses.
+<p align="center">An earlier version was accepted at the Third Workshop on Agents in the Wild: Safety, Security, and Beyond (NeurIPS 2026).</p>
 
-```bash
-pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
-```
-
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_01_dark.svg"><img src="docs/assets/readme/h2_01_light.svg" alt="" height="18"></picture>Why SPILLWAY
-
-- **Zero in-scope attack success on all 12 AgentDojo cells.** Three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b) by four suites (Banking, Slack, Travel, Workspace), 2,847 attacked pairs under the standard attack, and no injection redirected an effect to an attacker's target. No other defense we ran reaches zero on all twelve.
-- **Highest utility under attack of any defense we ran on that grid.** Twelve-cell mean .484, against .417 undefended, .453 for DRIFT, .371 for Progent, .345 for ROPE and .314 for MELON, while keeping 96% of the undefended agent's benign utility. Removing the injection before the model reads it often leaves the agent above the undefended one.
-- **Almost no added model calls.** On benign qwen3:8b traffic SPILLWAY consults its judge 0.05 (Workspace) and 0.43 (Slack) times per episode and changes backbone calls by less than 0.15. In the same two suites, MELON, Progent and DRIFT add 3.25 to 9.91 backbone calls per episode.
-- **SPILLWAY holds under stronger attacks.** A raw zero under ChatInject's forged chat template (665 pairs). In-scope attack success .000 on AutoDojo's 389 released optimizer-generated pairs (a descriptive result, see limitations). On two held-out sets it is .007 by AgentDojo's check, .014 counting a second transfer that check misses, and .000. Under the PISmith reinforcement-learning attacker, which breaks the undefended agent and every baseline except ROPE (.025 to .489), SPILLWAY holds a mean of .007 at .265 utility. ROPE also reaches the floor, at .173 utility.
-
-<p align="center">
-  <picture>
-    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/results_phone.png">
-    <img src="docs/assets/readme_page/results.png" alt="Three panels. The most utility under attack, 12-cell means with in-scope attack success: SPILLWAY .484 and .000, DRIFT .453 and .016, Spotlighting .403 and .283, Progent .371 and .031, ROPE .345 and .005, MELON .314 and .094, PI detector .230 and .060, undefended .417 and .305. 13 to 50 times fewer added model calls per benign qwen3:8b episode, Workspace and Slack: SPILLWAY 0.19 and 0.39, MELON 3.25 and 5.29, Progent 5.94 and 8.67, DRIFT 9.59 and 9.91. Within 0.5 s added time per benign episode: SPILLWAY at most 0.5 s on both, MELON +7.9 and +4.9 s, Progent +2.3 and +1.6 s, DRIFT +10.5 and +9.9 s.">
-  </picture>
-</p>
-<p align="center"><sub>AgentDojo v1.2.2, three backbones by four suites, the same backbone and scorer for every method. SPILLWAY's bars use a gemma4:31b judge, which the installed package leaves off. The fewer-calls range is each baseline's added calls over SPILLWAY's, per suite, rounded down. Interactive version on the <a href="https://saintmachines.github.io/spillway/">project page</a>.</sub></p>
-
-**What is different**
-
-| | SPILLWAY | MELON | Progent | DRIFT |
-|---|---|---|---|---|
-| The decision that lets an action through is made by | a set lookup over typed tool returns and the user's task, then fixed delegation rules and, if configured, a local judge on refusals | an LLM re-run of the trajectory with the user task masked | an LLM-written privilege policy enforced by a checker | an LLM validating each call against a plan |
-| Added model calls per benign episode (qwen3:8b, Workspace / Slack) | 0.19 / 0.39 (judge included) | 3.25 / 5.29 backbone calls | 5.94 / 8.67 backbone calls | 9.59 / 9.91 backbone calls |
-| AgentDojo cells with an in-scope leak (of 12) | 0 | 10 | 11 | 7 |
-
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_02_dark.svg"><img src="docs/assets/readme/h2_02_light.svg" alt="" height="18"></picture>Install
-
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_01_dark.svg"><img src="docs/assets/readme/h2_01_light.svg" alt="" height="18"></picture>Install
 ```bash
 pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
 ```
@@ -63,12 +49,11 @@ Python 3.10 or newer. The runtime dependencies are pydantic, because the floor r
 To reproduce the paper's AgentDojo cells, work from a checkout, because the runner loads the evaluated gate from `reference/`:
 
 ```bash
-git clone https://github.com/saintmachines/spillway && cd spillway
+git clone --branch v0.1.0 --depth 1 https://github.com/saintmachines/spillway && cd spillway
 pip install -e ".[agentdojo]"
 ```
 
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_03_dark.svg"><img src="docs/assets/readme/h2_03_light.svg" alt="" height="18"></picture>60-second usage
-
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_02_dark.svg"><img src="docs/assets/readme/h2_02_light.svg" alt="" height="18"></picture>60-second usage
 SPILLWAY sees two things. Every call the agent proposes, before it runs, and the return of every call that ran, writes and error text included. Pass a read's return as the typed object the tool returned, before it is serialized for the model. Only read-only returns add identities. A value the Guard never observed is not taint-novel and is admitted, so every channel the model reads, retrieved context and memory included, must reach `observe_tool_return` or `observe_text`.
 
 ```python
@@ -96,32 +81,46 @@ Decision(verdict='allow', label='allow_schema_identity_target', reason='every ta
 
 The floor made all three decisions with no model call (`Decision.allowed` and `Decision.blocked` are the boolean views). The sanitizer leaves this body as it is. The floor still refuses the forward, because the address came from free text. `text` is what the agent reads next. Where tool output matches the sanitizer's rules, such as AgentDojo's `<INFORMATION>` template or a forged chat turn, the matched region is replaced by `[redacted-injected-instruction]`. A refused call goes back to the agent as a tool message asking it to re-issue the call with values from the user's request, so the episode continues.
 
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_04_dark.svg"><img src="docs/assets/readme/h2_04_light.svg" alt="" height="18"></picture>How it works
+### Connect an app
+
+Use one guard for each user task. Validate tool arguments, check every call
+before execution, and observe successful and error returns before the agent
+reads them. The [local HTTP app example](docs/examples/README.md) provides a
+small runnable boundary with strict schemas and an execution ledger.
+[Read the integration walkthrough](https://saintmachines.github.io/spillway/integrate.html).
+
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_03_dark.svg"><img src="docs/assets/readme/h2_03_light.svg" alt="" height="18"></picture>Why SPILLWAY
+- **Zero in-scope attack success on all 12 AgentDojo cells.** Three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b) by four suites (Banking, Slack, Travel, Workspace), 2,847 attacked pairs under the standard attack, and no injection redirected an effect to an attacker's target. No other defense we ran reaches zero on all twelve.
+- **Highest utility under attack of any defense we ran on that grid.** Twelve-cell mean .484, against .417 undefended, .453 for DRIFT, .371 for Progent, .345 for ROPE and .314 for MELON, while keeping 96% of the undefended agent's benign utility. Removing the injection before the model reads it often leaves the agent above the undefended one.
+- **Almost no added model calls.** On benign qwen3:8b traffic SPILLWAY consults its judge 0.05 (Workspace) and 0.43 (Slack) times per episode and changes backbone calls by less than 0.15. In the same two suites, MELON, Progent and DRIFT add 3.25 to 9.91 backbone calls per episode.
+- **SPILLWAY holds under stronger attacks.** A raw zero under ChatInject's forged chat template (665 pairs). In-scope attack success .000 on AutoDojo's 389 released optimizer-generated pairs (a descriptive result, see limitations). On two held-out sets it is .007 by AgentDojo's check, .014 counting a second transfer that check misses, and .000. Under the PISmith reinforcement-learning attacker, which breaks the undefended agent and every baseline except ROPE (.025 to .489), SPILLWAY holds a mean of .007 at .265 utility (open-loop ASR@1 on gpt-4o-mini). ROPE also reaches the floor, at .173 utility.
 
 <p align="center">
   <picture>
-    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/steps_phone.png">
-    <img src="docs/assets/readme_page/steps.png" alt="SPILLWAY in four steps. Index typed identities, 0 model calls: read-only tools return typed fields such as an email address, a URI, a recipient or a channel, which go into an identity index, and a body or description never does. Sanitize tool output, 0 model calls: fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls, and the removed text is remembered. Check every target, a set lookup: a call goes through when every target that appears in tool output and not in the user's task is in the index and not repeated in free text, or a fixed delegation rule covers it. Grants and deletions have stricter rules. Re-check refusals only, a local judge: it may restore a refused recipient or an action the task did not ask for, unless it was in removed text. Grant refusals never reach the judge.">
+    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/results_phone.png">
+    <img src="docs/assets/readme_page/results.png" alt="Three panels. The most utility under attack, 12-cell means with in-scope attack success: SPILLWAY .484 and .000, DRIFT .453 and .016, Spotlighting .403 and .283, Progent .371 and .031, ROPE .345 and .005, MELON .314 and .094, PI detector .230 and .060, undefended .417 and .305. 13 to 50 times fewer added model calls per benign qwen3:8b episode, Workspace and Slack: SPILLWAY 0.19 and 0.39, MELON 3.25 and 5.29, Progent 5.94 and 8.67, DRIFT 9.59 and 9.91. Within 0.5 s added time per benign episode: SPILLWAY at most 0.5 s on both, MELON +7.9 and +4.9 s, Progent +2.3 and +1.6 s, DRIFT +10.5 and +9.9 s.">
   </picture>
 </p>
+<p align="center"><sub>AgentDojo v1.2.2, three backbones by four suites, the same backbone and scorer for every method. SPILLWAY's bars use a gemma4:31b judge, which the installed package leaves off. The fewer-calls range is each baseline's added calls over SPILLWAY's, per suite, rounded down. Interactive version on the <a href="https://saintmachines.github.io/spillway/">project page</a>.</sub></p>
 
-**Egress floor.** For a proposed side-effecting call, the floor admits the call when every taint-novel target value, one that appears in tool output but not in the user's task, is in the identity index and is not repeated in free text. The index holds values from the typed fields of read-only returns, captured before they are serialized for the model: identity formats (email, URI, UUID, hostname, IP) and routing roles (recipient, sender, participant, channel). A body, subject or description never enters it, and a read whose own arguments are taint-novel adds nothing. A grant to a member named only in tool output is refused. A deletion the task did not ask for is refused, though the two-view judge may restore one whose object is named only in tool output. Both rules cover only the tools and member arguments the lexicon declares. Fixed delegation rules admit a target the user named indirectly, such as `alice.miller@...` for "send the report to Alice". Because the floor is a set lookup, its refusals are the same under every backbone.
+<details>
+<summary>What is different</summary>
 
-**Ingress sanitizer.** The floor stops the effect, but a model that has read an injection keeps working for the attacker and ignores the user's task. The sanitizer therefore rewrites what the agent reads next, with rules and no model call. It replaces forged chat-template turns, such as a fabricated `<|im_start|>` system or user turn and the text they wrap, with a marker. It replaces three kinds of text with an inert placeholder. A region delimited by an injection template. Tool text that addresses the agent in the second or third person about its task or answer, a forged turn marker, or a dictated tool call. A claim in data that a payee's account has changed, with the account it puts forward. Trust stays with the first user message, so a forged user turn never becomes trusted. What the rules remove is kept as the span set, and the index is built from the raw typed returns before any rewrite.
+| | SPILLWAY | MELON | Progent | DRIFT |
+|---|---|---|---|---|
+| The decision that lets an action through is made by | a set lookup over typed tool returns and the user's task, then fixed delegation rules and, if configured, a local judge on refusals | an LLM re-run of the trajectory with the user task masked | an LLM-written privilege policy enforced by a checker | an LLM validating each call against a plan |
+| Added model calls per benign episode (qwen3:8b, Workspace / Slack) | 0.19 / 0.39 (judge included) | 3.25 / 5.29 backbone calls | 5.94 / 8.67 backbone calls | 9.59 / 9.91 backbone calls |
+| AgentDojo cells with an in-scope leak (of 12) | 0 | 10 | 11 | 7 |
 
-**Two-view judge, only on refusals.** A strict floor also refuses some legitimate calls, such as a report sent to the address given in the meeting notes. A local judge re-examines a refused call from two views, and both must agree. The routing view asks whether the target is a recipient the user's task implies, and the payload view asks whether the user requested this action and this content. The two-view judge sees only calls a deterministic rule has already refused: a target the lookup refused that no earlier delegation rule admits, or an unrequested commit on an object named only in tool output, deletions included. Grant and criterion refusals never reach it. A requested commit on an object named only in tool output, or a fetch of a URL from tool output, goes to the judge for a single view, and a no refuses the call. The two-view judge is not asked at all when the refused target lies inside removed text (the span veto). It runs at temperature 0 and fails closed, so a missing verdict counts as a no. The paper's judge is gemma4:31b in a 4-bit build on a local Ollama server. A 4-bit gemma4:12b also keeps zero attack success on the qwen3:8b cells and the ChatInject panel, at mean utility .348 instead of .370.
+</details>
 
-<p align="center"><img src="docs/assets/fig_architecture_v40.png" width="820" alt="Diagram of the two boundaries SPILLWAY guards. The agent reads the user's trusted task and proposes tool calls. At egress, a deterministic membership test allows a call when every taint-novel target value is in the identity index or delegated, and blocks any other. A blocked call whose target lies outside the removed spans goes to the fail-closed two-view judge, which can recover it. The judge model is the only model the defense calls. The identity index holds the typed identity values of raw read-only returns. At ingress, a deterministic sanitizer removes forged chat-template turns from tool output, replaces injected instruction blocks and text about the agent's own task with placeholders, and keeps the removed spans for the span veto. The gate decides on raw returns before the sanitizer rewrites what the agent reads."></p>
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_04_dark.svg"><img src="docs/assets/readme/h2_04_light.svg" alt="" height="18"></picture>Results
+<p align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
+    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
+    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, a model reviews refusals. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. Its core check, the egress floor, is a set lookup, and delegation rules recheck refusals only. The two-view judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
+  </picture></a></p>
 
-Three properties of identity-target calls follow from this construction (Sec. 3.4 of the paper).
-
-- **P1, typed-identity lookup soundness.** If the attacker writes only free-text fields, the lookup refuses every call whose target value appears in attacker-written text and not in the user's task, under the tokens of Eq. 1 of the paper (4 to 120 characters, compared after lowercasing and collapsing spaces).
-- **P2, a bound that holds for any judge.** Every call the floor admits is admitted, and every admitted call either passed the floor or was a refused call outside the removed spans that the judge restored. The judge's size and family affect safety only through that second set.
-- **P3, remaining admission paths.** An attacker-written target the lookup refuses can be admitted only through a deterministic delegation rule, or through the two-view judge when every taint-novel target of the call lies outside the removed spans.
-
-The components were separated on qwen3:8b (Table 3 of the paper, 949 pairs per arm). With the sanitizer and identity-target judge recovery off, attack success is .000 on all four suites at mean utility .300. Delegation rules and the object judge stay on in every arm. Adding the sanitizer lifts utility on Slack (+.105) and Travel (+.100). With the sanitizer and identity-target recovery on, SPILLWAY holds zero on all four suites at mean utility .370.
-
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_05_dark.svg"><img src="docs/assets/readme/h2_05_light.svg" alt="" height="18"></picture>Results
+<p align="center"><sub>The project page's overview. <a href="https://saintmachines.github.io/spillway/">Open the interactive page</a>.</sub></p>
 
 Every number below is from the paper. SPILLWAY's rows use the judge, which the library leaves off by default. AgentDojo suite v1.2.2, full grid of user and injection tasks, every method on the same backbone with temperature 0 and seed 42 (Spotlighting extends the default prompt and DRIFT keeps its authors' prompt), hits rescored by executed effect and counted at the in-scope level, which counts an injection that sends an effect to a target the user never named. BU is benign utility, UAU is utility under attack, ASR is in-scope attack success, NRP (BU) is BU x (1 - ASR), NRP (UAU) is UAU x (1 - ASR) as in [MCP Security Bench](https://arxiv.org/abs/2510.15994), and ERS is the harmonic mean of (1 - ASR) and BU. Per-cell values are in [benchmarks/results/](https://github.com/saintmachines/spillway/tree/main/benchmarks/results).
 
@@ -132,7 +131,7 @@ SPILLWAY is the only method with no leaking cell and the one with the highest ut
 <p align="center">
   <picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/leaks_phone.png">
-    <img src="docs/assets/readme_page/leaks.png" alt="0 of 12 cells leak, and mean utility under attack is .484 over the 12 cells, highest of the seven defenses. A matrix of the 12 cells, four suites (Banking, Slack, Travel, Workspace) by three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b), marks each cell with an in-scope leak: undefended 12 of 12, SPILLWAY 0, MELON 10, Progent 11, DRIFT 7, ROPE 3, Spotlighting 12, PI detector 10. No leak in 2,847 attacked pairs, or in 27 reruns over three seeds. First on every composite score, means over the 12 cells: benign utility .520 (undefended .540), utility under attack .484 (next DRIFT .453), in-scope attack success .000 (the only zero), Net Resilient Performance .520 (next MELON .477), Effective Robustness Score .684 (next MELON .666).">
+    <img src="docs/assets/readme_page/leaks.png" alt="0 of 12 cells leak, and mean utility under attack is .484 over the 12 cells, highest of the seven defenses. A matrix of the 12 cells, four suites (Banking, Slack, Travel, Workspace) by three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b), marks each cell with an in-scope leak: undefended 12 of 12, SPILLWAY 0, MELON 10, Progent 11, DRIFT 7, ROPE 3, Spotlighting 12, PI detector 10. No leak in 2,847 attacked pairs, or in 27 reruns over three seeds. Means over the 12 cells: benign utility .520 (undefended .540), utility under attack .484 (next DRIFT .453), in-scope attack success .000 (the only zero), SPILLWAY ranks first on the composite scores: Net Resilient Performance .520 (next MELON .477), Effective Robustness Score .684 (next MELON .666).">
   </picture>
 </p>
 
@@ -221,8 +220,33 @@ On the seven-suite delegated-routing grid (AgentDojo's four suites plus AgentDyn
 
 Because the floor is a set lookup, SPILLWAY adds 0.19 (Workspace) and 0.39 (Slack) model calls per benign qwen3:8b episode, judge included. MELON adds 3.25 and 5.29 backbone calls, Progent 5.94 and 8.67, and DRIFT 9.59 and 9.91. SPILLWAY's episodes ran within 0.5 s of the undefended agent on an RTX PRO 6000 (timed in a separate session), against +7.9 and +4.9 s for MELON, +2.3 and +1.6 s for Progent and +10.5 and +9.9 s for DRIFT.
 
-## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_06_dark.svg"><img src="docs/assets/readme/h2_06_light.svg" alt="" height="18"></picture>Threat model and limitations
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_05_dark.svg"><img src="docs/assets/readme/h2_05_light.svg" alt="" height="18"></picture>How it works
+**A prompt-injection defense for tool-using agents: structure decides where an agent acts, a model reviews refusals.** SPILLWAY admits a side-effecting call when every new target came from a typed identity field or from the user's task, so an address an attacker wrote into free text is refused by a set lookup, and fixed delegation rules and an optional two-view judge look again only at the calls it refuses.
 
+<p align="center">
+  <picture>
+    <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/steps_phone.png">
+    <img src="docs/assets/readme_page/steps.png" alt="SPILLWAY in four steps. Index typed identities, 0 model calls: read-only tools return typed fields such as an email address, a URI, a recipient or a channel, which go into an identity index, and a body or description never does. Sanitize tool output, 0 model calls: fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls, and the removed text is remembered. Check every target, a set lookup: a call goes through when every target that appears in tool output and not in the user's task is in the index and not repeated in free text, or a fixed delegation rule covers it. Grants and deletions have stricter rules. Re-check refusals only, a local judge: it may restore a refused recipient or an action the task did not ask for, unless it was in removed text. Grant refusals never reach the judge.">
+  </picture>
+</p>
+
+**Egress floor.** For a proposed side-effecting call, the floor admits the call when every taint-novel target value, one that appears in tool output but not in the user's task, is in the identity index and is not repeated in free text. The index holds values from the typed fields of read-only returns, captured before they are serialized for the model: identity formats (email, URI, UUID, hostname, IP) and routing roles (recipient, sender, participant, channel). A body, subject or description never enters it, and a read whose own arguments are taint-novel adds nothing. A grant to a member named only in tool output is refused. A deletion the task did not ask for is refused, though the two-view judge may restore one whose object is named only in tool output. Both rules cover only the tools and member arguments the lexicon declares. Fixed delegation rules admit a target the user named indirectly, such as `alice.miller@...` for "send the report to Alice". Because the floor is a set lookup, its refusals are the same under every backbone.
+
+**Ingress sanitizer.** The floor stops the effect, but a model that has read an injection keeps working for the attacker and ignores the user's task. The sanitizer therefore rewrites what the agent reads next, with rules and no model call. It replaces forged chat-template turns, such as a fabricated `<|im_start|>` system or user turn and the text they wrap, with a marker. It replaces three kinds of text with an inert placeholder. A region delimited by an injection template. Tool text that addresses the agent in the second or third person about its task or answer, a forged turn marker, or a dictated tool call. A claim in data that a payee's account has changed, with the account it puts forward. Trust stays with the first user message, so a forged user turn never becomes trusted. What the rules remove is kept as the span set, and the index is built from the raw typed returns before any rewrite.
+
+**Two-view judge, only on refusals.** A strict floor also refuses some legitimate calls, such as a report sent to the address given in the meeting notes. A local judge re-examines a refused call from two views, and both must agree. The routing view asks whether the target is a recipient the user's task implies, and the payload view asks whether the user requested this action and this content. The two-view judge sees only calls a deterministic rule has already refused: a target the lookup refused that no earlier delegation rule admits, or an unrequested commit on an object named only in tool output, deletions included. Grant and criterion refusals never reach it. A requested commit on an object named only in tool output, or a fetch of a URL from tool output, goes to the judge for a single view, and a no refuses the call. The two-view judge is not asked at all when the refused target lies inside removed text (the span veto). It runs at temperature 0 and fails closed, so a missing verdict counts as a no. The paper's judge is gemma4:31b in a 4-bit build on a local Ollama server. A 4-bit gemma4:12b also keeps zero attack success on the qwen3:8b cells and the ChatInject panel, at mean utility .348 instead of .370.
+
+<p align="center"><img src="docs/assets/fig_architecture_v40.png" width="820" alt="Diagram of the two boundaries SPILLWAY guards. The agent reads the user's trusted task and proposes tool calls. At egress, a deterministic membership test allows a call when every taint-novel target value is in the identity index or delegated, and blocks any other. A blocked call whose target lies outside the removed spans goes to the fail-closed two-view judge, which can recover it. The judge model is the only model the defense calls. The identity index holds the typed identity values of raw read-only returns. At ingress, a deterministic sanitizer removes forged chat-template turns from tool output, replaces injected instruction blocks and text about the agent's own task with placeholders, and keeps the removed spans for the span veto. The gate decides on raw returns before the sanitizer rewrites what the agent reads."></p>
+
+Three properties of identity-target calls follow from this construction (Sec. 3.4 of the paper).
+
+- **P1, typed-identity lookup soundness.** If the attacker writes only free-text fields, the lookup refuses every call whose target value appears in attacker-written text and not in the user's task, under the tokens of Eq. 1 of the paper (4 to 120 characters, compared after lowercasing and collapsing spaces).
+- **P2, a bound that holds for any judge.** Every call the floor admits is admitted, and every admitted call either passed the floor or was a refused call outside the removed spans that the judge restored. The judge's size and family affect safety only through that second set.
+- **P3, remaining admission paths.** An attacker-written target the lookup refuses can be admitted only through a deterministic delegation rule, or through the two-view judge when every taint-novel target of the call lies outside the removed spans.
+
+The components were separated on qwen3:8b (Table 3 of the paper, 949 pairs per arm). With the sanitizer and identity-target judge recovery off, attack success is .000 on all four suites at mean utility .300. Delegation rules and the object judge stay on in every arm. Adding the sanitizer lifts utility on Slack (+.105) and Travel (+.100). With the sanitizer and identity-target recovery on, SPILLWAY holds zero on all four suites at mean utility .370.
+
+## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_06_dark.svg"><img src="docs/assets/readme/h2_06_light.svg" alt="" height="18"></picture>Threat model and limitations
 **Threat model** (Sec. 2 of the paper).
 
 - The agent receives a task from the user, calls typed tools, reads what they return, and may act or answer.
@@ -240,11 +264,10 @@ Because the floor is a set lookup, SPILLWAY adds 0.19 (Workspace) and 0.39 (Slac
 - The zero is on these benchmarks. Each cell runs once. A 27-run reseeding of SPILLWAY (three decoding seeds, three repeats, three backbones) had .000 in-scope attack success in every run, with per-suite utility standard deviation at most .041 across repeats of a fixed seed and .021 across per-seed means.
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_07_dark.svg"><img src="docs/assets/readme/h2_07_light.svg" alt="" height="18"></picture>Reproduce
-
 [reproduce/README.md](https://github.com/saintmachines/spillway/blob/main/reproduce/README.md) has the full procedure, including the Ollama server settings of the paper's runs. The short form:
 
 ```bash
-git clone https://github.com/saintmachines/spillway && cd spillway
+git clone --branch v0.1.0 --depth 1 https://github.com/saintmachines/spillway && cd spillway
 pip install -e ".[agentdojo]"          # the runner needs reference/ from the checkout
 ollama pull qwen3:8b && ollama pull gemma4:31b
 reproduce/run_cell.sh workspace qwen3:8b   # checks that Ollama has the judge and the backbone, then runs the cell
@@ -257,7 +280,6 @@ One cell of the breadth grid is one suite, one attack and one backbone. The full
 - **The gate as evaluated.** [reference/spillway_gate.py](https://github.com/saintmachines/spillway/blob/main/reference/spillway_gate.py) is the final build of the gate the paper evaluated, as an AgentDojo pipeline element, with the harness's internal names replaced. `spillway-agentdojo` runs this gate. The reusable library API is versioned separately, with its checks and regression coverage recorded in the [CHANGELOG](https://github.com/saintmachines/spillway/blob/main/CHANGELOG.md). The reported benchmark rows come from the evaluation builds. Some results, among them SPILLWAY's cells in Table 1 and its ChatInject row in Table 4, ran on an earlier build without the address and payee-change rules. Appendix B of the paper reports that these rules change no sanitizer output on the 27,392 tool messages behind Tables 1 and 3, the ChatInject panel and Figures 3 and 4, and that rerunning Table 1's 949 qwen3:8b pairs with the address rules reproduces each suite's utility and attack success to the third decimal. The gate's checksums are in [reference/BUILD_PROVENANCE.md](https://github.com/saintmachines/spillway/blob/main/reference/BUILD_PROVENANCE.md), and [reproduce/README.md](https://github.com/saintmachines/spillway/blob/main/reproduce/README.md#8-differences-from-the-papers-harness) lists where a run differs from the paper's harness. [benchmarks/results/](https://github.com/saintmachines/spillway/tree/main/benchmarks/results) holds per-cell results behind most of the paper's tables, and its README says which. `make asr-levels` prints the paper's raw and in-scope attack-success levels (Table 5, without its ROPE column) from these files.
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_08_dark.svg"><img src="docs/assets/readme/h2_08_light.svg" alt="" height="18"></picture>Citation
-
 ```bibtex
 @misc{lim2026spillway,
   title   = {SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection},
@@ -269,11 +291,9 @@ One cell of the breadth grid is one suite, one attack and one backbone. The full
 ```
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_09_dark.svg"><img src="docs/assets/readme/h2_09_light.svg" alt="" height="18"></picture>License
-
 Apache-2.0. See [LICENSE](https://github.com/saintmachines/spillway/blob/main/LICENSE). Files adapted from AgentDojo (MIT) are listed in [NOTICE](https://github.com/saintmachines/spillway/blob/main/NOTICE). NOTICE also lists what the Apache License does not cover: the fonts (SIL OFL), the logos and names, and the paper.
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_10_dark.svg"><img src="docs/assets/readme/h2_10_light.svg" alt="" height="18"></picture>Acknowledgements
-
 The evaluation builds on [AgentDojo](https://github.com/ethz-spylab/agentdojo), whose suites and success checks serve as the oracle, and on the [AgentDyn](https://github.com/leolee99/AgentDyn) GitHub, DailyLife and Shopping suites. The comparisons run the released code of [MELON](https://github.com/kaijiezhu11/MELON), [Progent](https://github.com/sunblaze-ucb/progent), [DRIFT](https://github.com/SaFo-Lab/DRIFT) and [ROPE](https://github.com/xhOwenMa/ROPE) on the same agent, with the commits and changes listed in [reproduce/README.md](https://github.com/saintmachines/spillway/blob/main/reproduce/README.md#9-comparators). The stress tests replay the released ChatInject, AutoDojo and PISmith attacks. Spotlighting and the ProtectAI [deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) detector serve as reference points, MELON embeds with nomic-embed-text, and the judge and the local backbones are Gemma and Qwen3 models served through Ollama. We thank the authors of each for releasing their work.
 
 <p><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
