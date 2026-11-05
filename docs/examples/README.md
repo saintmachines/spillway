@@ -37,8 +37,8 @@ each declared target field exists in the argument model and is recognized by
 the lexicon. For a new field such as `target_user`, extend the vocabulary with
 `Lexicon().extend(target_arg_hints={"target_user"})`, pass it to the boundary as
 `lexicon=...`, and declare `target_fields=("target_user",)` on that tool. The application supplies each
-tool's read/write effect and routing semantics. Schema validation checks types;
-the tool provider vouches for identity fields.
+tool's read/write effect and routing semantics. Schema validation checks types,
+and the tool provider vouches for identity fields.
 
 ## Lists of records
 
@@ -62,7 +62,7 @@ measurements.
 2. Pass every proposed call through `boundary.call(name, args)`. The same
    canonical arguments checked by the guard are sent to the tool host.
 3. Give the agent only the returned `model_text`. Successful responses are
-   validated and observed; HTTP and schema errors are observed as untyped text.
+   validated and observed. HTTP and schema errors are observed as untyped text.
    Observe retrieved context or memory with `boundary.observe_context(text)`.
 4. Return `boundary.final_answer(text)`. If it raises `BoundaryStopped`, stop
    the task without returning an unchecked answer.
@@ -76,7 +76,7 @@ idempotency and reconciliation.
 `requests_sent=0` means the call stopped before transport, `1` means an HTTP
 response confirms a request, and `None` means delivery is unknown after a
 transport failure. A write's effects remain `unknown` until the application
-reconciles them; an error does not roll back the fixture's recorded effect.
+reconciles them. An error does not roll back the fixture's recorded effect.
 
 ## Other data
 
@@ -86,8 +86,10 @@ reconciles them; an error does not roll back the fixture's recorded effect.
   vocabulary.
 - Parse CSV or JSON text explicitly and validate the parsed objects with the
   tool's model. Raw text remains untyped content.
+- Convert a dataclass or a named tuple with `dataclasses.asdict` or `_asdict()`,
+  and keep the bare address in the field. `Bob <bob@example.com>` is not indexed.
 - A typed `list[str]` roster uses the direct library's explicit `roster=True`
-  contract; this HTTP example uses object responses.
+  contract. This HTTP example uses object responses.
 
 [Integration conditions](../../SECURITY.md) ·
 [Guard API](../../src/spillway_guard/guard.py) ·

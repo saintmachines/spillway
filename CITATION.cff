@@ -6,10 +6,13 @@ abstract: "Prompt-injection defense for tool-using LLM agents: a typed-identity 
 authors:
   - family-names: Lim
     given-names: Woosang
+    affiliation: "SAINT Machines and KAIST"
   - family-names: Chang
     given-names: Yeseul
+    affiliation: "Chung-Ang University"
   - family-names: Lee
     given-names: Jaewoo
+    affiliation: "Chung-Ang University"
 version: 0.1.0
 license: Apache-2.0
 repository-code: "https://github.com/saintmachines/spillway"
@@ -26,10 +29,13 @@ preferred-citation:
   authors:
     - family-names: Lim
       given-names: Woosang
+      affiliation: "SAINT Machines and KAIST"
     - family-names: Chang
       given-names: Yeseul
+      affiliation: "Chung-Ang University"
     - family-names: Lee
       given-names: Jaewoo
+      affiliation: "Chung-Ang University"
   year: 2026
   url: "https://github.com/saintmachines/spillway/blob/main/docs/SPILLWAY_preprint.pdf"
   notes: "Preprint."

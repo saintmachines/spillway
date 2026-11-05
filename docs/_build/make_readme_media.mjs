@@ -1,5 +1,5 @@
-// Renders the README's pictures from the project page itself, docs/index.html: the hero,
-// the leak matrix, the result cards, the two stress panels and the four steps, in the page's dark theme. Each picture is
+// Renders the README's pictures from the project page itself, docs/index.html: the hero, the demo, the leak matrix, the
+// result cards and means, the two stress panels and the four steps, in the page's dark theme. Each picture is
 // one region of the page with a 16 px margin of the page's own ground, cut to a card with rounded corners on a
 // transparent ground, so it sits on either GitHub theme. The README shows a desktop picture at GitHub's README width
 // (838 CSS px in a 1280 px window) and a phone picture at 324, and both are made at 2x. Writes the PNGs and MANIFEST.json
@@ -22,20 +22,28 @@ const FONTS = ['Fraunces', 'IBM Plex Sans', 'IBM Plex Mono'];
 
 // What the pictures never show: the sticky header, the menu, buttons, hints and the hidden table views.
 const KEEP_OUT = 'header.nav,.menu-panel,#tip,.swipe-hint,.pager,.tv,.copy,button.copy{display:none!important}*{scroll-behavior:auto!important}main a{text-decoration:none!important;color:inherit!important}';
-// sel: the region. vw: the window width that lays the region out as the README shows it. A window widens by what a
-// region would scroll sideways, by at most 200 px. hide: parts left out.
+// sel: the region, or a list whose bounding box is the region. vw: the window width that lays the region out as the README
+// shows it. A window widens by what a region would scroll sideways, by at most 200 px. hide: parts left out.
 const SHOTS = [
+  // the footnote it marks (#tm) is left out, so its mark is too
   {name: 'summary', sel: '#top .hstats', vw: {desk: WIDTH.desk, phone: WIDTH.phone},
    css: '#top .hero-grid{display:block!important}#top .hero-grid>:not(.hstats){display:none!important}#top .hstats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;margin:0!important;padding:20px!important;border:1px solid var(--line)!important;border-radius:16px!important;background:var(--surface)!important}',
-   phone: '#top .hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important;padding:16px!important}#top .hstats>div{padding:0!important;border:0!important}#top .hstats dt{font-size:22px!important}#top .hstats dd{font-size:12px!important}'},
-  // the footnote it marks (#tm) is left out, so its mark is too
+   // the phone's README top: the page's headline and two sentences over the four tiles, so the README needs no paragraph for them
+   selPhone: ['#top .hero-head', '#top .hstats'],
+   phone: '#top .hero-grid>.hero-head,#top .hero-grid>.hero-copy{display:block!important}#top .cta,#top a.fn,#top #tm,#top .evalbox{display:none!important}#top .hero-copy{margin:12px 0 16px!important}' +
+          '#top .hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important;padding:16px!important}#top .hstats>div{padding:0!important;border:0!important}#top .hstats dt{font-size:22px!important}#top .hstats dd{font-size:12px!important}'},
+  // the long tile wording, which names the episodes the calls range covers, at every picture width
   {name: 'hero', sel: '#top .hero-grid', vw: {desk: 1100, phone: WIDTH.phone},
+   css: '#top .hstats .ts{display:none!important}#top .hstats .tl{display:inline!important}',
    hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn,#top .byline'},
-  {name: 'demo', sel: '#demo .wrap', vw: {desk: 1100, phone: WIDTH.phone},
-   hide: '#demo-box,#demo .note',
+  {name: 'demo', sel: ['#demo .head', '#demo .vt-note'], vw: {desk: 1100, phone: WIDTH.phone},
    css: '.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
-  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, hide: '#infoRet'},
-  {name: 'leaks', sel: '#leaks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
+  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, css: '#infoRet{display:none!important}'},
+  {name: 'leaks', sel: '#leaks', vw: {desk: 1100, phone: WIDTH.phone},
+   css: '#leaks .lk-u{display:block!important;margin-top:10px;max-width:none}#leaks .lk-dup{display:inline!important}#leaks .lk-sub{max-width:44ch}' +
+        '#leaks{grid-template-columns:minmax(0,1fr) max-content!important;grid-template-rows:auto 1fr auto!important;grid-template-areas:"big mx" "sub mx" "note note"!important;align-items:start!important}' +
+        '#leaks .lk-top{grid-area:big}#leaks .mx{grid-area:mx}#leaks .lk-sub{grid-area:sub}#leaks .lk-note{grid-area:note}',
+   phone: '#leaks{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;grid-template-areas:"big" "mx" "sub" "note"!important}'},
   // on a phone the page swipes through the three cards, the README stacks them
   {name: 'results', sel: '#results .charts', vw: {desk: 1100, phone: WIDTH.phone},
    phone: '#results .charts{display:grid!important;grid-template-columns:1fr!important;gap:16px!important;overflow:visible!important}' +
@@ -47,6 +55,28 @@ const SHOTS = [
    phone: '#how ol.steps{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;overflow:visible!important}' +
           '#how ol.steps>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}'},
 ];
+
+// A picture has no links: the phrases that lead to a table or a script go, with the separator before them, and what stays reads as plain text.
+const NO_LINKS = () => {
+  const dead = /^(Table of values|Recompute|Reproduce the runs|All four attacks|On the results page|Every cell)/;
+  document.querySelectorAll('main a').forEach(a => {
+    if (a.getAttribute('href') === '#leaks' && a.closest('.vt-note')) {  // a whole sentence hangs on this link
+      if (a.nextSibling && a.nextSibling.nodeType === 3) a.nextSibling.remove();
+      a.remove();
+      return;
+    }
+    if (!dead.test(a.textContent.trim())) return;
+    const prev = a.previousSibling;
+    if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/[\s\u00a0]*·[\s\u00a0]*$/, ' ');
+    if (a.parentElement && a.parentElement.classList.contains('nw') && a.parentElement.textContent.trim().startsWith('·')) a.parentElement.remove();
+    else a.remove();
+  });
+  // A still picture of the demo has nothing to choose
+  const eb = document.querySelector('#demo .eyebrow');
+  if (eb) eb.textContent = eb.textContent.replace(/^Interactive\s*·\s*/, '');
+  const cap = document.querySelector('#demo caption');
+  if (cap) cap.childNodes.forEach(n => { if (n.nodeType === 3) n.textContent = n.textContent.replace(/\s*Choose a defense to see its calls\./, ''); });
+};
 
 const sha256 = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const pngSize = f => { const b = fs.readFileSync(f); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
@@ -96,34 +126,20 @@ async function shoot(browser, url, s, kind, vw = s.vw[kind]) {
   await page.evaluate(() => document.fonts.ready);
   const fonts = await page.evaluate(F => F.filter(f => !document.fonts.check('16px "' + f + '"')), FONTS);
   if (fonts.length) throw new Error(`${s.name} ${kind}: web fonts not loaded: ${fonts.join(', ')}`);
-  // Actions in a PNG cannot be clicked. Each picture is linked by the README
-  // instead, and instruction-like link text is omitted from the captured UI.
-  await page.evaluate(() => {
-    const dead = /^(Table of values|Recompute|Reproduce the runs|All four attacks|On the results page|Every cell)/;
-    for (const a of document.querySelectorAll('main a')) {
-      if (!dead.test(a.textContent.trim())) continue;
-      const previous = a.previousSibling;
-      if (previous?.nodeType === 3) previous.textContent = previous.textContent.replace(/[\s\u00a0]*·[\s\u00a0]*$/, ' ');
-      if (a.parentElement?.classList.contains('nw') && a.parentElement.textContent.trim().startsWith('·')) a.parentElement.remove();
-      else a.remove();
-    }
-    const eyebrow = document.querySelector('#demo .eyebrow');
-    if (eyebrow) eyebrow.textContent = eyebrow.textContent.replace(/^Interactive\s*·\s*/, '');
-    for (const n of document.querySelector('#demo caption')?.childNodes || [])
-      if (n.nodeType === 3) n.textContent = n.textContent.replace(/\s*Choose a defense to see its calls\./, '');
-  });
+  await page.evaluate(NO_LINKS);
   await page.addStyleTag({content: KEEP_OUT + (s.css || '') + (kind === 'phone' && s.phone ? s.phone : '') + (s.hide ? s.hide + '{display:none!important}' : '')});
   await page.waitForTimeout(800);
   const box = await page.evaluate(sel => {
-    const e = document.querySelector(sel);
-    if (!e) return null;
-    const over = Math.max(0, ...[e, ...e.querySelectorAll('*')].filter(x => ['auto', 'scroll'].includes(getComputedStyle(x).overflowX))
+    const els = [].concat(sel).map(q => document.querySelector(q));
+    if (!els.every(Boolean)) return null;
+    const over = Math.max(0, ...els.flatMap(e => [e, ...e.querySelectorAll('*')]).filter(x => ['auto', 'scroll'].includes(getComputedStyle(x).overflowX))
       .map(x => x.scrollWidth - x.clientWidth));
-    const r = e.getBoundingClientRect();
-    return {x: r.left + scrollX, y: r.top + scrollY, width: r.width, height: r.height, over,
+    const rs = els.map(e => e.getBoundingClientRect());
+    const r = {left: Math.min(...rs.map(x => x.left)), top: Math.min(...rs.map(x => x.top)), right: Math.max(...rs.map(x => x.right)), bottom: Math.max(...rs.map(x => x.bottom))};
+    return {x: r.left + scrollX, y: r.top + scrollY, width: r.right - r.left, height: r.bottom - r.top, over,
             pageW: document.documentElement.scrollWidth, pageH: document.documentElement.scrollHeight,
             dark: matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light'};
-  }, s.sel);
+  }, kind === 'phone' && s.selPhone ? s.selPhone : s.sel);
   if (!box) throw new Error(`${s.name} ${kind}: ${s.sel} not found`);
   if (!box.dark) throw new Error(`${s.name} ${kind}: the page is not in its dark theme`);
   const side = Math.max(box.over, box.pageW - vw);

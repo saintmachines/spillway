@@ -1,7 +1,7 @@
 {
   "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
   "inputs": {
-    "docs/index.html": "9bd5ed3aba7417f6518b013f514e29dd85869e3ae4d855f085caf0066e63acb9"
+    "docs/index.html": "44561c0fe48a15351fe3c38f57bed540a7d91a1e8a5d14f0eca04de8d07c9320"
   },
   "theme": "dark",
   "css_width": {
@@ -19,14 +19,14 @@
       "window": 838
     },
     "summary_phone.png": {
-      "sha256": "7b856d2a4a04f1a7cf73a44c3cfcb4c477dbe1991dc8ae3f14551988e0fbd0b4",
-      "bytes": 83069,
-      "pixels": "648x634",
+      "sha256": "58caad132298be44dbd091f8bd4b0bc1aa7fb6a91309be82d6d37997c2da8ff4",
+      "bytes": 222217,
+      "pixels": "648x1526",
       "window": 324
     },
     "hero.png": {
-      "sha256": "9fe75333e4e69a929dbf8472348502b4213dc80f1beb659ac0f8c89dd4e625ab",
-      "bytes": 387722,
+      "sha256": "ce0333808161249e000987dc8c290df1dc932db9ce4fbc7fff7d7f4048bfef53",
+      "bytes": 413863,
       "pixels": "2200x1232",
       "window": 1100
     },
@@ -37,98 +37,98 @@
       "window": 324
     },
     "demo.png": {
-      "sha256": "73bafcd2ba93cbc1d34a1cfd03b074d670982000d79ec2fedd128d27d2f139c2",
-      "bytes": 386976,
-      "pixels": "2200x1558",
+      "sha256": "77dd20d42921f1febc18c0faa785a8fbf6e0eaffbe4a2158750ff7a5b812146f",
+      "bytes": 389927,
+      "pixels": "2184x1504",
       "window": 1100
     },
     "demo_phone.png": {
-      "sha256": "2aad7550406bc9b6e99dfd6297f3a764f6d56d08972c91880430039d4e8ed8a2",
-      "bytes": 286452,
-      "pixels": "648x2340",
+      "sha256": "609f5b1c8da98d8d4697be90ba1282a2e1ab1d4c93375d8d8364ff19f8afac85",
+      "bytes": 278780,
+      "pixels": "648x2286",
       "window": 324
     },
     "demo_calls.png": {
-      "sha256": "44ed0cfc37b01e753d35ce1b3cb232afc53a80b86e8675c9e63e9c736f558c68",
-      "bytes": 622790,
-      "pixels": "2184x2202",
+      "sha256": "611784a1279c677013e25e6d413c01da41ba78ac9e480da88195a230c95a2b13",
+      "bytes": 622479,
+      "pixels": "2184x2200",
       "window": 1100
     },
     "demo_calls_phone.png": {
-      "sha256": "5b5f51150e88e52f839f04aa93d554acc83cbddaa9acec15d80f51c1507911b2",
-      "bytes": 364345,
-      "pixels": "648x3152",
+      "sha256": "7356792b40e19185fbfae728f4b0035a9a7075e9f4d0450f5e7c6cbb16aa0961",
+      "bytes": 364174,
+      "pixels": "648x3150",
       "window": 324
     },
     "leaks.png": {
-      "sha256": "fa5675f6d51749d08eac816d4fa67afd388cf1ed7301bb1928ff6daa77532233",
-      "bytes": 187015,
-      "pixels": "1660x784",
-      "window": 838
+      "sha256": "8e9cffb6da8838e23412db6737a81b04ca89caf0c27128492bfb6552fc692f95",
+      "bytes": 197133,
+      "pixels": "2184x760",
+      "window": 1100
     },
     "leaks_phone.png": {
-      "sha256": "f27c9b4234fac7ecfc48a5cdaba63128a88533fe36a3fed29f309678d7c66664",
-      "bytes": 160727,
-      "pixels": "698x1090",
+      "sha256": "0e73e4fdcb1b6dbeff083aa35afad383472070d9b39e805c7069cb2202a97727",
+      "bytes": 161090,
+      "pixels": "698x1110",
       "window": 349
     },
     "results.png": {
-      "sha256": "329779c17f1b89be8fb792f13fe0b405cd976b633a9924a467e339fc9c7968ed",
-      "bytes": 446937,
+      "sha256": "b5cb9133f7e23abdccaf00732b3238bae5c61c0b630abcc9d5f9d0223e9fee8b",
+      "bytes": 447973,
       "pixels": "2184x1276",
       "window": 1100
     },
     "results_phone.png": {
-      "sha256": "85c66b52454576f007042ee73d2d0d7c1d74b358a21f0711252422497861296e",
-      "bytes": 395608,
+      "sha256": "9d4da2267452a83e47bd7dfa28d5275b1139cd30a796a1a21eecfc663aff0e73",
+      "bytes": 396034,
       "pixels": "648x3408",
       "window": 324
     },
     "means.png": {
-      "sha256": "25963f8286e2843c6be3b41e42d8418746a4824500a47d29138d3d1d59966beb",
-      "bytes": 151461,
+      "sha256": "1c54ebcb755a8ab7e95e105309da4d8e1da53332e90bc5838dd1bb5012dc82fb",
+      "bytes": 151193,
       "pixels": "2184x472",
       "window": 1100
     },
     "means_phone.png": {
-      "sha256": "4c55a3ebb5044c985ad9009d99ab8da06e47820c55a53ad62e7e33ce10cdaf3d",
-      "bytes": 185458,
-      "pixels": "648x1234",
+      "sha256": "72edc5b6a7d1939def5114caa93ec04285f80fcf01f2f00d2591ad309969abda",
+      "bytes": 184272,
+      "pixels": "648x1232",
       "window": 324
     },
     "rope.png": {
-      "sha256": "4adc80fe9e59e7a5632c7fa1b68a553ce2cba6bd0739fa3f2d1870ce29b9f325",
-      "bytes": 326129,
-      "pixels": "1660x1648",
+      "sha256": "69344040fdc3c2a1155f0b1fa98349c8c49318cead5adf756e71252502ebff31",
+      "bytes": 326341,
+      "pixels": "1660x1646",
       "window": 838
     },
     "rope_phone.png": {
-      "sha256": "c7b94b677a1a866b2178c7bf516ec7c77053e09c78349522d5c26cdac7421dc7",
-      "bytes": 289585,
+      "sha256": "cce72feb6f38e667af686a907c5089bcef67e32199fa3b253a8a965653a11558",
+      "bytes": 289367,
       "pixels": "648x2078",
       "window": 324
     },
     "attacks.png": {
-      "sha256": "a0ab009fd48775267ab8d8d0703a7964725e40eb69133b6b88074c211f18e9c3",
-      "bytes": 272800,
-      "pixels": "1660x1450",
+      "sha256": "3275fc9e8808a2f0cd3260ae3db4c8284f051be9020230cbdccfd3f7060fc597",
+      "bytes": 272585,
+      "pixels": "1660x1452",
       "window": 838
     },
     "attacks_phone.png": {
-      "sha256": "b093375040f37654b6c4ba0111c2c0f3e7c69b89c18cea94fe236ceea7da00d9",
-      "bytes": 298535,
-      "pixels": "648x2914",
+      "sha256": "318edc521897b82a8f7a36a2c33794a9b24afeed7a0b9ecb9dbaeac2c7da278f",
+      "bytes": 297639,
+      "pixels": "648x2912",
       "window": 324
     },
     "steps.png": {
-      "sha256": "18780bf4f5bc912319cb2b0fd0cc0bf69777efcb99f20ffd347573be787f9273",
-      "bytes": 250252,
+      "sha256": "b478b9682cd92bb8cc2e52ed2c62a16c849364f66959b1b64e6fb5b634079ca7",
+      "bytes": 250281,
       "pixels": "2184x810",
       "window": 1100
     },
     "steps_phone.png": {
-      "sha256": "0c813d37e46bfa4147fd00d96c452bf24dd321de26dbd3a190281a4253981925",
-      "bytes": 259243,
+      "sha256": "fc214f436e46b1c9d324ef7fe39722de0eda5fd67093f09c1704c7b376c0c4cb",
+      "bytes": 259244,
       "pixels": "648x2368",
       "window": 324
     }

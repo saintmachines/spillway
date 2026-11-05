@@ -6,6 +6,9 @@ html, body { margin: 0; width: 1200px; height: 630px; background: #0b1220; color
 .c { box-sizing: border-box; width: 1200px; height: 630px; padding: 64px 72px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden; }
 .brand { display: flex; align-items: center; gap: 14px; font: 700 30px/1 "Fraunces", Georgia; letter-spacing: .03em; }
 .brand svg { width: 44px; height: 44px; }
+.brand img { height: 30px; width: auto; margin-left: auto; }
+html.social, html.social body { width: 1280px; height: 640px; }
+html.social .c { width: 1280px; height: 640px; }
 h1 { margin: 34px 0 0; font: 700 70px/1.04 "Fraunces", Georgia; letter-spacing: -.022em; max-width: 16ch; }
 .m { display: flex; gap: 32px; align-items: flex-end; border-top: 1px solid #24324a; padding-top: 26px; }
 .m > div:not(.code) { align-self: flex-start; }  /* numbers on one line whatever their captions' length */
@@ -14,7 +17,7 @@ h1 { margin: 34px 0 0; font: 700 70px/1.04 "Fraunces", Georgia; letter-spacing: 
 .m .code { margin-left: auto; white-space: nowrap; font: 500 20px/1 "IBM Plex Mono", Menlo, monospace; background: #1a2740; border: 1px solid rgba(232,238,245,.16); padding: 16px 20px; border-radius: 12px; color: #e8eef5; }
 .m .code i { font-style: normal; color: #7cc4f0; margin-right: 10px; }
 </style></head><body><div class="c">
-<div class="brand"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#3d9be0"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="#04131f"/><path d="M20 14l5 2.5-5 2.5z" fill="#04131f"/></svg>SPILLWAY</div>
+<div class="brand"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#3d9be0"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="#04131f"/><path d="M20 14l5 2.5-5 2.5z" fill="#04131f"/></svg>SPILLWAY<img src="../assets/saintmachines_lockup_white.svg" alt="SAINT Machines"></div>
 <h1>SPILLWAY checks recipients against the task and typed fields.</h1>
 <div class="m"><div><b>0 / 12</b><span>AgentDojo cells with<br>an in-scope leak</span></div><div><b>.484</b><span>utility under attack,<br>highest of the<br>seven defenses</span></div><div><b>13&nbsp;to&nbsp;50×</b><span>fewer added calls than<br>MELON, Progent, DRIFT on<br>benign qwen3:8b Workspace<br>and Slack episodes</span></div><div class="code"><i>↗</i>saintmachines/spillway</div></div>
 </div></body></html>

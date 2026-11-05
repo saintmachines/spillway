@@ -18,8 +18,11 @@
   chrome();
   var button = document.getElementById('menuBtn'), panel = document.getElementById('menuPanel');
   if (button && panel) {
-    var start = 0, eat = false;
+    var start = 0, eat = false, first = panel.querySelector('a');
     function close() { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); }
+    // The panel comes after the header row in the page, so Tab from the open button goes to its first link, and back.
+    button.addEventListener('keydown', function (e) { if (e.key === 'Tab' && !e.shiftKey && !panel.hidden && first) { e.preventDefault(); first.focus(); } });
+    panel.addEventListener('keydown', function (e) { if (e.key === 'Tab' && e.shiftKey && e.target === first) { e.preventDefault(); button.focus(); } });
     button.addEventListener('click', function () {
       panel.hidden = !panel.hidden;
       button.setAttribute('aria-expanded', String(!panel.hidden));

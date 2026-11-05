@@ -16,9 +16,9 @@ installation from PyPI has passed, set `pypi_version` to that version and rebuil
 The builder reads this file offline and accepts only the current project version.
 `source_ref` must name an existing tag or commit before the page is published.
 
-The paper link uses the reviewed `docs/SPILLWAY_preprint.pdf`. Keep that file
-synchronized with the accepted manuscript. Bibliographic URLs can use that PDF
-before a real arXiv identifier is assigned.
+The paper link uses `docs/SPILLWAY_preprint.pdf`. Keep that file identical to the
+released preprint. Bibliographic URLs can use that PDF before a real arXiv
+identifier is assigned.
 
 The GitHub README uses relative pictures so they also load in the private
 repository. Regenerate those pictures after the final page build:
@@ -33,15 +33,18 @@ registry install command. Upload the distribution only after the public links
 work. After uploading, verify a fresh registry install before enabling the
 registry tabs in `publication.json`.
 
-The social card has an HTML source in `og.html`. With the docs directory
-served locally, regenerate it at 1200 by 630 pixels:
+The social cards have an HTML source in `og.html`. `assets/og-card.png`, 1200 by
+630 pixels, is the page's share image. `assets/social-card-1280x640.png` is the
+repository's social preview, which GitHub takes only as an upload in the
+repository settings. With the docs directory served locally, regenerate both:
 
 ```bash
 PLAYWRIGHT_CORE=/path/to/playwright-core/index.mjs node docs/_build/make_og_card.mjs http://127.0.0.1:8000/
 ```
 
 `build_page.py` also writes `integrate.html`. The results and integration pages
-take the company bar, product header and footer from the rendered home page.
+take the product header, with its maker link, and the footer from the rendered
+home page.
 Their small navigation helper is `assets/subpage.js`. Keep these shared routes
 and the current page marker covered when adding a page.
 

@@ -36,7 +36,7 @@ compare their decisions on synthetic inputs. The library checks and their regres
   without its ROPE column.
 - Packaging and community files: `pyproject.toml`, `CITATION.cff`,
   `CONTRIBUTING.md`, `SECURITY.md`, a bypass-report issue template, and CI
-  (lint, unit tests on Python 3.10 to 3.13, differential tests against the
+  (lint, unit tests on Python 3.10 to 3.14, differential tests against the
   reference gate, a build check).
 
 ### Library checks and regression coverage

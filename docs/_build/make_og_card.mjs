@@ -25,5 +25,9 @@ try{
  if(errors.length||result.missingFonts.length||result.overflow.length||result.obsoleteCommand||result.bounds.some(r=>r.right>1200||r.bottom>630))throw new Error(JSON.stringify({errors,...result}));
  const output=path.join(docs,'assets/og-card.png');
  await page.screenshot({path:output});
+ const social=path.join(docs,'assets/social-card-1280x640.png');
+ await page.setViewportSize({width:1280,height:640});
+ await page.evaluate(()=>document.documentElement.classList.add('social'));
+ await page.screenshot({path:social});
  console.log(JSON.stringify({output,width:1200,height:630,sha256:crypto.createHash('sha256').update(fs.readFileSync(output)).digest('hex'),...result},null,2));
 }finally{await browser.close();}
