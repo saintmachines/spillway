@@ -14,10 +14,13 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
-from typing import Any, Callable, Literal
+from typing import Any, Callable, Literal, get_args, get_origin
 
 from pydantic import BaseModel, ConfigDict
+
 from spillway_guard import Guard, Lexicon
+from spillway_guard.guard import format_return
+from spillway_guard.sanitizer import sanitize
 
 
 class StrictModel(BaseModel):
@@ -34,6 +37,9 @@ class ToolSpec:
     args_model: type[StrictModel]
     response_model: type[StrictModel]
     effect: Literal["read", "write"]
+    # A trusted schema field containing independent records, not a delimiter
+    # inferred from the untrusted text. Other responses keep the library path.
+    record_field: str | None = None
 
 
 @dataclass(frozen=True)
@@ -91,6 +97,16 @@ class ToolBoundary:
                         or model.model_config.get("strict") is not True
                         or model.model_config.get("extra") != "forbid"):
                     raise ValueError("Use strict, extra-forbid argument and response models")
+            if spec.record_field is not None:
+                field = spec.response_model.model_fields.get(spec.record_field)
+                annotation = field.annotation if field is not None else None
+                members = get_args(annotation)
+                if (get_origin(annotation) is not list or len(members) != 1
+                        or not isinstance(members[0], type)
+                        or not issubclass(members[0], StrictModel)
+                        or members[0].model_config.get("strict") is not True
+                        or members[0].model_config.get("extra") != "forbid"):
+                    raise ValueError("record_field must name a list of strict, extra-forbid record models")
             self.tools[spec.name] = spec
         self.guard = Guard(user_task, lexicon=lex, judge=judge)
         self.base_url = f"http://127.0.0.1:{url.port}"
@@ -115,6 +131,37 @@ class ToolBoundary:
     def _body(self, response) -> tuple[bytes, bool]:
         data = response.read(self.max_response_bytes + 1)
         return data[:self.max_response_bytes], len(data) > self.max_response_bytes
+
+    def _observe_response(self, spec: ToolSpec, args: dict, value: StrictModel) -> str:
+        if spec.record_field is None:
+            return self.guard.observe_tool_return(spec.name, args, value)
+
+        # Index the whole typed return once, before recording any of its text.
+        # Calling observe_tool_return for each record would let earlier records'
+        # taint change whether later records can be indexed for the same read.
+        self.guard.observe_tool_return(spec.name, args, value, text="")
+        records = getattr(value, spec.record_field)
+        parts = []
+
+        def segment(raw: Any) -> str:
+            spans: list[str] = []
+            text = sanitize(format_return(raw), spans, control_tokens=True,
+                            injected_imperatives=True,
+                            agent_addressed=self.guard.policy.ingress_agentaddr,
+                            forged_turns_in_spans=True)
+            if spans and self.guard.policy.injspan_recover:
+                self.guard.index.add_spans(spans)
+            self.guard.observe_text(text)
+            return text
+
+        metadata = value.model_dump(exclude={spec.record_field})
+        if metadata:
+            parts.append(segment(metadata))
+        for i, record in enumerate(records, 1):
+            parts.append(f"{spec.record_field} record {i}/{len(records)}:\n" + segment(record))
+        if not records:
+            parts.append(segment({spec.record_field: []}))
+        return "\n\n".join(parts)
 
     def call(self, name: str, args: Any) -> ToolResult:
         if not isinstance(name, str) or name not in self.tools:
@@ -192,7 +239,7 @@ class ToolBoundary:
                 name, "The tool response did not match its registered schema. Untrusted response:\n" + detail),
                 **state, requests_sent=1, response_received=True, http_status=code)
         try:
-            model_text = self.guard.observe_tool_return(name, checked_args, response_obj)
+            model_text = self._observe_response(spec, checked_args, response_obj)
         except Exception as exc:
             raise BoundaryStopped("Response observation failed; task stopped; an HTTP request was already sent") from exc
         return ToolResult(name, "ok", model_text, **state, requests_sent=1,

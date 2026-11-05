@@ -12,6 +12,7 @@ git clone https://github.com/saintmachines/spillway.git
 cd spillway
 python -m pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
 python docs/examples/local_app_demo.py --report app-check.json
+python docs/examples/collection_demo.py --report collection-check.json
 ```
 
 The example opens a temporary server on `127.0.0.1`, runs the checks, writes the
@@ -77,6 +78,45 @@ when integrating a real write API.
   can validate `csv.DictReader` rows with its declared Pydantic model.
 - A typed `list[str]` roster needs the explicit `roster=True` contract when
   calling the library directly. This example uses object responses instead.
+
+## Keep unrelated records separate
+
+The frozen 0.1.0 sanitizer can treat ordinary phrases such as "AI assistant"
+or "tool call" as an instruction-like region. With a whole list rendered as
+one string, that region can erase later records from the text the model reads,
+even though their typed identities were indexed. This is an ordinary-data
+false positive; the paper's measured results do not establish general precision.
+
+For a trusted response model with an independent record list, declare the
+list field on the existing boundary:
+
+```python
+class Messages(StrictModel):
+    messages: list[Message]  # Message is also a strict, extra-forbid model
+    note: str
+
+spec = ToolSpec("get_messages", QueryArgs, Messages, "read", record_field="messages")
+```
+
+The boundary indexes the complete typed response exactly once, then sanitizes
+each record separately and retains its removed spans for egress checks. The
+tool owner supplies the schema and record boundary. Never infer a record
+boundary from attacker-controlled separators or call `observe_tool_return`
+once per record; earlier records' taint can change later indexing decisions.
+
+Run `collection_demo.py` for a local HTTP replay. Its seven benign inputs
+preserve the four unaffected records and all five indexed senders. The matching
+record can still lose its own text and sender in the model rendering. Three
+synthetic injection forms are blocked before the write reaches the fixture,
+and a permitted reply to a later record's sender is executed. These checks
+establish this adapter path, not general attack coverage or benign precision.
+
+The unconfigured path retains the library's whole-return behavior. This
+example does not repair single-document false positives, add missing target
+roles, or establish performance on large collections and long sessions. Tool
+names such as compound read/write operations and arguments such as
+`target_user`, `webhook` or `payee` need an explicit, reviewed role mapping;
+the default vocabulary does not infer every service's meaning.
 
 See [SECURITY.md](../../SECURITY.md) for the integration conditions and
 [the project guide](https://saintmachines.github.io/spillway/integrate.html)

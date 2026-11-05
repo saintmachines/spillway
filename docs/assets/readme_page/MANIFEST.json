@@ -25,15 +25,15 @@
       "window": 324
     },
     "hero.png": {
-      "sha256": "86f31dc4eb0624bfddeb5238784f37ce52eda931e4f00a2793bdccbfba5e034a",
-      "bytes": 427618,
+      "sha256": "b8eeb2e7ab615abce4bbd5115dde4901e909e81373f76e1f8cf4fe81c8485d50",
+      "bytes": 403826,
       "pixels": "2200x1288",
       "window": 1100
     },
     "hero_phone.png": {
-      "sha256": "70bb8fc530237dafa15f98364250da56451b8e97d7ca4f0424b1393d751e7765",
-      "bytes": 277541,
-      "pixels": "648x2288",
+      "sha256": "922948e0e3e7633cbb2e0b7be31200c9a8be5663b94e060e7c0bbfaf22360dc0",
+      "bytes": 252772,
+      "pixels": "648x2124",
       "window": 324
     },
     "leaks.png": {

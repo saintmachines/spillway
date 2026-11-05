@@ -108,3 +108,4 @@ jobs:
         run: |
           python -c "import spillway_guard; print(spillway_guard.__file__)"
           python "$GITHUB_WORKSPACE/docs/examples/local_app_demo.py" --report "$RUNNER_TEMP/spillway-app-check.json"
+          python "$GITHUB_WORKSPACE/docs/examples/collection_demo.py" --report "$RUNNER_TEMP/spillway-collection-check.json"

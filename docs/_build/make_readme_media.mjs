@@ -30,7 +30,7 @@ const SHOTS = [
    phone: '#top .hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important;padding:16px!important}#top .hstats>div{padding:0!important;border:0!important}#top .hstats dt{font-size:22px!important}#top .hstats dd{font-size:12px!important}'},
   // the footnote it marks (#tm) is left out, so its mark is too
   {name: 'hero', sel: '#top .hero-grid', vw: {desk: 1100, phone: WIDTH.phone},
-   hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn'},
+   hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn,#top .byline'},
   {name: 'leaks', sel: '#leaks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
   // on a phone the page swipes through the three cards, the README stacks them
   {name: 'results', sel: '#results .charts', vw: {desk: 1100, phone: WIDTH.phone},
