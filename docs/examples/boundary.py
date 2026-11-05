@@ -6,6 +6,7 @@ a write. This is an example adapter, not a Gmail/Slack/framework integration.
 """
 from __future__ import annotations
 
+import http.client
 import json
 import math
 import re
@@ -158,17 +159,19 @@ class ToolBoundary:
             try:
                 with exc:
                     raw, oversized = self._body(exc)
-            except (TimeoutError, OSError):
+            except (TimeoutError, OSError, http.client.HTTPException):
                 return ToolResult(name, "incomplete_response", self._notice(
                     name, "HTTP error headers were received but the body was incomplete. Side effects are not rolled back."),
                     **state, requests_sent=1, response_received=True, http_status=exc.code)
-            detail = raw.decode("utf-8", "replace")
             if oversized:
-                detail += "\n[error body truncated]"
+                return ToolResult(name, "response_too_large", self._notice(
+                    name, f"The tool returned HTTP {exc.code}, but its error body exceeded this example's size limit. The error body was not given to the agent."),
+                    **state, requests_sent=1, response_received=True, http_status=exc.code)
+            detail = raw.decode("utf-8", "replace")
             return ToolResult(name, "http_error", self._notice(
                 name, f"The tool returned HTTP {exc.code}. Its untrusted error body follows:\n{detail}"),
                 **state, requests_sent=1, response_received=True, http_status=exc.code)
-        except (urllib.error.URLError, TimeoutError, OSError):
+        except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException):
             # A transport failure cannot tell us whether a write reached the server.
             return ToolResult(name, "transport_error", self._notice(
                 name, "No complete HTTP response was received. Delivery and side effects are unknown; do not retry a write blindly."),
@@ -195,11 +198,12 @@ class ToolBoundary:
         return ToolResult(name, "ok", model_text, **state, requests_sent=1,
                           response_received=True, http_status=code, response_validated=True)
 
-    def final_answer(self, candidate: str):
+    def final_answer(self, candidate: str) -> str:
         """Return only a checked answer. A failing output check never falls back to raw text."""
         if not isinstance(candidate, str):
             raise BoundaryStopped("Final answer must be text; task stopped")
         try:
-            return self.guard.check_final_answer(candidate)
+            checked_text, _dropped = self.guard.check_final_answer(candidate)
+            return checked_text
         except Exception as exc:
             raise BoundaryStopped("Final-answer check failed; no unchecked answer returned") from exc

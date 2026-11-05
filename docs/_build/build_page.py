@@ -17,8 +17,8 @@ and the package's two dependencies, pydantic and PyYAML.
 
 usage: python docs/_build/build_page.py [--out DIR/index.html] [--artifact OUT.html] [--readme-panel OUT.html]
 
-With --out it writes index.html, results.html and results.json to DIR, which must exist, and leaves docs/ as it is.
-Without --out it rewrites those three files in docs/.
+With --out it writes index.html, results.html, results.json and integrate.html to DIR, which must exist, and leaves docs/ as it is.
+Without --out it rewrites those four files in docs/.
 """
 import hashlib
 import html
@@ -52,7 +52,7 @@ def publication_slots():
         tabs.append(f'<button type="button" role="tab" aria-selected="{str(kind == selected).lower()}" '
                     f'tabindex="{0 if kind == selected else -1}" data-cmd="{html.escape(commands[kind], quote=True)}"{attrs}>{kind}</button>')
     return {"@@INSTALL_TABS@@": "".join(tabs), "@@INSTALL_COMMAND@@": html.escape(commands[selected]),
-            "@@INSTALL_NOTE@@": "Install with pip or uv." if ready else "Install from GitHub. PyPI release forthcoming.",
+            "@@INSTALL_NOTE@@": "" if ready else '<p class="req">Install from GitHub. PyPI release forthcoming.</p>',
             "@@RELEASE_NOTES_URL@@": html.escape(publication["release_notes_url"], quote=True)}
 
 
@@ -1391,20 +1391,19 @@ def tv_panels():
 
 
 def shared_subpage_parts(page, filename, title):
-    """Use the home page's actual company bar, product menu, footer and theme styles."""
+    """Use the home page's actual header with its maker link, menu, footer and theme styles."""
     head = re.search(r"<head>.*?</head>", page, re.S).group(0)
     head = re.sub(r"<title>.*?</title>", f"<title>{esc(title)}</title>", head, count=1)
     head = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{SITE}{filename}">', head)
     head = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{SITE}{filename}">', head)
     head = head.replace("</head>", '<script src="assets/subpage.js" defer></script>\n</head>')
-    org = re.search(r"<!--@ORG-->(.*?)<!--@END:ORG-->", page, re.S).group(1)
     header = re.search(r'<header class="nav">.*?</header>', page, re.S).group(0)
-    header = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', header)
+    header = re.sub(r'(?<!<use )href="#([^"]+)"', r'href="index.html#\1"', header)
     header = header.replace('href="index.html#results"', 'href="results.html"')
     header = header.replace(f'href="{filename}"', f'href="{filename}" aria-current="page"')
     footer = re.search(r"<footer>.*?</footer>", page, re.S).group(0)
     footer = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', footer)
-    return head, {"@@ORG@@": org, "@@PRODUCT_HEADER@@": header, "@@FOOTER@@": footer}
+    return head, {"@@PRODUCT_HEADER@@": header, "@@FOOTER@@": footer}
 
 
 def build_results_page(page):

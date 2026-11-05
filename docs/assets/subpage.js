@@ -32,7 +32,7 @@
     });
     document.addEventListener('pointerdown', function (e) {
       var outside = !panel.hidden && !panel.parentNode.contains(e.target);
-      eat = outside && e.button === 0 && !e.target.closest('.orgbar a');
+      eat = outside && e.button === 0;
       if (outside) close();
     });
     document.addEventListener('pointercancel', function () { eat = false; });
