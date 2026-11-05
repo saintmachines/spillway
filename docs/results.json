@@ -2,10 +2,10 @@
  "source": "SPILLWAY preprint, AgentDojo v1.2.2",
  "notes": {
   "grid_means": "Table 2: twelve-cell means over 3 backbones x 4 suites; nrp_bu = bu x (1 - asr_in_scope), nrp_uau = uau x (1 - asr_in_scope) as in MCP Security Bench; ROPE's router is the cell's own backbone",
-  "standard_attack_gpt_4o_mini_suite_means_figure_4a": "Figure 4a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
+  "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Figure 1a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
   "delegated_routing_vs_rope": "Table 8: gpt-4o-mini, standard attack, one run per suite (seed 42); rope_uau and rope_asr use its authors' Claude Opus 4.8 router, the rope_gpt_4o_mini_router columns the agent's own model",
   "pismith_gpt_4o_mini_by_suite": "the run records behind Table 7 (benchmarks/results/pismith_a4); the preprint prints only each method's mean over these four suites",
-  "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop) on gpt-4o-mini; ROPE's router is the agent's own model in all three. SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs; held-out Banking sets give .007 and .000"
+  "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop at ASR@1, first of ten variants per injection) on gpt-4o-mini; ROPE's router is the agent's own model in all three. SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs. Held-out Banking sets give .000 and .007 by AgentDojo's check, .014 counting a second transfer that check misses"
  },
  "grid_means": {
   "Undefended": {
@@ -1038,7 +1038,7 @@
    }
   }
  },
- "standard_attack_gpt_4o_mini_suite_means_figure_4a": {
+ "standard_attack_gpt_4o_mini_suite_means_figure_1a": {
   "Undefended": {
    "uau": 0.418,
    "asr_in_scope": 0.4

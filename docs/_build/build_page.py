@@ -3,7 +3,7 @@
 
 The chart and table data in DATA below are copied from the preprint's tables
 (Table 1/2 breadth grid, Table 4 stress tests, Table 7 PISmith, Table 8 delegated routing,
-the cost paragraph, and the means Figure 4a plots, which the build recomputes from Tables 1 and 8). Charts and tables are rendered to static SVG/HTML here, so the
+the cost paragraph, and the means Figure 1a plots, which the build recomputes from Tables 1 and 8). Charts and tables are rendered to static SVG/HTML here, so the
 page shows its numbers without JavaScript and every value is greppable in the output.
 
 The build cross-checks selected data and artifacts: DATA is compared with the paper's
@@ -31,6 +31,30 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 REPO = "https://github.com/saintmachines/spillway"
 SITE = "https://saintmachines.github.io/spillway/"
+PUBLICATION_PATH = pathlib.Path(__file__).with_name("publication.json")
+
+
+def publication_slots():
+    """Use only declared publication facts; the build makes no network requests."""
+    publication = __import__("json").loads(PUBLICATION_PATH.read_text())
+    version = __import__("tomllib").loads((ROOT / "pyproject.toml").read_text())["project"]["version"]
+    ready = publication["pypi_version"] == version
+    assert publication["pypi_version"] in (None, version)
+    source_ref = publication["source_ref"]
+    assert re.fullmatch(r"[A-Za-z0-9._/-]+", source_ref)
+    commands = {"pip": "pip install spillway-guard", "uv": "uv pip install spillway-guard",
+                "source": f"pip install git+{REPO}.git@{source_ref}"}
+    selected = "pip" if ready else "source"
+    tabs = []
+    for kind in ("pip", "uv", "source"):
+        enabled = ready or kind == "source"
+        attrs = '' if enabled else ' disabled aria-disabled="true" title="Available after the PyPI release"'
+        tabs.append(f'<button type="button" role="tab" aria-selected="{str(kind == selected).lower()}" '
+                    f'tabindex="{0 if kind == selected else -1}" data-cmd="{html.escape(commands[kind], quote=True)}"{attrs}>{kind}</button>')
+    return {"@@INSTALL_TABS@@": "".join(tabs), "@@INSTALL_COMMAND@@": html.escape(commands[selected]),
+            "@@INSTALL_NOTE@@": "Install with pip or uv." if ready else "Install from GitHub. PyPI release forthcoming.",
+            "@@RELEASE_NOTES_URL@@": html.escape(publication["release_notes_url"], quote=True)}
+
 
 METHODS = ["Undefended", "SPILLWAY", "MELON", "Progent", "DRIFT", "ROPE", "Spotlighting", "PI detector"]
 AGENTDOJO_SUITES = ("Banking", "Slack", "Travel", "Workspace")
@@ -50,7 +74,7 @@ DATA = {
     # Table 2's NRP (UAU) column, UAU x (1 - ASR) as in MCP Security Bench: the results tables print it, the band does not
     "nrp_uau": {"Undefended": .290, "SPILLWAY": .484, "MELON": .284, "Progent": .359, "DRIFT": .446, "ROPE": .343,
                 "Spotlighting": .289, "PI detector": .216},
-    # Figure 2 / cost paragraph: added model calls per benign qwen3:8b episode (Workspace, Slack)
+    # Figure 3 / cost paragraph: added model calls per benign qwen3:8b episode (Workspace, Slack)
     "calls": {"SPILLWAY": (0.19, 0.39), "MELON": (3.25, 5.29), "Progent": (5.94, 8.67), "DRIFT": (9.59, 9.91)},
     # cost paragraph: added wall-clock seconds per benign qwen3:8b episode (Workspace, Slack) on one RTX PRO 6000;
     # SPILLWAY's episodes, timed in a separate session, were within 0.5 s of the undefended agent's
@@ -74,7 +98,7 @@ DATA = {
              ("Workspace", .838, .000, .670, .000), ("GitHub", .600, .000, .500, .000), ("DailyLife", .435, .000, .295, .010),
              ("Shopping", .383, .000, .361, .044)],
     "rope_mean": (.553, .000, .468, .015),
-    # Figure 4a (fig:tradeoff, panel a), as plotted: the standard attack on gpt-4o-mini, each point one defense's mean
+    # Figure 1a (fig:tradeoff, panel a), as plotted: the standard attack on gpt-4o-mini, each point one defense's mean
     # over AgentDojo's four suites (utility under attack, in-scope ASR). ROPE's point uses its authors' Claude Opus 4.8 router (Table 8).
     "fig4a": {"Undefended": (.418, .400), "SPILLWAY": (.614, .000), "MELON": (.267, .013), "Progent": (.462, .061),
               "DRIFT": (.533, .030), "ROPE": (.531, .012), "Spotlighting": (.454, .360), "PI detector": (.225, .072)},
@@ -135,7 +159,7 @@ ROPE_AGENT_ROUTER_ROWS = [(suite, float(_t8[suite][4]), float(_t8[suite][5])) fo
 _t1 = dict(MT.tex_rows(MT.PAPER_TABLE1))
 for _c in CELLS:  # the per-cell values the page draws are the printed Table 1 values (BU, UAU, ASR per method)
     assert [float(x) for x in _t1[f'{_c["suite"].lower()} {_c["backbone"]}']] == [_c["methods"][m][k] for m in METHODS for k in ("bu", "uau", "asr")], _c
-# Figure 4a, recomputed: the mean of gpt-4o-mini's four Table 1 cells per method, and of ROPE's four AgentDojo rows of
+# Figure 1a, recomputed: the mean of gpt-4o-mini's four Table 1 cells per method, and of ROPE's four AgentDojo rows of
 # Table 8, whose SPILLWAY column is the same run as SPILLWAY's gpt-4o-mini cells. The page plots the paper's rounding.
 _mini = [c for c in CELLS if c["backbone"] == "gpt-4o-mini"]
 _dojo = [r for r in DATA["rope"] if r[0] in AGENTDOJO_SUITES]
@@ -285,7 +309,7 @@ def dumbbell():
     out.append(f'<p class="hb-cap" aria-hidden="true">utility under attack (higher is better)</p><p class="sr" id="rope-d">{esc(desc)}</p></div>')
     return "\n".join(out)
 
-# ------------------------------------------------------------------ Figure 4 of the preprint, four attack regimes
+# ------------------------------------------------------------------ Figure 1 of the preprint, four attack regimes
 # The figure script's points (make_fig_attacks_4panel_named.py), verbatim: (a) is DATA["fig4a"]; (b) and (c) are the
 # unweighted means of the suite values below; (d) is Table 7. The build checks that DATA["stress"] gives the same points.
 FIG4_SCRIPT_PIS = {"Undefended": (0.128, 0.568), "Spotlighting": (0.151, 0.489), "PI-detector": (0.155, 0.025),
@@ -327,21 +351,21 @@ assert [k for k, (u, _a) in fig4_points((5,)).items() if u > _S["SPILLWAY"][5][0
 assert [k for k, (u, _a) in fig4_points((0, 1)).items() if u > fig4_points((0, 1))["SPILLWAY"][0]] == ["DRIFT"]
 
 NBH = "&#8209;"
-FIG4 = [  # key, tab, DATA["stress"] columns (None: Figure 4a), x range, y top, x ticks, ROPE on its authors' router
+FIG4 = [  # key, tab, DATA["stress"] columns (None: Figure 1a), x range, y top, x ticks, ROPE on its authors' router
     ("a", "Standard", None, (.18, .80), .42, (.2, .3, .4, .5, .6, .7, .8), True),
     ("b", "ChatInject", (0, 1), (0, .50), .48, (0, .1, .2, .3, .4, .5), False),
     ("c", "AutoDojo", (2, 3, 4), (.24, .68), .45, (.3, .4, .5, .6), False),
     ("d", "PISmith", (5,), (.08, .56), .62, (.1, .2, .3, .4, .5), False),
 ]
-# The stress section shows the four panels side by side, as the preprint's Figure 4 does; the hero shows (a) alone.
+# The stress section shows the four panels side by side, as the preprint's Figure 1 does; the hero shows (a) alone.
 FIG4_GRID_TITLE = "In all four attacks, SPILLWAY has the lowest attack success at three decimals. A tied defense keeps less utility."
-FIG4_GRID_META = "The preprint's Figure 4 · suite means · (a) is AgentDojo's standard attack"
+FIG4_GRID_META = "The preprint's Figure 1 · suite means · (a) is AgentDojo's standard attack"
 FIG4_GRID_NOTE = ("Only DRIFT keeps more utility, in (b) and (d), where it leaks. SPILLWAY's (c) point is descriptive, because "
                   "its address and payee-change rules were written on AutoDojo's four failing pairs. On two held-out Banking "
                   "sets it is at .007 by AgentDojo's check, .014 counting a second transfer that check misses, and at .000. "
                   "In (d) SPILLWAY and ROPE both round to .007, from 6 and 3 hits in 949 pairs.")
 FIG4_MINI_HEAD = {"a": ("Standard", f"gpt{NBH}4o{NBH}mini"), "b": ("ChatInject", "qwen3:8b"), "c": ("AutoDojo", f"gpt{NBH}4o{NBH}mini"), "d": ("PISmith", f"gpt{NBH}4o{NBH}mini")}
-# Each method keeps one mark in every panel and in the key, as in the preprint's Figure 4: SPILLWAY a blue star, ROPE an
+# Each method keeps one mark in every panel and in the key, as in the preprint's Figure 1: SPILLWAY a blue star, ROPE an
 # X, DRIFT a plus, MELON a diamond, Progent a down triangle, each in its own color; the three older baselines are gray
 # outlines, each still told apart by its mark.
 FIG4_MARK = {"SPILLWAY": ("spw", "star"), "ROPE": ("rope", "x"), "DRIFT": ("drift", "plus"), "MELON": ("melon", "diamond"),
@@ -360,7 +384,7 @@ FIG4_SHAPES = {  # SVG paths, drawn in a 12-unit box (the star in 18): the prepr
     "circle": None,  # a <circle r="4.6">
 }
 assert set(FIG4_MARK) == set(FIG4_DRAW) == set(DATA["stress"]) == set(DATA["fig4a"]) and len({s for s, _ in FIG4_MARK.values()}) == 8
-assert [k for k, *_r, ring in FIG4 if ring] == ["a"]  # the note: its authors' Claude Opus 4.8 router on (a), the agent's own model on (b), (c), (d) (Figure 4 caption, Appendix B)
+assert [k for k, *_r, ring in FIG4 if ring] == ["a"]  # the note: its authors' Claude Opus 4.8 router on (a), the agent's own model on (b), (c), (d) (Figure 1 caption, Appendix B)
 
 
 def f4_glyph(m):
@@ -374,7 +398,7 @@ def f4_glyph(m):
 
 
 def f4_name(m, key):
-    """A method's name in one panel's tooltips; ROPE's names its router there, as the preprint's Figure 4 caption does."""
+    """A method's name in one panel's tooltips; ROPE's names its router there, as the preprint's Figure 1 caption does."""
     if m != "ROPE":
         return m
     if next(r for k, *_x, r in FIG4 if k == key):
@@ -413,7 +437,7 @@ for _m, (_u, _a) in DATA["fig4a"].items():  # the tooltip's suites average to th
     assert abs(sum(r[1] for r in _rows) / 4 - _u) <= .0006 and abs(sum(r[2] for r in _rows) / 4 - _a) <= .0006, _m
 
 
-# Figure 4 (d) by suite. The preprint prints PISmith as each method's mean over the four suites (Table 7); the suites come
+# Figure 1 (d) by suite. The preprint prints PISmith as each method's mean over the four suites (Table 7); the suites come
 # from the run records those means were computed from: four aggregator reports copied byte for byte into
 # benchmarks/results/pismith_a4 (see its README). The build pins them by sha256, reads each cell (scored in full), and
 # asserts that every method's four-suite mean is its Table 7 value. Values are exact fractions, rounded half up for print.
@@ -511,7 +535,7 @@ F4_DEFS = ('<svg class="f4-defs" width="0" height="0" aria-hidden="true" focusab
            + "".join(f'<path id="f4-{k}" d="{d}"/>' for k, d in FIG4_SHAPES.items() if d) + '</defs></svg>')
 
 
-# ROPE's router in the Figure 4 note, as the preprint's caption gives it. With the agent's own model as router, its (a)
+# ROPE's router in the Figure 1 note, as the preprint's caption gives it. With the agent's own model as router, its (a)
 # point would be the mean of its four gpt-4o-mini cells in Table 1, which are Table 8's gpt-4o-mini router rows; it trails
 # SPILLWAY and leaks with either router. The caption prints these two values.
 _rope_mini = [__import__("fractions").Fraction(str(c["methods"]["ROPE"][k])) for k in ("uau", "asr") for c in _mini]
@@ -524,7 +548,7 @@ FIG4_ROPE_NOTE = ("ROPE uses its authors' Claude Opus 4.8 router on (a) and the 
 
 
 def fig4():
-    """The preprint's Figure 4 in the stress section: the four attacks side by side, one key for the marks."""
+    """The preprint's Figure 1 in the stress section: the four attacks side by side, one key for the marks."""
     key = ('<div class="f4-key" role="group" aria-label="Methods. Select one to trace it across the four attacks.">'
            + "".join(f'<button type="button" class="k m-{FIG4_MARK[m][0]}{" ctx" if m in FIG4_CTX else ""}" data-m="{FIG4_MARK[m][0]}" '
                      f'aria-pressed="false">{f4_glyph(m)}{esc(m)}</button>' for m in FIG4_KEY) + '</div>')
@@ -536,9 +560,9 @@ def fig4():
             '<a href="#heat">Every cell</a></p></div>')
 
 
-# ------------------------------------------------------------------ hero chart: Figure 4a alone, every mark named
+# ------------------------------------------------------------------ hero chart: Figure 1a alone, every mark named
 FIG1_TITLE = f"On gpt{NBH}4o{NBH}mini, only SPILLWAY reaches zero in{NBH}scope attack success, with the most utility."
-FIG1_META = f"AgentDojo's standard attack · mean of the four suites on gpt{NBH}4o{NBH}mini, one of the 3 backbones · the preprint's Figure 4a"
+FIG1_META = f"AgentDojo's standard attack · mean of the four suites on gpt{NBH}4o{NBH}mini, one of the 3 backbones · the preprint's Figure 1a"
 FIG1_X, FIG1_TOP = (.18, .85), .42  # the x range runs past .8 so SPILLWAY's name fits right of its mark on a 320 px phone
 FIG1_XT = (.2, .3, .4, .5, .6, .7, .8)
 FIG1_YT = (0, .05, .1, .2, .3, .4)
@@ -551,7 +575,7 @@ assert max(a for _u, a in DATA["fig4a"].values()) < FIG1_TOP
 
 
 def fig_hero():
-    """The hero chart: Figure 4a (the standard attack on gpt-4o-mini) alone and larger, each mark named beside it."""
+    """The hero chart: Figure 1a (the standard attack on gpt-4o-mini) alone and larger, each mark named beside it."""
     pts, low = DATA["fig4a"], F4_LOW
     out = [f'<div class="sc f4 f1">{F4_DEFS}<p class="f4-h"><b>{FIG1_TITLE}</b><span>{FIG1_META}</span></p>',
            '<p class="sc-yl" aria-hidden="true"><span>in-scope attack success (lower is better)</span><span>0 to .1 enlarged</span></p>',
@@ -584,7 +608,7 @@ def heat_class(a):
 
 
 # The paper's markers in Tables 4 and 7. ROPE's router is named once in the note: the agent's own model in every column
-# family (the Figure 4 caption, and Appendix B, Comparators).
+# family (the Figure 1 caption, and Appendix B, Comparators).
 MARK = {"Progent": "‡", "DRIFT": "†", "ROPE": "‡"}
 assert [c.split(" · ")[0] for c in DATA["stress_cols"]] == ["ChatInject"] * 2 + ["AutoDojo"] * 3 + ["PISmith"]  # the families the note names
 STRESS_GS = {i for i, c in enumerate(DATA["stress_cols"]) if i == 0 or c.split(" · ")[0] != DATA["stress_cols"][i - 1].split(" · ")[0]}
@@ -637,7 +661,7 @@ def table_stress():
 
 
 def table_cost():
-    """Added model calls and wall-clock per benign qwen3:8b episode (Figure 2 and the cost paragraph)."""
+    """Added model calls and wall-clock per benign qwen3:8b episode (Figure 3 and the cost paragraph)."""
     rows = []
     for m, (ws, sl) in DATA["calls"].items():
         cls = ' class="us"' if m == "SPILLWAY" else ""
@@ -790,10 +814,10 @@ def results_json():
     import json
     return json.dumps({"source": "SPILLWAY preprint, AgentDojo v1.2.2", "notes": {
                            "grid_means": "Table 2: twelve-cell means over 3 backbones x 4 suites; nrp_bu = bu x (1 - asr_in_scope), nrp_uau = uau x (1 - asr_in_scope) as in MCP Security Bench; ROPE's router is the cell's own backbone",
-                           "standard_attack_gpt_4o_mini_suite_means_figure_4a": "Figure 4a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
+                           "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Figure 1a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
                            "delegated_routing_vs_rope": "Table 8: gpt-4o-mini, standard attack, one run per suite (seed 42); rope_uau and rope_asr use its authors' Claude Opus 4.8 router, the rope_gpt_4o_mini_router columns the agent's own model",
                            "pismith_gpt_4o_mini_by_suite": "the run records behind Table 7 (benchmarks/results/pismith_a4); the preprint prints only each method's mean over these four suites",
-                           "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop) on gpt-4o-mini; ROPE's router is the agent's own model in all three. "
+                           "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop at ASR@1, first of ten variants per injection) on gpt-4o-mini; ROPE's router is the agent's own model in all three. "
                            "SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs. Held-out Banking sets give .000 and .007 by AgentDojo's check, .014 counting a second transfer that check misses"},
                        "grid_means": {m: dict(zip(["bu", "uau", "asr_in_scope", "nrp_bu", "nrp_uau", "ers", "cells_leaking_of_12"], v[:4] + (DATA["nrp_uau"][m],) + v[4:])) for m, v in DATA["grid"].items()},
                        "cells": CELLS, "added_model_calls_per_benign_episode_qwen3_8b": {m: {"workspace": v[0], "slack": v[1]} for m, v in DATA["calls"].items()},
@@ -802,7 +826,7 @@ def results_json():
                        "spillway_judge_calls_per_benign_episode_qwen3_8b": dict(zip(["workspace", "slack"], DATA["judge_calls"])),
                        "stress": {"columns": DATA["stress_cols"], "rows": {m: [{"uau": u, "asr_in_scope": a} for u, a in v] for m, v in DATA["stress"].items()}},
                        "pismith_gpt_4o_mini_by_suite": {m: {su: {"uau": round(float(x[0]), 4), "asr_in_scope": round(float(x[1]), 4)} for su, x in v.items()} for m, v in PIS_SUITES.items()},
-                       "standard_attack_gpt_4o_mini_suite_means_figure_4a": {m: {"uau": u, "asr_in_scope": a} for m, (u, a) in DATA["fig4a"].items()},
+                       "standard_attack_gpt_4o_mini_suite_means_figure_1a": {m: {"uau": u, "asr_in_scope": a} for m, (u, a) in DATA["fig4a"].items()},
                        "delegated_routing_vs_rope": [dict(zip(["suite", "spillway_uau", "spillway_asr", "rope_uau", "rope_asr"], r),
                                                           benchmark="AgentDojo v1.2.2" if r[0] in AGENTDOJO_SUITES else "AgentDyn",
                                                           rope_gpt_4o_mini_router_uau=own[0], rope_gpt_4o_mini_router_asr=own[1])
@@ -820,7 +844,7 @@ def why_charts():
     c3 = hbars([{"name": m, "values": list(cr[m]), "hi": m == "SPILLWAY"} for m in ("SPILLWAY", "MELON", "Progent", "DRIFT")],
                xmax=10, ticks=(0, 2, 4, 6, 8, 10), tickfmt=str, valfmt=lambda v: f"{v:.2f}", cap_id="c3-cap", series=["Workspace", "Slack"],
                axis_label="added model calls per benign episode (lower is better)")
-    # Added wall-clock (the paper's Figure 2 values). SPILLWAY's is a bound, "within 0.5 s" of the undefended agent,
+    # Added wall-clock (the paper's Figure 3 values). SPILLWAY's is a bound, "within 0.5 s" of the undefended agent,
     # timed in a separate session: its bars run to the bound and are labeled with it.
     s_, w = DATA["seconds"], DATA["spillway_within_s"]
     c4 = hbars([{"name": "SPILLWAY", "values": [w, w], "labels": [f"\u2264{w}"] * 2, "hi": True}]
@@ -850,7 +874,7 @@ def readme_panel(base):
              (d3(g["SPILLWAY"][1]), "Utility under attack, highest of the seven defenses",
               f"Task success while the injection is present. Benign utility is {d3(g['SPILLWAY'][0])} against {d3(g['Undefended'][0])} undefended.", c2),
              (f"{int(RATIO_MIN)} to {int(RATIO_MAX)}\u00d7", "Fewer added model calls than MELON, Progent and DRIFT",
-              "Per benign qwen3:8b episode, Workspace (upper bar) and Slack (lower bar), from Figure 2 of the preprint. "
+              "Per benign qwen3:8b episode, Workspace (upper bar) and Slack (lower bar), from Figure 3 of the preprint. "
               "SPILLWAY's count is its judge calls plus any change in backbone calls.", c3)]
     assert sorted(defs, key=lambda m: -g[m][1])[0] == "SPILLWAY" and g["SPILLWAY"][5] == 0
     style = TEMPLATE[TEMPLATE.index("<style>") + 7:TEMPLATE.index("</style>")]
@@ -875,7 +899,7 @@ def readme_alt():
             f"qwen3:8b episode, Workspace and Slack: {calls}.")
 
 
-assert f'alt="{readme_alt()}"' in (ROOT / "README.md").read_text(), "README's results image alt text follows DATA (readme_alt)"
+assert f'alt="{readme_alt()}"' in (ROOT / "PYPI_README.md").read_text(), "PyPI README's results image alt text follows DATA (readme_alt)"
 
 
 # ------------------------------------------------------------------ page
@@ -1225,7 +1249,7 @@ def build():
         "@@LEAK_MIN@@": str(BASE_LEAK_MIN), "@@LEAK_MAX@@": str(BASE_LEAK_MAX),
         "@@CALLS_S_W@@": f'{DATA["calls"]["SPILLWAY"][0]:.2f}', "@@CALLS_S_S@@": f'{DATA["calls"]["SPILLWAY"][1]:.2f}',
         "@@RATIO_MIN@@": str(int(RATIO_MIN)), "@@RATIO_MAX@@": str(int(RATIO_MAX)),
-        "@@REPO@@": REPO, "@@SITE@@": SITE, **tv_panels(),
+        "@@REPO@@": REPO, "@@SITE@@": SITE, **tv_panels(), **publication_slots(),
     }
     unplaced = [k for k in subs if k not in page]  # a value typed over its placeholder would stop following the data
     assert not unplaced, unplaced
@@ -1289,7 +1313,7 @@ def check_marks(page):
         assert abs(float(x) - f4_x(float(u), (float(x0), float(x1)))) < 1e-3 and abs(float(y) - f4_y(float(a), float(top), float(low))) < 1e-3, ("hero", x, y, u, a)
         assert any(abs(float(u) - wu) < 6e-5 and abs(float(a) - wa) < 6e-5 for wu, wa in DATA["fig4a"].values()), ("hero", u, a)
         n += 1
-    assert n == 8 + 8 + 2 * 8 + 4 * 8 + 8, n  # 8 utility bars, 8 call bars, 16 dumbbell dots, 32 Figure 4 points, 8 hero points
+    assert n == 8 + 8 + 2 * 8 + 4 * 8 + 8, n  # 8 utility bars, 8 call bars, 16 dumbbell dots, 32 Figure 1 points, 8 hero points
     keyed = re.findall(r'<button type="button" class="k m-([a-z]+)[^"]*" data-m="\1"', page)  # the key names every drawn method, once
     assert sorted(keyed) == sorted(s for s, _ in FIG4_MARK.values()), keyed
     mx = [re.findall(r'<td class="(ok|lk)(?: g)?"', m_) for m_ in re.findall(r'<table class="matrix">(.*?)</table>', page, re.S)]

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a bypass privately
+    url: https://github.com/saintmachines/spillway/security/advisories/new
+    about: Use GitHub's private vulnerability reporting for an injection that routes an effect to an attacker's target (see SECURITY.md).

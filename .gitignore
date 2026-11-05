@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+
+# Build artifacts
+build/
+dist/
+wheels/
+sdist/
+pip-wheel-metadata/
+*.whl
+
+# Virtual environments
+.venv/
+.venv-test/
+venv/
+env/
+ENV/
+.python-version
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Logs and run output
+*.log
+logs/
+spillway_runs/
+
+# Local scratch (never committed)
+_work/
+
+# Secrets and local config
+.env
+.env.*
+*.pem
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# local preview builds
+docs/_preview.html

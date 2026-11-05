@@ -16,7 +16,7 @@
 <meta property="og:image" content="@@SITE@@assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="SPILLWAY: 0 of 12 AgentDojo cells with an in-scope leak, utility under attack .484, 13 to 50 times fewer added model calls than MELON, Progent and DRIFT on benign qwen3:8b Workspace and Slack episodes; pip install spillway-guard.">
+<meta property="og:image:alt" content="SPILLWAY: 0 of 12 AgentDojo cells with an in-scope leak, utility under attack .484, 13 to 50 times fewer added model calls than MELON, Progent and DRIFT on benign qwen3:8b Workspace and Slack episodes. Code: github.com/saintmachines/spillway.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="@@SITE@@assets/og-card.png">
 <meta name="citation_title" content="SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection">
@@ -60,7 +60,7 @@
   --line: #e3e8ee; --line-strong: #8a96a6;
   --accent: #0070c9; --on-accent: #ffffff; --accent-ink: #005d91; --accent-fill: #0070c9; --accent-soft: #e1eff8;
   --neutral-fill: #b8793c;
-  --m-spw: #0070c9; --m-rope: #86422a; --m-drift: #da5801; --m-melon: #e1a51f; --m-melon-edge: #a87400; --m-progent: #e16dad; --m-ctx: #8a919b;  /* Figure 4: one color per method, validated all-pairs */
+  --m-spw: #0070c9; --m-rope: #86422a; --m-drift: #da5801; --m-melon: #e1a51f; --m-melon-edge: #a87400; --m-progent: #e16dad; --m-ctx: #8a919b;  /* Figure 1: one color per method, validated all-pairs */
   --bad: #ad3731; --bad-soft: #fde5dc; --good: #1d7349; --good-soft: #ddf2e7;
   --lk: #ce6862;  /* the leak matrix's leak cells */
   --h1: #fcd5cf; --h2: #f9beb6; --h3: #f6a79d; --h4: #f08f85; --h5: #af5851; --h6: #9e3b37; --h7: #8b1a1d; --h8: #6e000d;  /* stress ASR up to .01 .02 .03 .05 .10 .20 .30, then above */
@@ -209,8 +209,8 @@ h2 .q { color: var(--muted); }
 .evalbox .sep { color: var(--faint); }
 /* 1024-1179: the H1 spans the width, then install and the leak matrix on the left, the scatter card and the
    evaluated-on list (inside the card) on the right. 1180+: the card moves up beside the H1, so its chart is whole in a 1366 x 768 first screen. */
-/* Phones: H1, install, the 0-of-12 matrix, the Figure 4 card, then the links. From 1024 px: claim and install on the
-   left 7/12, the Figure 4 card on the right 5/12, the matrix band across both, then the footnote and what it was run on. */
+/* Phones: H1, install, the 0-of-12 matrix, the Figure 1 card, then the links. From 1024 px: claim and install on the
+   left 7/12, the Figure 1 card on the right 5/12, the matrix band across both, then the footnote and what it was run on. */
 @media (max-width: 1023px) { .hero-grid .pills { order: 5; margin: 24px 0 0; } .hero-grid .tm { order: 6; } .hero-grid .evalbox { order: 7; } }
 @media (min-width: 1024px) {
   .hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 48px; grid-template-rows: auto auto auto 1fr auto auto auto auto; }
@@ -261,9 +261,10 @@ a.pill:hover { color: var(--fg); border-color: var(--accent-fill); }
 .seg button { min-height: 44px; border: 0; background: var(--surface); color: var(--muted); font: 500 .8125rem var(--body); padding: 8px 12px; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--line-strong); }
 .seg button[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+.seg button:disabled { cursor: not-allowed; opacity: .6; }
 .cmd { border: 1px solid var(--code-line); display: flex; align-items: center; gap: 12px; min-width: 0; background: var(--cmd-bg); color: var(--code-fg); border-radius: 10px; padding: 8px 8px 8px 16px; font: 400 1rem/1.4 var(--mono); max-width: 560px; }
 .cmd .p { color: var(--code-accent); user-select: none; }
-.cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: 1em; scrollbar-width: none; }
+.cmd code { flex: 1; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1em; }
 .copy { flex: none; min-height: 44px; min-width: 44px; border: 1px solid rgba(220, 232, 236, .46); background: transparent; color: var(--code-fg); border-radius: 7px; padding: 8px 12px; font: 500 .8125rem var(--body); cursor: pointer; }
 .copy:hover { background: rgba(220, 232, 236, .1); }
 .btns { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -355,7 +356,7 @@ a.pill:hover { color: var(--fg); border-color: var(--accent-fill); }
 .db-kt .k.hi { left: calc(100% * var(--x) - 5px); color: var(--accent-ink); }
 .db-g { margin: 4px 0 2px; font: 500 .75rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
 .db-g.dyn { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line-strong); }
-/* Hero scatter (Figure 4a): HTML, so every name keeps its CSS size at any width and sits beside its own dot. */
+/* Hero scatter (Figure 1a): HTML, so every name keeps its CSS size at any width and sits beside its own dot. */
 .sc { display: grid; gap: 8px; }
 .sc-h { font-size: var(--fs-label); line-height: 1.45; color: var(--muted); }
 .sc-h b { display: block; margin-bottom: 2px; font: 600 var(--fs-body)/1.35 var(--body); color: var(--fg); }
@@ -390,7 +391,7 @@ a.pill:hover { color: var(--fg); border-color: var(--accent-fill); }
 .pt.grp b { left: -4px; bottom: 12px; transform: none; }
 .pt.nl b { display: none; }
 .pt.z b { bottom: 5px; transform: none; }  /* on the zero line: the name sits above it, not struck through */
-/* Figure 4 as in the preprint: the four attacks side by side, marks without names (the key names them, each mark's tip
+/* Figure 1 as in the preprint: the four attacks side by side, marks without names (the key names them, each mark's tip
    gives its values), one y-axis caption and one x-axis caption for all four. */
 .f4-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; }
 @media (max-width: 379px) { .f4-grid { grid-template-columns: minmax(0, 1fr); } }  /* small phones: one panel per row, so a plot is not under 100 px wide */
@@ -842,7 +843,7 @@ a.pill:active, .btn:active, .nav-links a:active, .menu-panel a:active, footer na
 @media (max-width: 340px) { .cmd, .path .cmd { font-size: var(--fs-label); } .cmd .copy { padding: 8px; } }
 /* Short windows: the hero scales with the window height; nothing is hidden or moved. Desktop: --shrink runs from 0 at
    a 768 px tall window to 1px at 640 px, and each size is its 768 px value minus a multiple of it, so the H1, install
-   command, three numbers and Figure 4 chart stay in the first screen (the whole card from 1180 px wide). Phones: the
+   command, three numbers and Figure 1 chart stay in the first screen (the whole card from 1180 px wide). Phones: the
    same between 740 and 553 px of small-viewport height, which brings "0 of 12" into a 375 x 553 window. */
 @media (min-width: 1024px) and (max-height: 767px) {
   .hero { --shrink: calc(1px - clamp(0px, (100vh - 640px) / 128, 1px)); padding-top: calc(12px - 8 * var(--shrink)); }
@@ -911,7 +912,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 .code.bib details.m.fold > summary.ph::after { color: var(--code-muted); }
 .heatdet { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .heatdet[open] { padding-bottom: 16px; } .heatdet > .note { margin: 0 0 12px; }
-/* The hero chart: Figure 4a alone, larger, every mark named beside it. */
+/* The hero chart: Figure 1a alone, larger, every mark named beside it. */
 .f1 .sc-plot { height: 300px; }
 .f1 .pt i { left: -7px; bottom: -7px; width: 14px; height: 14px; border-radius: 0; background: none; box-shadow: none; }
 .f1 .pt.m-spw i { left: -11px; bottom: -11px; width: 22px; height: 22px; }
@@ -1011,7 +1012,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
         <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><path d="M7 9h18v3H7zM7 15h11v3H7zM7 21h18v3H7z" fill="var(--on-accent)"/><path d="M20 14l5 2.5-5 2.5z" fill="var(--on-accent)"/></svg>
         SPILLWAY
       </a>
-      <a class="ver" href="@@REPO@@/releases/tag/v0.1.0" aria-label="v0.1.0 release notes">v0.1.0</a>
+      <a class="ver" href="@@RELEASE_NOTES_URL@@" aria-label="v0.1.0 release notes">v0.1.0</a>
     </div>
     <nav class="nav-links" aria-label="Sections">
       <a class="opt" href="#results">Results</a>
@@ -1036,8 +1037,9 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
     <div class="hero-copy">
       <p class="lede"><strong>SPILLWAY checks recipients against the user's task and the typed fields of tool returns.</strong><a class="fn" href="#tm" aria-label="Footnote 1, the threat model">1</a><span class="more"> Its core check, the egress floor, is a set lookup, and delegation rules recheck refusals only.</span> The two-view judge is off by default and on in these results.</p>
       <div class="cta">
-        <div class="install-head"><span>Install</span><div class="seg" role="tablist" aria-label="Install command"><button type="button" role="tab" aria-selected="true" data-cmd="pip install spillway-guard">pip</button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-cmd="uv pip install spillway-guard">uv</button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-cmd="pip install git+@@REPO@@@v0.1.0">source</button></div></div>
-        <div class="cmd"><span class="p" aria-hidden="true">$</span><code id="cmd-install">pip install spillway-guard</code><button class="copy" type="button" data-copy="#cmd-install" aria-label="Copy install command">Copy</button></div>
+        <div class="install-head"><span>Install</span><div class="seg" role="tablist" aria-label="Install command">@@INSTALL_TABS@@</div></div>
+        <div class="cmd"><span class="p" aria-hidden="true">$</span><code id="cmd-install">@@INSTALL_COMMAND@@</code><button class="copy" type="button" data-copy="#cmd-install" aria-label="Copy install command">Copy</button></div>
+        <p class="req">@@INSTALL_NOTE@@</p>
         <p class="req">Python 3.10+ · Apache-2.0 · v0.1.0 <span class="venue">Earlier version accepted · NeurIPS 2026 Workshop<span class="tl"> · Agents in the Wild</span></span></p>
         <div class="btns">
           <a class="btn" href="#start">Try the quickstart</a>
@@ -1062,7 +1064,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       @@TV_CELLS@@@@TV_MEANS@@
     </figure>
     <figure class="proofcard" aria-labelledby="f1-cap">
-      <p class="sr" id="f1-cap">Redrawn from Figure 4a of the preprint, with the y axis enlarged from 0 to .1: utility under attack against in-scope attack success for eight methods under AgentDojo's standard attack on gpt-4o-mini</p>
+      <p class="sr" id="f1-cap">Redrawn from Figure 1a of the preprint, with the y axis enlarged from 0 to .1: utility under attack against in-scope attack success for eight methods under AgentDojo's standard attack on gpt-4o-mini</p>
       @@FIG1@@
       @@TV_FIG4A@@
     </figure>
@@ -1096,14 +1098,14 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
         <h3 id="c3-cap">@@CALLS_S_W@@ to @@CALLS_S_S@@ added model calls per benign episode</h3>
         <p class="sub">Against MELON, Progent and DRIFT, on qwen3:8b benign Workspace and Slack episodes. SPILLWAY's count is its judge calls plus any change in backbone calls. Ratios are per suite.</p>
         @@C3@@
-        <p class="src">Source: Figure 2 of the preprint, its Workspace and Slack panels · <a href="results.html#calls" data-tv="tv-calls">Table of values</a> · <a href="@@REPO@@/blob/main/reproduce/README.md">Reproduce the runs</a></p>
+        <p class="src">Source: Figure 3 of the preprint, its Workspace and Slack panels · <a href="results.html#calls" data-tv="tv-calls">Table of values</a> · <a href="@@REPO@@/blob/main/reproduce/README.md">Reproduce the runs</a></p>
       </figure>
       <figure class="card" id="c-time" style="margin:0">
         <div class="big">within @@SPW_WITHIN_S@@ s</div>
         <h3 id="c4-cap">added time per benign episode</h3>
         <p class="sub">MELON, Progent and DRIFT add @@SECS_MIN@@ to @@SECS_MAX@@ s on the same benign qwen3:8b episodes, using one RTX PRO 6000. SPILLWAY was timed in a separate session. Seconds depend on the serving stack.</p>
         @@C4@@
-        <p class="src">Source: Figure 2 of the preprint, its Workspace and Slack panels · <a href="results.html#calls" data-tv="tv-calls">Table of values</a> · <a href="@@REPO@@/blob/main/benchmarks/scripts/make_tables.py#@@MT_COST_L@@">Recompute</a></p>
+        <p class="src">Source: Figure 3 of the preprint, its Workspace and Slack panels · <a href="results.html#calls" data-tv="tv-calls">Table of values</a> · <a href="@@REPO@@/blob/main/benchmarks/scripts/make_tables.py#@@MT_COST_L@@">Recompute</a></p>
       </figure>
     </div>
     <p class="swipe-hint" aria-hidden="true">Swipe the charts sideways →</p>
@@ -1118,8 +1120,8 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
   <div class="wrap">
     <div class="head">
       <p class="eyebrow">Beyond the grid · AgentDyn and stress tests</p>
-      <h2 id="stress-h">Zero in&#8209;scope attack success on all seven suites, one run each on gpt&#8209;4o&#8209;mini. <span class="q">At&nbsp;most&nbsp;@@STRESS_MAX@@ under three stronger attacks.</span></h2>
-      <p>The seven suites are AgentDojo's four and AgentDyn's three, one run each on gpt&#8209;4o&#8209;mini. The first chart compares SPILLWAY with ROPE, the closest defense. The second adds three stronger attacks: forged chat turns, optimized injections and an RL attacker. The @@STRESS_MAX@@ is under PISmith. ROPE matches it there, with lower utility.</p>
+      <h2 id="stress-h">Zero in&#8209;scope attack success on all seven suites, one run each on gpt&#8209;4o&#8209;mini. <span class="q">Raw zero under forged chat turns, mean&nbsp;@@STRESS_MAX@@ under&nbsp;@@STRESS_MAX_COL@@.</span></h2>
+      <p>The seven suites are AgentDojo's four and AgentDyn's three, one run each on gpt&#8209;4o&#8209;mini. The first chart compares SPILLWAY with ROPE, the closest defense. The second adds three stronger attacks: forged chat turns, optimized injections and an RL attacker. ROPE matches the @@STRESS_MAX@@ under PISmith, with lower utility.</p>
     </div>
     <div class="split">
       <figure class="card" id="vs-rope" style="margin:0">
@@ -1127,12 +1129,12 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
         <p class="sub">The closest defense is ROPE, run with its authors' Claude Opus 4.8 router. The agent is gpt-4o-mini under the standard attack. In many AgentDyn tasks, the recipient comes from tool output.</p>
         @@ROPE@@
         <p class="sub" style="margin-top:8px">When ROPE's router is gpt-4o-mini, the agent's own model, its mean utility falls from @@RA_FROM@@ to @@RA_MEAN@@. It still leaks on Shopping (@@RA_SHOP@@) and Slack (@@RA_SLACK@@).</p>
-        <p class="src">Source: Figure 3 and Table 8 of the preprint, one run per suite (seed 42), mean unweighted over suites · <a href="results.html#rope" data-tv="tv-rope">Table of values</a></p>
+        <p class="src">Source: Figure 4 and Table 8 of the preprint, one run per suite (seed 42), mean unweighted over suites · <a href="results.html#rope" data-tv="tv-rope">Table of values</a></p>
       </figure>
       @@TV_ROPE@@
       <div class="stack-col">
         <figure class="card f4card" id="all-attacks" aria-labelledby="f4-cap" style="margin:0">
-          <p class="sr" id="f4-cap">Redrawn from Figure 4 of the preprint, with the y axis enlarged from 0 to .1: utility under attack against in-scope attack success for eight methods under four attacks</p>
+          <p class="sr" id="f4-cap">Redrawn from Figure 1 of the preprint, with the y axis enlarged from 0 to .1: utility under attack against in-scope attack success for eight methods under four attacks</p>
           @@FIG4@@
         </figure>
       </div>
@@ -1145,7 +1147,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
         <p class="mk-legend">@@MARK_LEGEND@@</p>
         <p class="note">Pair counts and run notes are on the <a href="results.html#stress">results page</a>.</p>
         </details>
-        <p class="note">ChatInject runs on qwen3:8b. AutoDojo and PISmith run on gpt-4o-mini, and PISmith is replayed open-loop. Source: Tables 4 and 7 of the preprint · <a href="#heat">Table of values</a>.</p>
+        <p class="note">ChatInject runs on qwen3:8b. AutoDojo and PISmith run on gpt-4o-mini, and PISmith is replayed open-loop at ASR@1, using the first of ten variants per injection. Source: Tables 4 and 7 of the preprint · <a href="#heat">Table of values</a>.</p>
       </div>
     </div>
   </div>
@@ -1292,9 +1294,9 @@ print(sanitize(text, span_sink=spans))
       <div class="scroll"><table class="data gate">
         <thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">Evidence</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Paper tables from the per-cell files</th><td>@@MT_N@@ of @@MT_N@@ checks pass: Tables 1 to 3, six of the eight rows of Table 4's ChatInject panel, Table 8 and Figure 2's Workspace and Slack values</td><td><a href="@@REPO@@/blob/main/benchmarks/scripts/make_tables.py">make_tables.py</a> <a href="@@REPO@@/blob/main/benchmarks/TABLES.md">TABLES.md</a></td></tr>
+          <tr><th scope="row">Paper tables from the per-cell files</th><td>@@MT_N@@ of @@MT_N@@ checks pass: Tables 1 to 3, six of the eight rows of Table 4's ChatInject panel, Table 8 and Figure 3's Workspace and Slack values</td><td><a href="@@REPO@@/blob/main/benchmarks/scripts/make_tables.py">make_tables.py</a> <a href="@@REPO@@/blob/main/benchmarks/TABLES.md">TABLES.md</a></td></tr>
           <tr><th scope="row">Shipped files against the provenance record</th><td>@@PROV_N@@ of @@PROV_N@@ sha256 match: @@PROV_KINDS@@</td><td><a href="@@REPO@@/blob/main/reference/BUILD_PROVENANCE.md">BUILD_PROVENANCE.md</a></td></tr>
-          <tr><th scope="row">Tests</th><td>@@TESTS_N@@ of @@TESTS_N@@ pass, including @@DIFF_N@@ that compare the sanitizer, the identity index and the floor's verdict with the evaluated gate on synthetic inputs. The package is stricter than that gate on the paths the changelog lists. The gate's self-test passes.</td><td><a href="@@REPO@@/tree/main/tests">tests/</a> <code>make selftest</code></td></tr>
+          <tr><th scope="row">Tests</th><td>@@TESTS_N@@ of @@TESTS_N@@ pass, including @@DIFF_N@@ that compare the sanitizer, the identity index and the floor's verdict with the evaluated gate on synthetic inputs. The library checks have regression cases in <code>tests/test_hardening.py</code> and a version record in the changelog. The gate's self-test passes.</td><td><a href="@@REPO@@/tree/main/tests">tests/</a> <code>make selftest</code></td></tr>
         </tbody>
       </table></div>
       <details class="m code transcript" open aria-label="What the table and test checks print"><summary class="ph">What the table and test checks print</summary>
@@ -1377,7 +1379,7 @@ print(sanitize(text, span_sink=spans))
       </div>
       <ul class="paths">
         <li class="path"><h3>Read it</h3><p>The preprint, its threat model and every table behind this page.</p><a href="SPILLWAY_preprint.pdf">Read the paper (PDF) →</a></li>
-        <li class="path"><h3>Build with it</h3><p>Install it and put two calls in your tool loop. The judge is optional.</p><div class="cmd"><span class="p" aria-hidden="true">$</span><code id="cmd-install2">pip install spillway-guard</code><button class="copy" type="button" data-copy="#cmd-install2" aria-label="Copy install command">Copy</button></div><a href="#start">Try the quickstart →</a></li>
+        <li class="path"><h3>Build with it</h3><p>Install it and put two calls in your tool loop. The judge is optional.</p><div class="cmd"><span class="p" aria-hidden="true">$</span><code id="cmd-install2">@@INSTALL_COMMAND@@</code><button class="copy" type="button" data-copy="#cmd-install2" aria-label="Copy install command">Copy</button></div><a href="#start">Try the quickstart →</a></li>
         <li class="path"><h3>Break it</h3><p>Report privately any injection that reaches an attacker's target within the threat model.</p><a href="@@REPO@@/security/advisories/new">Report a bypass →</a></li>
       </ul>
     </div>
@@ -1427,7 +1429,7 @@ print(sanitize(text, span_sink=spans))
 
   var seg = document.querySelector('.seg');
   if (seg) {
-    var sb = Array.prototype.slice.call(seg.querySelectorAll('button'));
+    var sb = Array.prototype.slice.call(seg.querySelectorAll('button:not(:disabled)'));
     sb.forEach(function (b, i) {
       b.addEventListener('click', function () { sb.forEach(function (x) { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; }); document.getElementById('cmd-install').textContent = b.getAttribute('data-cmd'); });
       b.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var n = sb[(i + (e.key === 'ArrowRight' ? 1 : sb.length - 1)) % sb.length]; n.click(); n.focus(); e.preventDefault(); } });

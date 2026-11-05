@@ -1,0 +1,20 @@
+# Lint and format settings for the SPILLWAY package.
+line-length = 120
+target-version = "py310"
+
+# Research artifacts shipped as evidence are kept byte for byte and are not linted:
+# reference/ (the gate as evaluated and the harness it imports), benchmarks/ (the paper's
+# result files and the appendix script), docs/ (project page), _work/ (scratch).
+extend-exclude = ["reference", "benchmarks", "docs", "_work"]
+
+[lint]
+# pyflakes, the pycodestyle error classes ruff enables by default, warnings, and import order.
+# E501 (line too long) is left off on purpose: the floor's rule tables carry long literal lines.
+select = ["E4", "E7", "E9", "F", "W", "I"]
+
+[lint.isort]
+known-first-party = ["spillway_guard"]
+
+[format]
+quote-style = "double"
+indent-style = "space"

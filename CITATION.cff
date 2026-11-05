@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use SPILLWAY in your work, please cite the paper listed under preferred-citation."
+type: software
+title: "SPILLWAY"
+abstract: "Prompt-injection defense for tool-using LLM agents: a typed-identity egress floor, a rule-based ingress sanitizer, and an optional judge that reviews refused calls."
+authors:
+  - family-names: Lim
+    given-names: Woosang
+  - family-names: Chang
+    given-names: Yeseul
+  - family-names: Lee
+    given-names: Jaewoo
+version: 0.1.0
+license: Apache-2.0
+repository-code: "https://github.com/saintmachines/spillway"
+url: "https://saintmachines.github.io/spillway/"
+keywords:
+  - prompt injection
+  - LLM agents
+  - tool use
+  - agent security
+  - AgentDojo
+preferred-citation:
+  type: unpublished
+  title: "SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection"
+  authors:
+    - family-names: Lim
+      given-names: Woosang
+    - family-names: Chang
+      given-names: Yeseul
+    - family-names: Lee
+      given-names: Jaewoo
+  year: 2026
+  url: "https://github.com/saintmachines/spillway/blob/main/docs/SPILLWAY_preprint.pdf"
+  notes: "Preprint."
