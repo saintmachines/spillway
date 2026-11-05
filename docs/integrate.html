@@ -981,7 +981,8 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 .vm.r { color: var(--good); } .vm.wa { color: var(--bad); } .vm.ww { color: var(--muted); }
 .callc.vr { border-left-color: var(--good); } .callc.vwa { border-left-color: var(--bad); background: var(--bad-soft); } .callc.vww { border-left-color: var(--line-strong); }
 .runhead { margin: 0; font: 600 var(--fs-body)/1.3 var(--body); color: var(--fg); flex: 1 1 220px; }
-/* Table 2 in one line, in the leak band under the matrix: each mean's full name, value, place and definition. */
+.rs-home { margin-top: 32px; min-width: 0; }
+/* Table 2 in one line, with the result cards: each mean's full name, value, place and definition. */
 .rs { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 12px; min-width: 0; }
 .rs-h { margin: 0; font-size: var(--fs-cap); line-height: 1.45; color: var(--muted); } .rs-h b { color: var(--fg); font-weight: 600; }
 .rs-g { margin: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px 20px; }
@@ -1039,9 +1040,10 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       <a class="ver" href="https://github.com/saintmachines/spillway/blob/v0.1.0/CHANGELOG.md" aria-label="v0.1.0 release notes">v0.1.0</a>
     </div>
     <nav class="nav-links" aria-label="Project navigation">
+      <a class="opt" href="index.html#demo">Demo</a>
+      <a class="opt" href="results.html">Results</a>
       <a class="opt" href="index.html#start">Quickstart</a>
       <a class="opt" href="integrate.html" aria-current="page">Integrate</a>
-      <a class="opt" href="results.html">Results</a>
       <a href="SPILLWAY_preprint.pdf">Paper</a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">Menu</button>
       <a class="gh" href="https://github.com/saintmachines/spillway" aria-label="SPILLWAY on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="t">GitHub</span><span id="stars"></span></a>
@@ -1049,10 +1051,10 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
     </nav>
   </div>
   <div class="menu-panel" id="menuPanel" hidden>
-    <a href="index.html#start">Quickstart</a><a href="integrate.html" aria-current="page">Integrate in an app</a>
     <a href="index.html#demo">Recorded demo</a><a href="results.html">Results</a>
-    <a class="wide" href="index.html#stress">AgentDyn, ROPE and stress tests</a>
-    <a href="index.html#how">How it works</a><a href="index.html#reproduce">Reproduce</a>
+    <a href="index.html#start">Quickstart</a><a href="integrate.html" aria-current="page">Integrate in an app</a>
+    <a href="index.html#how">How it works</a><a class="wide" href="index.html#stress">AgentDyn, ROPE and stress tests</a>
+    <a href="index.html#reproduce">Reproduce</a>
     <a href="index.html#scope">Scope</a><a href="index.html#faq">FAQ</a><a href="index.html#cite">Cite</a>
     <a href="https://saintmachines.ai">SAINT Machines</a><a href="https://saintmachines.github.io/MUSTER/">MUSTER</a>
   </div>
@@ -1084,6 +1086,7 @@ python docs/examples/local_app_demo.py --report app-check.json</pre></div>
     <li><span class="n">4</span><h3>Observe the return</h3><p>Validate raw responses before observing them. Observe error bodies as untyped text. Return only sanitized <code>model_text</code> to the agent.</p></li>
   </ol>
   <p class="note" style="margin-top:24px">Use one guard for each user task and keep this example sequential. The tool owner supplies trusted schemas and a complete role vocabulary. Schema validation does not authenticate a sender or infer new roles.</p>
+  <p class="note" style="margin-top:16px">For an optional judge using an Ollama reasoning model, set <code>Judge(endpoint, "gemma4:31b", extra_body={"reasoning_effort": "none"})</code>. Turn the model's thinking off, as the paper's runs did. The local HTTP examples run without a model.</p>
 </div></section>
 <section class="band" aria-labelledby="data-h"><div class="wrap" id="data">
   <div class="head stack"><p class="eyebrow">Ordinary data and adapters</p><h2 id="data-h">Keep the tool's contract at the boundary.</h2><p>The library accepts typed models, dictionaries, lists and text. What becomes an admitted identity depends on the tool's declared type and role contract.</p></div>
@@ -1094,10 +1097,11 @@ python docs/examples/local_app_demo.py --report app-check.json</pre></div>
     <tr><td>CSV</td><td>Parse rows explicitly and validate them with the tool's model. Raw CSV remains text.</td></tr>
     <tr><td>New tool or argument names</td><td>Declare read/write and target roles with <code>Lexicon.extend</code>. The example uses the existing <code>sender</code> and <code>recipients</code> vocabulary.</td></tr>
   </tbody></table></div>
-  <h3 style="margin-top:24px">Keep unrelated records separate.</h3>
-  <p>The frozen 0.1.0 sanitizer can match ordinary phrases such as “AI assistant” or “tool call” and remove the rest of a whole rendered list. For a trusted model containing independent records, the example supports <code>ToolSpec(..., record_field="messages")</code>: it indexes the full response once and sanitizes each record separately. The matching record can still lose its own text; single-document false positives and large-collection performance remain limitations.</p>
-  <p>Run <code>python docs/examples/collection_demo.py --report collection-check.json</code> from the current checkout to replay seven benign inputs and three synthetic injection forms over local HTTP. This checks the adapter path, not general benign precision or attack coverage. New tool names and routing arguments require explicit, reviewed role mappings.</p>
-  <p class="note" style="margin-top:16px"><a href="https://github.com/saintmachines/spillway/blob/main/docs/examples/README.md#keep-unrelated-records-separate">Collection guide</a> · <a href="examples/collection_demo.py" download>Collection replay source</a> · <a href="https://github.com/saintmachines/spillway/blob/main/SECURITY.md">Integration conditions</a> · <a href="https://github.com/saintmachines/spillway/blob/main/src/spillway_guard/guard.py">Guard API</a> · <a href="https://github.com/saintmachines/spillway/blob/main/src/spillway_guard/lexicon.py">Role vocabulary</a>.</p>
+  <h3 style="margin-top:24px">Lists of records.</h3>
+  <p>For a trusted response model containing independent records, use <code>ToolSpec(..., record_field="messages")</code>. The boundary indexes the complete typed response once and renders each declared field separately, so the filter's region stays within that field. The application supplies the schema and record boundary.</p>
+  <p>Declare routing arguments such as <code>target_user</code> in <code>target_fields</code> and add their role with <code>Lexicon.extend</code>. Registration checks that the declared fields exist in the argument model and that the vocabulary recognizes their role. Review the complete tool contract before connecting a new service.</p>
+  <p>Run <code>python docs/examples/collection_demo.py --report collection-check.json</code> from the current checkout for the local HTTP replay. The collection example renders fields separately; paper reproduction uses the evaluated runner under <code>reference/</code>. Its benchmark values describe that evaluated path.</p>
+  <p class="note" style="margin-top:16px"><a href="https://github.com/saintmachines/spillway/blob/main/docs/examples/README.md#lists-of-records">Collection guide</a> · <a href="examples/collection_demo.py" download>Collection replay source</a> · <a href="https://github.com/saintmachines/spillway/blob/main/SECURITY.md">Integration conditions</a> · <a href="https://github.com/saintmachines/spillway/blob/main/src/spillway_guard/guard.py">Guard API</a> · <a href="https://github.com/saintmachines/spillway/blob/main/src/spillway_guard/lexicon.py">Role vocabulary</a>.</p>
 </div></section>
 <section class="band alt" aria-labelledby="record-h"><div class="wrap">
   <div class="head stack"><p class="eyebrow">Read the execution record</p><h2 id="record-h">An error can arrive after a write.</h2><p><code>requests_sent=0</code> means transport was never attempted, <code>1</code> means an HTTP response confirmed a request, and <code>None</code> means delivery is unknown after a transport failure. A write's effects remain <code>unknown</code> until the application reconciles them. The fixture records its actual effects separately.</p></div>

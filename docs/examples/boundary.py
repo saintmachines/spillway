@@ -40,6 +40,9 @@ class ToolSpec:
     # A trusted schema field containing independent records, not a delimiter
     # inferred from the untrusted text. Other responses keep the library path.
     record_field: str | None = None
+    # The application declares these routing fields; registration checks the
+    # schema and vocabulary agree. Their meaning is not inferred from values.
+    target_fields: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -107,6 +110,15 @@ class ToolBoundary:
                         or members[0].model_config.get("strict") is not True
                         or members[0].model_config.get("extra") != "forbid"):
                     raise ValueError("record_field must name a list of strict, extra-forbid record models")
+            if (not isinstance(spec.target_fields, tuple)
+                    or any(not isinstance(field, str) for field in spec.target_fields)
+                    or len(set(spec.target_fields)) != len(spec.target_fields)):
+                raise ValueError("Declare unique target field names as a tuple")
+            for field in spec.target_fields:
+                if field not in spec.args_model.model_fields:
+                    raise ValueError("A declared target field must exist in the argument model")
+                if not lex.is_target_arg(field):
+                    raise ValueError("Declare each target field in the role lexicon before registration")
             self.tools[spec.name] = spec
         self.guard = Guard(user_task, lexicon=lex, judge=judge)
         self.base_url = f"http://127.0.0.1:{url.port}"
@@ -143,9 +155,9 @@ class ToolBoundary:
         records = getattr(value, spec.record_field)
         parts = []
 
-        def segment(raw: Any) -> str:
+        def filtered(piece: str) -> str:
             spans: list[str] = []
-            text = sanitize(format_return(raw), spans, control_tokens=True,
+            text = sanitize(piece, spans, control_tokens=True,
                             injected_imperatives=True,
                             agent_addressed=self.guard.policy.ingress_agentaddr,
                             forged_turns_in_spans=True)
@@ -153,6 +165,12 @@ class ToolBoundary:
                 self.guard.index.add_spans(spans)
             self.guard.observe_text(text)
             return text
+
+        def segment(raw: Any) -> str:
+            # The trusted model supplies each field boundary. A region in a
+            # message body then stays in that body, preserving its sender.
+            data = raw.model_dump() if isinstance(raw, BaseModel) else raw
+            return "\n".join(filtered(format_return({key: data[key]})) for key in sorted(data))
 
         metadata = value.model_dump(exclude={spec.record_field})
         if metadata:

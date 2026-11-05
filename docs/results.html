@@ -981,7 +981,8 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 .vm.r { color: var(--good); } .vm.wa { color: var(--bad); } .vm.ww { color: var(--muted); }
 .callc.vr { border-left-color: var(--good); } .callc.vwa { border-left-color: var(--bad); background: var(--bad-soft); } .callc.vww { border-left-color: var(--line-strong); }
 .runhead { margin: 0; font: 600 var(--fs-body)/1.3 var(--body); color: var(--fg); flex: 1 1 220px; }
-/* Table 2 in one line, in the leak band under the matrix: each mean's full name, value, place and definition. */
+.rs-home { margin-top: 32px; min-width: 0; }
+/* Table 2 in one line, with the result cards: each mean's full name, value, place and definition. */
 .rs { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 12px; min-width: 0; }
 .rs-h { margin: 0; font-size: var(--fs-cap); line-height: 1.45; color: var(--muted); } .rs-h b { color: var(--fg); font-weight: 600; }
 .rs-g { margin: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px 20px; }
@@ -1039,9 +1040,10 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       <a class="ver" href="https://github.com/saintmachines/spillway/blob/v0.1.0/CHANGELOG.md" aria-label="v0.1.0 release notes">v0.1.0</a>
     </div>
     <nav class="nav-links" aria-label="Project navigation">
+      <a class="opt" href="index.html#demo">Demo</a>
+      <a class="opt" href="results.html" aria-current="page">Results</a>
       <a class="opt" href="index.html#start">Quickstart</a>
       <a class="opt" href="integrate.html">Integrate</a>
-      <a class="opt" href="results.html" aria-current="page">Results</a>
       <a href="SPILLWAY_preprint.pdf">Paper</a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">Menu</button>
       <a class="gh" href="https://github.com/saintmachines/spillway" aria-label="SPILLWAY on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="t">GitHub</span><span id="stars"></span></a>
@@ -1049,10 +1051,10 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
     </nav>
   </div>
   <div class="menu-panel" id="menuPanel" hidden>
-    <a href="index.html#start">Quickstart</a><a href="integrate.html">Integrate in an app</a>
     <a href="index.html#demo">Recorded demo</a><a href="results.html" aria-current="page">Results</a>
-    <a class="wide" href="index.html#stress">AgentDyn, ROPE and stress tests</a>
-    <a href="index.html#how">How it works</a><a href="index.html#reproduce">Reproduce</a>
+    <a href="index.html#start">Quickstart</a><a href="integrate.html">Integrate in an app</a>
+    <a href="index.html#how">How it works</a><a class="wide" href="index.html#stress">AgentDyn, ROPE and stress tests</a>
+    <a href="index.html#reproduce">Reproduce</a>
     <a href="index.html#scope">Scope</a><a href="index.html#faq">FAQ</a><a href="index.html#cite">Cite</a>
     <a href="https://saintmachines.ai">SAINT Machines</a><a href="https://saintmachines.github.io/MUSTER/">MUSTER</a>
   </div>
@@ -1123,7 +1125,7 @@ make_tables.py: 590 checks pass
       <h2 id="faq-h">Before you add it to your agent.</h2>
     </div>
     <div class="faq">
-      <div class="qa" id="faq-model"><details class="m" open><summary><h3>Does it need a model?</h3></summary><p>No. The sanitizer and the floor are rules. The judge is optional and works with an OpenAI-compatible endpoint, <code>Guard(task, judge=Judge(endpoint, model))</code>. Without a judge, a call only the judge could admit is refused. The paper's Table 3 disables recovery of refused identity targets while keeping fixed delegation rules and the object judge enabled. The qwen3:8b cells have zero attack success, at mean utility .354 instead of .370.</p></details></div>
+      <div class="qa" id="faq-model"><details class="m" open><summary><h3>Does it need a model?</h3></summary><p>No. The sanitizer and the floor are rules. The judge is optional and works with an OpenAI-compatible endpoint, <code>Guard(task, judge=Judge(endpoint, model))</code>. On Ollama, turn a reasoning model’s thinking off, as the paper’s runs did: <code>Judge(endpoint, "gemma4:31b", extra_body={"reasoning_effort": "none"})</code>. Without a judge, a call only the judge could admit is refused. The paper's Table 3 disables recovery of refused identity targets while keeping fixed delegation rules and the object judge enabled. The qwen3:8b cells have zero attack success, at mean utility .354 instead of .370.</p></details></div>
       <div class="qa" id="faq-judge"><details class="m" open><summary><h3>How large must the judge be?</h3></summary><p>The paper uses a 4-bit gemma4:31b on local Ollama. A 4-bit gemma4:12b also kept zero attack success on the qwen3:8b cells and the ChatInject panel, at utility .348 instead of .370.</p></details></div>
       <div class="qa" id="faq-tools"><details class="m" open><summary><h3>My tools are not AgentDojo's. What do I declare?</h3></summary><p>Return typed objects, such as pydantic models. Declare your tool-name prefixes and target-argument names once, for example <code>Lexicon().extend(target_arg_hints={"payee"})</code>. Then pass the lexicon to <code>Guard</code>.</p></details></div>
       <div class="qa" id="faq-refused"><details class="m" open><summary><h3>What happens when a call is refused?</h3></summary><p>The agent gets a tool message, <code>decision.refusal_text(name)</code>, that asks it to retry with values from the user's request. The episode goes on.</p></details></div>

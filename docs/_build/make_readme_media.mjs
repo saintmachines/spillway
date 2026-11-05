@@ -21,7 +21,7 @@ const WIDTH = {desk: 838, phone: 324}, SCALE = 2, MARGIN = 16, RADIUS = 16;
 const FONTS = ['Fraunces', 'IBM Plex Sans', 'IBM Plex Mono'];
 
 // What the pictures never show: the sticky header, the menu, buttons, hints and the hidden table views.
-const KEEP_OUT = 'header.nav,.menu-panel,#tip,.swipe-hint,.pager,.tv,.copy,button.copy{display:none!important}*{scroll-behavior:auto!important}';
+const KEEP_OUT = 'header.nav,.menu-panel,#tip,.swipe-hint,.pager,.tv,.copy,button.copy{display:none!important}*{scroll-behavior:auto!important}main a{text-decoration:none!important;color:inherit!important}';
 // sel: the region. vw: the window width that lays the region out as the README shows it. A window widens by what a
 // region would scroll sideways, by at most 200 px. hide: parts left out.
 const SHOTS = [
@@ -31,11 +31,16 @@ const SHOTS = [
   // the footnote it marks (#tm) is left out, so its mark is too
   {name: 'hero', sel: '#top .hero-grid', vw: {desk: 1100, phone: WIDTH.phone},
    hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn,#top .byline'},
+  {name: 'demo', sel: '#demo .wrap', vw: {desk: 1100, phone: WIDTH.phone},
+   hide: '#demo-box,#demo .note',
+   css: '.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
+  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, hide: '#infoRet'},
   {name: 'leaks', sel: '#leaks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
   // on a phone the page swipes through the three cards, the README stacks them
   {name: 'results', sel: '#results .charts', vw: {desk: 1100, phone: WIDTH.phone},
    phone: '#results .charts{display:grid!important;grid-template-columns:1fr!important;gap:16px!important;overflow:visible!important}' +
           '#results .charts>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}'},
+  {name: 'means', sel: '#results .rs', vw: {desk: 1100, phone: WIDTH.phone}},
   {name: 'rope', sel: '#vs-rope', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
   {name: 'attacks', sel: '#all-attacks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
   {name: 'steps', sel: '#how ol.steps', vw: {desk: 1100, phone: WIDTH.phone},
@@ -91,6 +96,22 @@ async function shoot(browser, url, s, kind, vw = s.vw[kind]) {
   await page.evaluate(() => document.fonts.ready);
   const fonts = await page.evaluate(F => F.filter(f => !document.fonts.check('16px "' + f + '"')), FONTS);
   if (fonts.length) throw new Error(`${s.name} ${kind}: web fonts not loaded: ${fonts.join(', ')}`);
+  // Actions in a PNG cannot be clicked. Each picture is linked by the README
+  // instead, and instruction-like link text is omitted from the captured UI.
+  await page.evaluate(() => {
+    const dead = /^(Table of values|Recompute|Reproduce the runs|All four attacks|On the results page|Every cell)/;
+    for (const a of document.querySelectorAll('main a')) {
+      if (!dead.test(a.textContent.trim())) continue;
+      const previous = a.previousSibling;
+      if (previous?.nodeType === 3) previous.textContent = previous.textContent.replace(/[\s\u00a0]*·[\s\u00a0]*$/, ' ');
+      if (a.parentElement?.classList.contains('nw') && a.parentElement.textContent.trim().startsWith('·')) a.parentElement.remove();
+      else a.remove();
+    }
+    const eyebrow = document.querySelector('#demo .eyebrow');
+    if (eyebrow) eyebrow.textContent = eyebrow.textContent.replace(/^Interactive\s*·\s*/, '');
+    for (const n of document.querySelector('#demo caption')?.childNodes || [])
+      if (n.nodeType === 3) n.textContent = n.textContent.replace(/\s*Choose a defense to see its calls\./, '');
+  });
   await page.addStyleTag({content: KEEP_OUT + (s.css || '') + (kind === 'phone' && s.phone ? s.phone : '') + (s.hide ? s.hide + '{display:none!important}' : '')});
   await page.waitForTimeout(800);
   const box = await page.evaluate(sel => {
