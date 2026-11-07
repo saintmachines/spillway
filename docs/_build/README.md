@@ -46,6 +46,7 @@ PLAYWRIGHT_CORE=/path/to/playwright-core/index.mjs node docs/_build/make_og_card
 take the product header, with its maker link, and the footer from the rendered
 home page.
 `try/make_try.py` composes `docs/try.html` from the built `integrate.html` and copies the released wheel to `docs/assets/try/`. Run it after a page build, with the wheel's path as its second argument.
+Keep the current `try.html` unchanged during page-only builds while it embeds the 0.1.0 wheel. Rebuilding it from the 0.1.1 integration page would replace its version link and footer without changing the wheel.
 Their small navigation helper is `assets/subpage.js`. Keep these shared routes
 and the current page marker covered when adding a page.
 

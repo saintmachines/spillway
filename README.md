@@ -43,7 +43,7 @@ pip install spillway-guard
   </picture></a>
 </p>
 
-A backbone is the agent's model. An in-scope leak sends an action to a target the user never named. The count starts from AgentDojo's check, rescored by executed effect and excludes a target the task already named and a content-only task that names no recipient or sink. Neither filter reads defense state.
+A backbone is the agent's model. An in-scope leak sends an action to a target the user never named. The count starts from AgentDojo's check, rescored by executed effect, and excludes a target the task already named and a content-only task that names no recipient or sink. Neither filter reads defense state.
 
 <p align="center"><sub>AgentDojo v1.2.2, same backbone and scorer for every method. SPILLWAY's rows use the optional gemma4:31b judge, a local model that re-checks refused calls, off by default in the library. <a href="https://saintmachines.github.io/spillway/results.html">Values and conditions</a> · <a href="benchmarks/results">Per-cell records</a> · <a href="#detailed-results">Stronger attacks</a> · <a href="#faq">Without the judge</a>.</sub></p>
 
@@ -174,7 +174,7 @@ The components were separated on qwen3:8b (Table 3 of the paper, 949 pairs per a
   </picture></a>
 </p>
 
-<p align="center"><sub>AgentDojo v1.2.2 Slack, user task 8 with injection task 1, on qwen3:8b. All eight runs behind Table 1. Picked from the six ROPE failures as the only one where SPILLWAY completes the task without sending the link and every other run either sends it or misses the task. <a href="docs/_build/demo_episode.json">Recorded calls</a>. <a href="https://saintmachines.github.io/spillway/#demo">Open the interactive demo</a>.</sub></p>
+<p align="center"><sub>AgentDojo v1.2.2 Slack, user task 8 with injection task 1, on qwen3:8b. All eight runs behind Table 1. Picked from the six pairs where ROPE sent the injected link, as the only one where SPILLWAY completes the task without sending the link and every other run either sends it or misses the task. <a href="docs/_build/demo_episode.json">Recorded calls</a>. <a href="https://saintmachines.github.io/spillway/#demo">Open the interactive demo</a>.</sub></p>
 
 <details>
 <summary>SPILLWAY's run, call by call</summary>

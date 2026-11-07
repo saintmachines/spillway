@@ -1167,11 +1167,12 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       </figure>
     </div>
     <p class="swipe-hint" aria-hidden="true">Swipe the charts sideways →</p>
-    <p class="note" style="margin-top:14px">These are the same 12 cells as the leak matrix above. In&#8209;scope starts from AgentDojo's check, rescored by executed effect and excludes a target the task already named and a content&#8209;only task that names no recipient or sink. Neither filter reads defense state. Every method uses the same agent and scorer. MELON, Progent, DRIFT and ROPE run from their released code, and ROPE's router is the cell's own backbone. SPILLWAY's judge (gemma4:31b), a local model that re-checks refused calls, is on in these runs (<a href="#q-model">without it</a>). Added calls are counted on benign qwen3:8b Workspace and Slack episodes.</p>
+    <p class="note" style="margin-top:14px">These are the same 12 cells as the leak matrix above. In&#8209;scope starts from AgentDojo's check, rescored by executed effect, and excludes a target the task already named and a content&#8209;only task that names no recipient or sink. Neither filter reads defense state. Every method uses the same agent and scorer. MELON, Progent, DRIFT and ROPE run from their released code, and ROPE's router is the cell's own backbone. SPILLWAY's judge (gemma4:31b), a local model that re-checks refused calls, is on in these runs (<a href="#q-model">without it</a>). Added calls are counted on benign qwen3:8b Workspace and Slack episodes.</p>
     @@TV_GRID@@@@TV_CALLS@@
     <details class="m fold" id="means-fold" style="margin-top:24px"><summary class="ph">All five means, with SPILLWAY first on every composite score in this setting</summary><div class="rs-home" style="margin-top:12px">@@RESULTS_STRIP@@@@TV_MEANS@@</div></details>
     <div class="evid">
-      <p class="morelinks"><a href="#stress">Stronger attacks</a><a href="results.html">All result tables</a><a href="results.json">results.json</a><a href="@@REPO@@/tree/main/benchmarks/results">Per-cell records on GitHub</a></p>
+      <p class="sub">On gpt&#8209;4o&#8209;mini across AgentDojo's four suites and AgentDyn's three, SPILLWAY has no in&#8209;scope leak and more utility on all seven than ROPE with its authors' Claude Opus 4.8 router.</p>
+      <p class="morelinks"><a href="#stress">AgentDyn and stronger attacks</a><a href="results.html">All result tables</a><a href="results.json">results.json</a><a href="@@REPO@@/tree/main/benchmarks/results">Per-cell records on GitHub</a></p>
     </div>
   </div>
 </section>
@@ -1496,7 +1497,7 @@ print(sanitize(text, span_sink=spans))
 
   if (/github\.io$/.test(location.hostname)) {
     fetch('https://api.github.com/repos/saintmachines/spillway').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (j && typeof j.stargazers_count === 'number') document.getElementById('stars').textContent = ' ' + j.stargazers_count.toLocaleString();
+      if (j && typeof j.stargazers_count === 'number' && j.stargazers_count > 0) document.getElementById('stars').textContent = ' ' + j.stargazers_count.toLocaleString();
     }).catch(function () {});
   }
 
