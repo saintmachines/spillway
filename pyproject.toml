@@ -63,6 +63,7 @@ packages = ["src/spillway_guard"]
 # Scratch, CI config and the project page are not part of the source distribution;
 # benchmarks/ and reference/ stay in so the sdist carries the paper's artifacts.
 exclude = ["/_work", "/.github", "/docs"]
+skip-excluded-dirs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

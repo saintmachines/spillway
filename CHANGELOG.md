@@ -21,6 +21,7 @@ this version string, so every decision and benchmark value stays as in 0.1.0.
 - The recorded example shows all eight methods on the qwen3:8b Slack episode
   (user task 8, injection task 1). Its actual outcomes and the separate guard
   check are shown separately.
+- Browser demonstration assets are excluded from the source distribution.
 
 ## [0.1.0]
 
