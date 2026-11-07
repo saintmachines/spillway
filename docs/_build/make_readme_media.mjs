@@ -1,5 +1,5 @@
-// Renders the README's pictures from the project page itself, docs/index.html: the hero, the demo, the leak matrix, the
-// result cards and means, the two stress panels and the four steps, in the page's dark theme. Each picture is
+// Renders the README's pictures from the project page itself, docs/index.html: the hero, the leak matrix beside the
+// ranked bars, the cost cards and means, the demo, the two stress panels and the four steps, in the page's dark theme. Each picture is
 // one region of the page with a 16 px margin of the page's own ground, cut to a card with rounded corners on a
 // transparent ground, so it sits on either GitHub theme. The README shows a desktop picture at GitHub's README width
 // (838 CSS px in a 1280 px window) and a phone picture at 324, and both are made at 2x. Writes the PNGs and MANIFEST.json
@@ -24,30 +24,34 @@ const FONTS = ['Fraunces', 'IBM Plex Sans', 'IBM Plex Mono'];
 const KEEP_OUT = 'header.nav,.menu-panel,#tip,.swipe-hint,.pager,.tv,.copy,button.copy{display:none!important}*{scroll-behavior:auto!important}main a{text-decoration:none!important;color:inherit!important}';
 // sel: the region, or a list whose bounding box is the region. vw: the window width that lays the region out as the README
 // shows it. A window widens by what a region would scroll sideways, by at most 200 px. hide: parts left out.
+// leaks, results and summary, with their _phone copies, are no longer made. They stay in the output folder for copies of the 0.1.0 README that load them.
 const SHOTS = [
   // the footnote it marks (#tm) is left out, so its mark is too
-  {name: 'summary', sel: '#top .hstats', vw: {desk: WIDTH.desk, phone: WIDTH.phone},
-   css: '#top .hero-grid{display:block!important}#top .hero-grid>:not(.hstats){display:none!important}#top .hstats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;margin:0!important;padding:20px!important;border:1px solid var(--line)!important;border-radius:16px!important;background:var(--surface)!important}',
-   // the phone's README top: the page's headline and two sentences over the four tiles, so the README needs no paragraph for them
-   selPhone: ['#top .hero-head', '#top .hstats'],
-   phone: '#top .hero-grid>.hero-head,#top .hero-grid>.hero-copy{display:block!important}#top .cta,#top a.fn,#top #tm,#top .evalbox{display:none!important}#top .hero-copy{margin:12px 0 16px!important}' +
-          '#top .hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important;padding:16px!important}#top .hstats>div{padding:0!important;border:0!important}#top .hstats dt{font-size:22px!important}#top .hstats dd{font-size:12px!important}'},
   // the long tile wording, which names the episodes the calls range covers, at every picture width
   {name: 'hero', sel: '#top .hero-grid', vw: {desk: 1100, phone: WIDTH.phone},
    css: '#top .hstats .ts{display:none!important}#top .hstats .tl{display:inline!important}',
-   hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn,#top .byline'},
+   hide: '#top .cta,#top nav.pills,#leaks,#top #tm,#top .evalbox,#top a.fn,#top .byline',
+   // the phone's README top: the headline and its sentences over the chart, so the first screen shows the competitors
+   phone: '#top .hero-eb{display:none!important}#top .hero-head h1{font-size:30px!important;line-height:1.07!important}#top .lede{font-size:15px!important;line-height:1.45!important;margin:10px 0 0!important}' +
+          '#top .hero-grid .proofcard{margin-top:14px!important;padding:14px!important}'},
   {name: 'demo', sel: ['#demo .head', '#demo .vt-note'], vw: {desk: 1100, phone: WIDTH.phone},
    css: '.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
-  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, css: '#infoRet{display:none!important}'},
-  {name: 'leaks', sel: '#leaks', vw: {desk: 1100, phone: WIDTH.phone},
-   css: '#leaks .lk-u{display:block!important;margin-top:10px;max-width:none}#leaks .lk-dup{display:inline!important}#leaks .lk-sub{max-width:44ch}' +
-        '#leaks{grid-template-columns:minmax(0,1fr) max-content!important;grid-template-rows:auto 1fr auto!important;grid-template-areas:"big mx" "sub mx" "note note"!important;align-items:start!important}' +
-        '#leaks .lk-top{grid-area:big}#leaks .mx{grid-area:mx}#leaks .lk-sub{grid-area:sub}#leaks .lk-note{grid-area:note}',
-   phone: '#leaks{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;grid-template-areas:"big" "mx" "sub" "note"!important}'},
-  // on a phone the page swipes through the three cards, the README stacks them
-  {name: 'results', sel: '#results .charts', vw: {desk: 1100, phone: WIDTH.phone},
-   phone: '#results .charts{display:grid!important;grid-template-columns:1fr!important;gap:16px!important;overflow:visible!important}' +
-          '#results .charts>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}'},
+  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, css: '#infoRet{display:none!important}', prep: () => { document.getElementById('demo-fold').open = true; }},
+  // The README's first picture, the page's leak matrix beside its ranked bars, so one look shows every defense on both.
+  {name: 'score', sel: '#rm-score', vw: {desk: 1100, phone: WIDTH.phone},
+   prep: () => { const b = document.createElement('div'); b.id = 'rm-score'; b.append(document.querySelector('#leaks'), document.querySelector('#c-util')); document.querySelector('#results .wrap').prepend(b); document.querySelectorAll('#c-util .hb-s').forEach(e => e.remove()); document.querySelector('#c-util .hb').classList.remove('side'); const s = document.querySelector('#c-util .sub'); s.textContent = s.textContent.replace(/\s*The ASR column.*$/, ''); },
+   css: '#results .wrap>:not(#rm-score){display:none!important}' +
+        '#rm-score{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,1fr);gap:16px;align-items:stretch}' +
+        '#rm-score #c-util .big,#leaks .lk-u,#leaks .lk-dup{display:none!important}' +
+        '#rm-score #leaks{margin:0!important;padding:24px!important;background:var(--surface)!important;grid-template-columns:max-content minmax(0,1fr)!important;grid-template-rows:auto auto 1fr!important;grid-template-areas:"big sub" "mx mx" "note note"!important;align-items:center!important;column-gap:20px!important}' +
+        '#rm-score #leaks .lk-top{grid-area:big}#rm-score #leaks .lk-sub{grid-area:sub;max-width:none}#rm-score #leaks .mx{grid-area:mx;justify-self:start;zoom:1.2;overflow:visible}' +
+        '#rm-score #leaks .lk-note{grid-area:note;align-self:end;padding:12px 0 0!important;border-left:0!important;border-top:1px solid var(--line)!important}',
+   phone: '#rm-score{grid-template-columns:minmax(0,1fr)!important}#rm-score #leaks{padding:16px!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;grid-template-areas:"big" "sub" "mx" "note"!important}#rm-score #leaks .mx{zoom:1}#rm-score #leaks .matrix td.n{padding-left:3px;min-width:0}#rm-score #leaks .matrix th.lks{padding-left:3px}'},
+  // Cost as its own block, the two other cards of the page's results band
+  {name: 'cost', sel: ['#c-calls', '#c-time'], vw: {desk: 1100, phone: WIDTH.phone},
+   css: '#c-util,#c-calls .big,#c-time .big{display:none!important}#c-time h3::first-letter{text-transform:uppercase}#results .charts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;overflow:visible!important}' +
+        '#results .charts>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}',
+   phone: '#results .charts{grid-template-columns:1fr!important}'},
   {name: 'means', sel: '#results .rs', vw: {desk: 1100, phone: WIDTH.phone}},
   {name: 'rope', sel: '#vs-rope', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
   {name: 'attacks', sel: '#all-attacks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
@@ -127,6 +131,7 @@ async function shoot(browser, url, s, kind, vw = s.vw[kind]) {
   const fonts = await page.evaluate(F => F.filter(f => !document.fonts.check('16px "' + f + '"')), FONTS);
   if (fonts.length) throw new Error(`${s.name} ${kind}: web fonts not loaded: ${fonts.join(', ')}`);
   await page.evaluate(NO_LINKS);
+  if (s.prep) await page.evaluate(s.prep, kind);
   await page.addStyleTag({content: KEEP_OUT + (s.css || '') + (kind === 'phone' && s.phone ? s.phone : '') + (s.hide ? s.hide + '{display:none!important}' : '')});
   await page.waitForTimeout(800);
   const box = await page.evaluate(sel => {

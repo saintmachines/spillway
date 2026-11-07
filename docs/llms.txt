@@ -2,9 +2,9 @@
 
 > Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, a model reviews refusals. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, reviews only refused calls, never one whose target lies in removed text.
 
-- Install from source: `pip install git+https://github.com/saintmachines/spillway.git@v0.1.0` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`. Registry installation is enabled on the page after publication is verified.
+- Install: `pip install spillway-guard` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
 - App integration: [integrate.html](integrate.html), with a runnable local example in [examples/](examples/README.md)
-- Paper: [SPILLWAY preprint (PDF)](SPILLWAY_preprint.pdf)
+- Paper: [arXiv:2611.07222](https://arxiv.org/abs/2611.07222), [PDF](SPILLWAY_preprint.pdf)
 - Code: https://github.com/saintmachines/spillway
 - Results as JSON: [results.json](results.json). Full tables: [results.html](results.html)
 - Authors: Woosang Lim (SAINT Machines and KAIST), Yeseul Chang and Jaewoo Lee (Chung-Ang University). Project of SAINT Machines: https://saintmachines.ai. Contact: contact@saintmachines.ai

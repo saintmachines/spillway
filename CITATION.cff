@@ -37,5 +37,6 @@ preferred-citation:
       given-names: Jaewoo
       affiliation: "Chung-Ang University"
   year: 2026
-  url: "https://github.com/saintmachines/spillway/blob/main/docs/SPILLWAY_preprint.pdf"
-  notes: "Preprint."
+  url: "https://arxiv.org/abs/2611.07222"
+  doi: "10.48550/arXiv.2611.07222"
+  notes: "arXiv:2611.07222 [cs.CR]"

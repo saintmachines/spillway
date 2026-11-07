@@ -5,7 +5,7 @@ Run the examples from a current repository checkout:
 ```bash
 git clone https://github.com/saintmachines/spillway.git
 cd spillway
-python -m pip install git+https://github.com/saintmachines/spillway.git@v0.1.0
+python -m pip install spillway-guard
 python docs/examples/local_app_demo.py --report app-check.json
 python docs/examples/collection_demo.py --report collection-check.json
 ```

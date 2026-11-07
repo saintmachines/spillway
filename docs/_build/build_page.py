@@ -563,7 +563,7 @@ def fig4():
 
 # ------------------------------------------------------------------ hero chart: Figure 1a alone, every mark named
 FIG1_TITLE = f"On gpt{NBH}4o{NBH}mini, only SPILLWAY reaches zero in{NBH}scope attack success, with the most utility."
-FIG1_META = f"AgentDojo's standard attack · mean of the four suites on gpt{NBH}4o{NBH}mini, one of the 3 backbones · the preprint's Figure 1a"
+FIG1_META = f"AgentDojo's standard attack · four{NBH}suite mean · the preprint's Figure 1a"
 FIG1_X, FIG1_TOP = (.18, .85), .42  # the x range runs past .8 so SPILLWAY's name fits right of its mark on a 320 px phone
 FIG1_XT = (.2, .3, .4, .5, .6, .7, .8)
 FIG1_YT = (0, .05, .1, .2, .3, .4)
@@ -837,6 +837,7 @@ def results_json():
 def why_charts():
     g = DATA["grid"]
     uau_rows = sorted((m for m in METHODS if m != "Undefended"), key=lambda m: -g[m][1])  # the defenses, ranked among themselves
+    assert uau_rows[0] == "SPILLWAY" and len(uau_rows) == 7  # the card says "1st of 7"
     c2 = hbars([{"name": m, "values": [g[m][1]], "hi": m == "SPILLWAY", "side": d3(g[m][2])} for m in uau_rows]
                + [{"name": "Undefended", "values": [g["Undefended"][1]], "side": d3(g["Undefended"][2]), "ref": True}], side_head="ASR",
                xmax=.5, ticks=(0, .1, .2, .3, .4, .5), tickfmt=lambda t: "0" if t == 0 else d3(t)[:-2], valfmt=d3, cap_id="c2-cap",
