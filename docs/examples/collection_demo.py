@@ -1,4 +1,4 @@
-"""Check trusted collection boundaries against the installed SPILLWAY 0.1.0 wheel.
+"""Check trusted collection boundaries against the installed SPILLWAY 0.1.1 wheel.
 
 Runs a localhost HTTP fixture with synthetic mail and fixed proposals. No LLM
 or external account is contacted. These checks exercise the example adapter;

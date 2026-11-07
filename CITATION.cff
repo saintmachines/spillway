@@ -13,7 +13,7 @@ authors:
   - family-names: Lee
     given-names: Jaewoo
     affiliation: "Chung-Ang University"
-version: 0.1.0
+version: 0.1.1
 license: Apache-2.0
 repository-code: "https://github.com/saintmachines/spillway"
 url: "https://saintmachines.github.io/spillway/"

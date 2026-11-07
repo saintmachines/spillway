@@ -304,7 +304,7 @@ class GuardTests(unittest.TestCase):
 
     def test_version_and_exports(self):
         import spillway_guard
-        self.assertEqual(spillway_guard.__version__, "0.1.0")
+        self.assertEqual(spillway_guard.__version__, "0.1.1")
         for name in ("Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge"):
             self.assertTrue(hasattr(spillway_guard, name), name)
 

@@ -1,4 +1,4 @@
-"""Run a localhost-only example and its assertions with spillway-guard==0.1.0.
+"""Run a localhost-only example and its assertions with spillway-guard==0.1.1.
 
     python local_app_demo.py --report LOCAL_APP_RESULTS.json
 

@@ -6,6 +6,22 @@ All notable changes to SPILLWAY are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1]
+
+Package description, metadata and recorded example. The library's code is unchanged apart from
+this version string, so every decision and benchmark value stays as in 0.1.0.
+
+### Changed
+
+- The description on PyPI, the README and the project page open with the results
+  and link the paper on arXiv (2611.07222).
+- The package metadata names SAINT Machines as author, the project page as
+  homepage, the integration guide as documentation and the arXiv record as the
+  paper.
+- The recorded example shows all eight methods on the qwen3:8b Slack episode
+  (user task 8, injection task 1). Its actual outcomes and the separate guard
+  check are shown separately.
+
 ## [0.1.0]
 
 Initial release. `reference/spillway_gate.py` is the final build of the
@@ -110,5 +126,6 @@ suite's utility and attack success to the third decimal.
 - Target roles come from one lexicon per tool set. A new tool set needs its roles
   declared before the floor covers it. See `CONTRIBUTING.md`.
 
-[Unreleased]: https://github.com/saintmachines/spillway/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/saintmachines/spillway/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/saintmachines/spillway/releases/tag/v0.1.1
 [0.1.0]: https://github.com/saintmachines/spillway/releases/tag/v0.1.0

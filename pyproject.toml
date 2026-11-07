@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spillway-guard"
-version = "0.1.0"
+version = "0.1.1"
 description = "Prompt-injection defense for tool-using LLM agents: a typed-identity egress floor, a rule-based ingress sanitizer, and an optional judge that reviews refused calls"
 readme = "PYPI_README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
-authors = [{ name = "SPILLWAY authors" }]
+authors = [{ name = "SAINT Machines" }]
 keywords = [
   "prompt-injection",
   "llm-agents",
@@ -46,8 +46,9 @@ agentdojo = ["agentdojo>=0.1.35"]
 dev = ["pytest>=8", "ruff>=0.5", "email-validator>=2.0"]
 
 [project.urls]
-Homepage = "https://github.com/saintmachines/spillway"
-Paper = "https://github.com/saintmachines/spillway/blob/main/docs/SPILLWAY_preprint.pdf"
+Homepage = "https://saintmachines.github.io/spillway/"
+Documentation = "https://saintmachines.github.io/spillway/integrate.html"
+Paper = "https://arxiv.org/abs/2611.07222"
 Repository = "https://github.com/saintmachines/spillway"
 Issues = "https://github.com/saintmachines/spillway/issues"
 Changelog = "https://github.com/saintmachines/spillway/blob/main/CHANGELOG.md"

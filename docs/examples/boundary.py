@@ -1,4 +1,4 @@
-"""A single-task, sequential SPILLWAY 0.1.0 boundary for a localhost example.
+"""A single-task, sequential SPILLWAY 0.1.1 boundary for a localhost example.
 
 Only ``model_text`` is intended for the agent's tool-result channel. Metadata
 reports what the client knows, without claiming that an HTTP error rolled back

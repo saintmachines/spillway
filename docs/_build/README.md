@@ -50,5 +50,5 @@ Their small navigation helper is `assets/subpage.js`. Keep these shared routes
 and the current page marker covered when adding a page.
 
 The runnable app examples under `docs/examples/` are checkout documentation.
-They exercise the 0.1.0 API and are excluded from the wheel and source
+They exercise the 0.1.1 API and are excluded from the wheel and source
 distribution together with the rest of `docs/`.

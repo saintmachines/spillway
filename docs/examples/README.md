@@ -14,7 +14,7 @@ python docs/examples/collection_demo.py --report collection-check.json
 
 The examples start a temporary HTTP server on `127.0.0.1`, run fixed proposed
 calls against synthetic messages and notes, and close the server. They use the
-installed 0.1.0 library, Pydantic and the standard library, with no model or
+installed 0.1.1 library, Pydantic and the standard library, with no model or
 external account. Example files come from the checkout, outside the wheel and
 source distribution.
 
