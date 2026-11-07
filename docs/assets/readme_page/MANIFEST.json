@@ -37,15 +37,15 @@
       "window": 324
     },
     "demo_calls.png": {
-      "sha256": "ebf74a52d58193eb0539d95c2302966114a1ea76de03c039a3493465a4573dae",
-      "bytes": 311245,
+      "sha256": "9b4894da1e598aff9132124c5f324b74c4f600e2fd1bdee5837b78bf355eaa5a",
+      "bytes": 311247,
       "pixels": "2184x1346",
       "window": 1100
     },
     "demo_calls_phone.png": {
-      "sha256": "1acc176eb9370894bcc0ded5de27dc8b0e38f6b7b6aed24d3a6eb84f9cae1408",
-      "bytes": 202458,
-      "pixels": "648x2016",
+      "sha256": "9a1bcdfc0de57af915b79b266654759f4b4a37383b8401b181b10f74a85e15d9",
+      "bytes": 200271,
+      "pixels": "648x1980",
       "window": 324
     },
     "score.png": {

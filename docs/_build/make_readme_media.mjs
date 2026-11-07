@@ -36,7 +36,10 @@ const SHOTS = [
           '#top .hero-grid .proofcard{margin-top:14px!important;padding:14px!important}'},
   {name: 'demo', sel: ['#demo .head', '#demo .vt-note'], vw: {desk: 1100, phone: WIDTH.phone},
    css: '#demo h2 .q{display:none!important}.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
-  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, css: '#infoRet{display:none!important}', prep: () => { document.getElementById('demo-fold').open = true; }},
+  {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone},
+   css: '#infoRet{display:none!important}#demo-fold>summary{visibility:hidden!important}',
+   phone: '#demo-box .lab code{font-size:12px!important;white-space:nowrap!important}',
+   prep: () => { document.getElementById('demo-fold').open = true; }},
   // The README's first picture, the page's leak matrix beside its ranked bars, so one look shows every defense on both.
   {name: 'score', sel: '#rm-score', vw: {desk: 1100, phone: WIDTH.phone},
    prep: () => { const b = document.createElement('div'); b.id = 'rm-score'; b.append(document.querySelector('#leaks'), document.querySelector('#c-util')); document.querySelector('#results .wrap').prepend(b); document.querySelectorAll('#c-util .hb-s').forEach(e => e.remove()); document.querySelector('#c-util .hb').classList.remove('side'); const s = document.querySelector('#c-util .sub'); s.textContent = s.textContent.replace(/\s*The ASR column.*$/, ''); },
