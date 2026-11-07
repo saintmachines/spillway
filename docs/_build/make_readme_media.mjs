@@ -35,7 +35,7 @@ const SHOTS = [
    phone: '#top .hero-eb{display:none!important}#top .hero-head h1{font-size:30px!important;line-height:1.07!important}#top .lede{font-size:15px!important;line-height:1.45!important;margin:10px 0 0!important}' +
           '#top .hero-grid .proofcard{margin-top:14px!important;padding:14px!important}'},
   {name: 'demo', sel: ['#demo .head', '#demo .vt-note'], vw: {desk: 1100, phone: WIDTH.phone},
-   css: '.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
+   css: '#demo h2 .q{display:none!important}.vt-pick::after{display:none!important}.vt tr.sel .vt-pick{text-decoration:none!important}'},
   {name: 'demo_calls', sel: '#demo-box', vw: {desk: 1100, phone: WIDTH.phone}, css: '#infoRet{display:none!important}', prep: () => { document.getElementById('demo-fold').open = true; }},
   // The README's first picture, the page's leak matrix beside its ranked bars, so one look shows every defense on both.
   {name: 'score', sel: '#rm-score', vw: {desk: 1100, phone: WIDTH.phone},
@@ -52,9 +52,9 @@ const SHOTS = [
    css: '#c-util,#c-calls .big,#c-time .big{display:none!important}#c-time h3::first-letter{text-transform:uppercase}#results .charts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;overflow:visible!important}' +
         '#results .charts>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}',
    phone: '#results .charts{grid-template-columns:1fr!important}'},
-  {name: 'means', sel: '#results .rs', vw: {desk: 1100, phone: WIDTH.phone}},
-  {name: 'rope', sel: '#vs-rope', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
-  {name: 'attacks', sel: '#all-attacks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}},
+  {name: 'means', sel: '#results .rs', vw: {desk: 1100, phone: WIDTH.phone}, prep: () => { document.querySelector('#means-fold').open = true; }},
+  {name: 'rope', sel: '#vs-rope', vw: {desk: WIDTH.desk, phone: WIDTH.phone}, css: '#rope-cap{display:none!important}'},
+  {name: 'attacks', sel: '#all-attacks', vw: {desk: WIDTH.desk, phone: WIDTH.phone}, css: '#all-attacks .f4-h b{display:none!important}'},
   {name: 'steps', sel: '#how ol.steps', vw: {desk: 1100, phone: WIDTH.phone},
    phone: '#how ol.steps{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;overflow:visible!important}' +
           '#how ol.steps>*{width:auto!important;min-width:0!important;max-width:none!important;flex:none!important}'},
@@ -79,7 +79,7 @@ const NO_LINKS = () => {
   const eb = document.querySelector('#demo .eyebrow');
   if (eb) eb.textContent = eb.textContent.replace(/^Interactive\s*·\s*/, '');
   const cap = document.querySelector('#demo caption');
-  if (cap) cap.childNodes.forEach(n => { if (n.nodeType === 3) n.textContent = n.textContent.replace(/\s*Choose a defense to see its calls\./, ''); });
+  if (cap) cap.childNodes.forEach(n => { if (n.nodeType === 3) n.textContent = n.textContent.replace(/\.?\s*Choose a defense to see its calls\./, ''); });
 };
 
 const sha256 = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');

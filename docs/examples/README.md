@@ -1,5 +1,7 @@
 # Connect a local tool app
 
+Using LangChain, the OpenAI Agents SDK, an MCP host or Claude Code? Start with [the framework recipes](frameworks/README.md).
+
 Run the examples from a current repository checkout:
 
 ```bash

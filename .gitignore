@@ -14,6 +14,7 @@ wheels/
 sdist/
 pip-wheel-metadata/
 *.whl
+!docs/assets/try/*.whl
 
 # Virtual environments
 .venv/

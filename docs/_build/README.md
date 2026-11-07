@@ -45,6 +45,7 @@ PLAYWRIGHT_CORE=/path/to/playwright-core/index.mjs node docs/_build/make_og_card
 `build_page.py` also writes `integrate.html`. The results and integration pages
 take the product header, with its maker link, and the footer from the rendered
 home page.
+`try/make_try.py` composes `docs/try.html` from the built `integrate.html` and copies the released wheel to `docs/assets/try/`. Run it after a page build, with the wheel's path as its second argument.
 Their small navigation helper is `assets/subpage.js`. Keep these shared routes
 and the current page marker covered when adding a page.
 

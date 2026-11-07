@@ -269,7 +269,7 @@ def hbars(rows, *, xmax, ticks, tickfmt, valfmt, cap_id, axis_label, series=None
         bars = []
         for j, v in enumerate(r["values"]):
             tip = f'{r["name"]}{(", " + series[j]) if series else ""}: {lab(r, j, v)}'
-            bars.append(f'<span class="hb-t s{j}"><i style="--f: {min(1.0, v / xmax):.4f}" data-tip="{esc(tip)}"></i><b>{lab(r, j, v)}</b></span>')
+            bars.append(f'<span class="hb-t s{j}{" sm" if v / xmax < .05 else ""}"><i style="--f: {min(1.0, v / xmax):.4f}" data-tip="{esc(tip)}"></i><b>{lab(r, j, v)}</b></span>')
         side = f'<span class="hb-s">{esc(r["side"])}</span>' if side_head else ""
         ref = " ref" if r.get("ref") else ""  # a reference row (the undefended agent), drawn apart from the ranked ones
         out.append(f'<div class="hb-row{hi}{ref}"><span class="hb-l">{esc(r["name"])}</span><span class="hb-bars">{"".join(bars)}</span>{side}</div>')
@@ -361,7 +361,7 @@ FIG4 = [  # key, tab, DATA["stress"] columns (None: Figure 1a), x range, y top, 
 # The stress section shows the four panels side by side, as the preprint's Figure 1 does; the hero shows (a) alone.
 FIG4_GRID_TITLE = "In all four attacks, SPILLWAY has the lowest attack success at three decimals. A tied defense keeps less utility."
 FIG4_GRID_META = "The preprint's Figure 1 · suite means · (a) is AgentDojo's standard attack"
-FIG4_GRID_NOTE = ("Only DRIFT keeps more utility, in (b) and (d), where it leaks. SPILLWAY's (c) point is descriptive, because "
+FIG4_GRID_NOTE = ("SPILLWAY keeps the most utility in (a) and (c). In (b) and (d) only DRIFT keeps more, and it leaks there. SPILLWAY's (c) point is descriptive, because "
                   "its address and payee-change rules were written on AutoDojo's four failing pairs. On two held-out Banking "
                   "sets it is at .007 by AgentDojo's check, .014 counting a second transfer that check misses, and at .000. "
                   "In (d) SPILLWAY and ROPE both round to .007, from 6 and 3 hits in 949 pairs.")
@@ -765,7 +765,7 @@ def results_strip():
         return f"first. Next is {nxt[i]} at\u00a0{d3(g[nxt[i]][i])}"
     items = [("Benign utility", False, g[me][0], f"undefended {d3(g['Undefended'][0])}", "task success with no injection"),
              ("Utility under attack", False, g[me][1], first(1), "task success with the injection present"),
-             ("In&#8209;scope attack success", False, g[me][2], "the only zero", "attacks that steered an action to a target neither the user's task nor a typed tool field supplied"),
+             ("In&#8209;scope attack success", False, g[me][2], "the only zero", "attacks that sent an action to a target the user never named"),
              ("Net Resilient Performance", True, g[me][3], first(3), "NRP (BU) = benign utility × (1\u00a0−\u00a0attack\u00a0success)"),
              ("Effective Robustness Score", True, g[me][4], first(4), "ERS = harmonic mean of benign utility and 1\u00a0−\u00a0attack\u00a0success")]
     cells = "".join(f'<div{" class=\"cp\"" if comp else ""}><dt>{name}</dt>'
@@ -1113,7 +1113,7 @@ def demo_matrix(slots):
     head = ('<thead><tr><th scope="col">Defense</th>' + "".join(
         f'<th scope="col"><span class="vl">{esc(long)}</span><span class="vs">{esc(short)}</span>'
         f'<span class="xt {expect}"><span class="xl">{esc(tag)} · must {"be blocked" if expect == "block" else "run"}</span>'
-        f'<span class="xs">must {expect}</span></span></th>'
+        f'<span class="xs">must {"be blocked" if expect == "block" else "run"}</span></span></th>'
         for _k, long, short, tag, expect in DEMO_SLOTS) + '<th scope="col" class="vn"><span class="xl">Right calls</span><span class="xs">Right</span></th></tr></thead>')
     rows = []
     for run in DEMO_RUNS:
@@ -1128,7 +1128,7 @@ def demo_matrix(slots):
         rows.append(f'<tr{f' class="{cls}"' if cls else ""}><th scope="row"><button type="button" class="vt-pick" data-run="{run}" aria-pressed="{"true" if run == DEMO_DEFAULT else "false"}" aria-controls="demo-box">{DEMO_MENU[run]}</button></th>'
                     f'{"".join(tds)}<td class="vn"><span class="xl">{n} of 3</span><span class="xs">{n}/3</span></td></tr>')
     legend = f'<span class="lg r">{DEMO_OK}right</span> <span class="lg w">{DEMO_NO}wrong</span>'
-    return (f'<table class="vt"><caption>What should happen to each call, and what each defense\'s recorded run did: {legend}. Choose a defense to see its calls.</caption>'
+    return (f'<table class="vt"><caption>{legend}. Choose a defense to see its calls.</caption>'
             f'{head}<tbody>{"".join(rows)}</tbody></table>')
 
 

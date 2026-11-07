@@ -8,9 +8,19 @@
     <h1 id="integrate-h" style="font-size:var(--fs-h2)">Connect your tool loop.</h1>
     <p class="back-row"><a class="backlink" href="index.html#start">← Back to the project page</a><a href="results.html">Full results</a></p>
     <p>Put the guard between proposed actions and your tools. Try a working local HTTP example, then use its boundary with your application's own tool contracts.</p>
-    <p><a href="index.html#start">Minimal example</a> · <a href="#run">Run the app example</a> · <a href="#boundary">The four steps</a> · <a href="#data">Data paths</a></p>
+    <p><a href="index.html#start">Minimal example</a> · <a href="#frameworks">Frameworks</a> · <a href="#run">Run the app example</a> · <a href="#boundary">The four steps</a> · <a href="#data">Data paths</a></p>
   </div>
-  <div class="head stack" id="run">
+  <div class="head stack" id="frameworks">
+    <h2>Connect your stack.</h2>
+    <p>Copy <code>guarded_tools.py</code> and the file for your stack, then add the line below. Each recipe has a test that runs with a scripted model and no key. <a href="@@REPO@@/blob/main/docs/examples/frameworks/README.md">Read the recipes</a>.</p>
+  </div>
+  <div class="scroll"><table class="rt"><thead><tr><th>Stack</th><th>What you add</th></tr></thead><tbody>
+    <tr><td>LangChain, LangGraph</td><td><code>middleware=[spillway_middleware()]</code></td></tr>
+    <tr><td>OpenAI Agents SDK</td><td><code>tools=guard_tools(Guard(task), tools)</code></td></tr>
+    <tr><td>Any MCP host</td><td><code>python mcp_proxy.py --task "..." -- your server command</code></td></tr>
+    <tr><td>Claude Code</td><td>four hooks in <code>.claude/settings.json</code></td></tr>
+  </tbody></table></div>
+  <div class="head stack" id="run" style="margin-top:32px">
     <h2>Run it without model credentials.</h2>
     <p>The example starts a temporary server on <code>127.0.0.1</code>, runs a fixed sequence of proposed calls with synthetic data, records the HTTP requests and effects, and shuts the server down. It uses the SPILLWAY 0.1.0 API, Pydantic and the standard library.</p>
   </div>
