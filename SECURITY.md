@@ -90,9 +90,8 @@ report of one of them alone is not a new bypass. A way around a limit is.
   value under an undeclared name, or held in a dict key, is not a target.
 - **Referent binding.** An address in tool output is admitted when its local part
   contains a task word of four or more letters, and the domain is not checked. A
-  plain identifier that begins with such a word passes too. "Send the report to
-  Alice" admits report@evil.example and malice@evil.example, also when the
-  address lies in removed text. `Policy(delegation_span_veto=True)` refuses these
+  plain identifier that begins with such a word passes too. Both pass also when
+  they lie in removed text. `Policy(delegation_span_veto=True)` refuses these
   targets when they lie in removed text or rode in on free text.
 - **Named principals.** A grant to a principal the task names admits the address
   in the call unless it lies in removed text. Nothing ties the address to the
@@ -102,7 +101,7 @@ report of one of them alone is not a new bypass. A way around a limit is.
   deletion word that no negation up to two words before it covers, also when the
   word is about something else.
 - **Task-named downloads.** A download from a two-label host is admitted when the
-  task holds the host's site word, so "Download the report" admits report.example.
+  task holds the host's site word, the label before the top-level domain.
 - **Free text.** A typed field's value that also sits inside a sentence is still
   admitted unless it is an email, a URL, or an identifier of 8 or more characters
   with at least 4 digits, written in letters, digits and `+() .-`. A shorter
