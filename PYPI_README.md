@@ -21,7 +21,7 @@ On AgentDojo v1.2.2, three agent models by four suites, SPILLWAY has no in-scope
 | PI detector | .230 | .060 | 10 |
 | Undefended, for reference | .417 | .305 | 12 |
 
-Means over the 12 cells, Table 2 of the paper. Every method uses the same agent and scorer. SPILLWAY's row uses a gemma4:31b judge, which the library leaves off by default.
+Means over the 12 cells, Table 2 of the paper, under AgentDojo's standard templated attack. Every method uses the same agent and scorer. SPILLWAY's row uses a gemma4:31b judge, which the library leaves off by default. These results do not establish zero attack success against every attack or policy configuration.
 
 On benign qwen3:8b Workspace and Slack episodes, SPILLWAY adds 0.19 and 0.39 model calls, judge included, against 3.25 and 5.29 backbone calls for MELON, 5.94 and 8.67 for Progent and 9.59 and 9.91 for DRIFT.
 
@@ -82,6 +82,12 @@ for call in response.choices[0].message.tool_calls:   # OpenAI chat API
 ## How it works
 
 SPILLWAY admits a side-effecting call when every new target came from a typed identity field or from the user's task, so an address an attacker wrote into free text is refused by a set lookup. Fixed delegation rules and an optional two-view judge look again only at the calls it refuses. Before the agent reads a tool return, fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls.
+
+## Restrict identity-target recovery
+
+Version 0.1.2 defaults to `Policy(escalate_mv=False)`: a supplied judge no longer restores a refused identity target through the two-view target-recovery path. Object-case judging and deterministic delegation remain. This may also refuse legitimate destinations found only in free text.
+
+The paper's original full-system SPILLWAY results used `escalate_mv=True`, which explicitly restores that behavior in the library. The reference runner's `--paper` selects recovery ON in a clean environment; an explicit `SPW_ESCALATE_MV` value can override the default. Add `--no-identity-target-recovery` to force it OFF across public and historical aliases. `--no-escalate` is a different option. The new default has separate evaluation results and is not a universal safety guarantee.
 
 ## Reproduce
 

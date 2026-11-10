@@ -26,6 +26,7 @@ import importlib.util
 import pathlib
 import re
 import sys
+import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
@@ -34,10 +35,14 @@ SITE = "https://saintmachines.github.io/spillway/"
 PUBLICATION_PATH = pathlib.Path(__file__).with_name("publication.json")
 
 
+def project_version():
+    return tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]["version"]
+
+
 def publication_slots():
     """Use only declared publication facts; the build makes no network requests."""
     publication = __import__("json").loads(PUBLICATION_PATH.read_text())
-    version = __import__("tomllib").loads((ROOT / "pyproject.toml").read_text())["project"]["version"]
+    version = project_version()
     ready = publication["pypi_version"] == version
     assert publication["pypi_version"] in (None, version)
     source_ref = publication["source_ref"]
@@ -51,7 +56,8 @@ def publication_slots():
         attrs = '' if enabled else ' disabled aria-disabled="true" title="Available after the PyPI release"'
         tabs.append(f'<button type="button" role="tab" aria-selected="{str(kind == selected).lower()}" '
                     f'tabindex="{0 if kind == selected else -1}" data-cmd="{html.escape(commands[kind], quote=True)}"{attrs}>{kind}</button>')
-    return {"@@INSTALL_TABS@@": "".join(tabs), "@@INSTALL_COMMAND@@": html.escape(commands[selected]),
+    return {"@@PACKAGE_VERSION@@": html.escape(version, quote=True),
+            "@@INSTALL_TABS@@": "".join(tabs), "@@INSTALL_COMMAND@@": html.escape(commands[selected]),
             "@@INSTALL_NOTE@@": "" if ready else '<p class="req inote">Install from GitHub. PyPI release forthcoming.</p>',
             "@@PYPI_LINK@@": '<a href="https://pypi.org/project/spillway-guard/">PyPI</a>' if ready else "",
             "@@RELEASE_NOTES_URL@@": html.escape(publication["release_notes_url"], quote=True)}
@@ -208,7 +214,9 @@ GATE_SHA = hashlib.sha256((ROOT / "reference" / "spillway_gate.py").read_bytes()
 
 # docs/_build/checks.txt: what capture_checks.py printed. The page shows its first two commands verbatim.
 CHECKS = (pathlib.Path(__file__).with_name("checks.txt")).read_text()
-CHECKS_DATE = re.match(r"# captured (\d{4}-\d{2}-\d{2}) with spillway-guard 0\.1\.1 ", CHECKS).group(1)
+_capture = re.match(r"# captured (\d{4}-\d{2}-\d{2}) with spillway-guard (\S+) ", CHECKS)
+assert _capture and _capture[2] == project_version(), "capture_checks.py must run on this release"
+CHECKS_DATE = _capture[1]
 assert re.search(rf"^make_tables\.py: {MT_N} checks pass$", CHECKS, re.M), "checks.txt is older than the results"
 _tests = re.search(r"^(\d+) passed in [0-9.]+s$", CHECKS, re.M)
 assert _tests, "checks.txt: the pytest line must read 'N passed in Xs', with no failed or skipped test"
@@ -977,7 +985,7 @@ def demo_verdicts():
     sys.path.insert(0, str(ROOT / "src"))
     from spillway_guard import Guard, __version__, sanitize
     from spillway_guard.floor import norm
-    assert __version__ == "0.1.1"
+    assert __version__ == project_version(), "replay must use the package version this page describes"
     ep, consulted = EPISODE, []
 
     def judge(request):  # admits anything, so a verdict that reached it would change

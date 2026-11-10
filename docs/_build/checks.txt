@@ -1,7 +1,7 @@
-# captured 2026-11-07 with spillway-guard 0.1.1 on Python 3.12.13
+# captured 2026-11-10 with spillway-guard 0.1.2 on Python 3.12.13
 $ python benchmarks/scripts/make_tables.py --no-write --quiet 2>&1 | tail -1
 make_tables.py: 590 checks pass
 $ python -m pytest -q tests | tail -1
-92 passed in 4.04s
+100 passed in 4.06s
 $ python -m spillway_guard.agentdojo.runner --self-test
 v13b self-test OK (predicate + gate; incl. bare-leaf, location, banking, mixed, laundering-guard, paraphrase-free recovery, SENTINEL criterion-veto + hardening + date-axis + strict-offroster + INTEGRITY commit-auth Arm A/B/C)

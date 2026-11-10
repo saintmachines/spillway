@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spillway-guard"
-version = "0.1.1"
+version = "0.1.2"
 description = "Prompt-injection defense for tool-using LLM agents: a typed-identity egress floor, a rule-based ingress sanitizer, and an optional judge that reviews refused calls"
 readme = "PYPI_README.md"
 requires-python = ">=3.10"

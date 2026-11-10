@@ -108,11 +108,21 @@ class GuardTests(unittest.TestCase):
                 _c.append(req.mode)
                 a = _s.pop(0)
                 return a, 1.0 if a else 0.0
-            g = Guard("send the report to the address in the meeting notes", judge=judge)
+            g = Guard("send the report to the address in the meeting notes",
+                      policy=Policy(escalate_mv=True), judge=judge)
             g.observe_tool_return("get_email", {"id": "1"}, em)
             d = g.check_call("send_email", {"recipients": ["partner@external.org"], "body": "report"})
             self.assertEqual(d.label, expect, answers)
             self.assertEqual(calls, ["routing", "payload"][:len(answers)])
+
+    def test_identity_target_recovery_is_off_by_default_with_approving_judge(self):
+        judge = RecordingJudge(answer=True)
+        guard = Guard("send the report to the address in the meeting notes", judge=judge)
+        guard.observe_tool_return("read_file", {}, "Meeting contact: partner@external.org")
+        decision = guard.check_call("send_email", {"recipients": ["partner@external.org"], "body": "report"})
+        self.assertEqual(decision.verdict, BLOCK)
+        self.assertEqual(judge.calls, [])
+        self.assertTrue(guard.policy.mv_integrity)
 
     def test_no_judge_is_fail_closed(self):
         em = Email(id_="1", sender="boss@corp.com", recipients=["me@corp.com"], subject="Notes",
@@ -304,7 +314,7 @@ class GuardTests(unittest.TestCase):
 
     def test_version_and_exports(self):
         import spillway_guard
-        self.assertEqual(spillway_guard.__version__, "0.1.1")
+        self.assertEqual(spillway_guard.__version__, "0.1.2")
         for name in ("Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge"):
             self.assertTrue(hasattr(spillway_guard, name), name)
 

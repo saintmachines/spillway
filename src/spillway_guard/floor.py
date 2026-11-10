@@ -2,7 +2,7 @@
 
 Ported from the reference gate, the final build the paper evaluated (its decision function and helpers, plus
 the taint primitives of the evaluation harness's taint-gate module). The changes are (a) the environment
-switches became ``Policy`` fields with the paper's run configuration as defaults, (b) the role vocabulary comes
+switches became ``Policy`` fields (identity-target recovery is off by default since 0.1.2; the paper enabled it), (b) the role vocabulary comes
 from a ``Lexicon``, (c) EMAIL_RE's matches come from ``_email_matches``, which finds the same matches in linear
 time, (d) the checks that CHANGELOG.md lists under Library checks and regression coverage, with the optional
 ``delegation_span_veto`` and reworded reason strings, and (e) the judge is not called here: ``admit`` returns ``REFER_TO_JUDGE`` carrying the judge's
@@ -1269,7 +1269,8 @@ def output_recommend_authorized(trusted) -> bool:
 
 
 # =============================================================================================
-# Policy: the run configuration. Defaults = the paper's runs
+# Policy: the run configuration. The paper enabled identity-target recovery;
+# version 0.1.2 defaults that recovery to off. Other run settings are unchanged.
 # (``--auto --access-grant --chatml-guard --exfil-provenance`` and the SPW_* switches set to 1).
 # =============================================================================================
 @dataclass(frozen=True)
@@ -1294,7 +1295,7 @@ class Policy:
     rbrp_narrow: bool = False
     threshold: float = 0.5
     # SPW_* environment switches set to 1 in the paper's runs
-    escalate_mv: bool = True           # SPW_ESCALATE_MV: two-view judge on a refused target
+    escalate_mv: bool = False          # SPW_ESCALATE_MV: opt-in two-view judge on a refused target
     mv_integrity: bool = True          # SPW_MV_INTEGRITY: two-view judge on an unauthorized commit
     refbind: bool = True               # SPW_REFBIND
     self_owned: bool = True            # SPW_SELF_OWNED

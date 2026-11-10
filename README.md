@@ -34,7 +34,7 @@ pip install spillway-guard
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_01_dark.svg"><img src="docs/assets/readme/h2_01_light.svg" alt="" height="18"></picture>Results
 
-### SPILLWAY has no in-scope leak in any of 12 cells and the most utility under attack.
+### Under the standard attack, SPILLWAY has no in-scope leak in 12 cells and the most utility.
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#results"><picture>
@@ -337,6 +337,26 @@ On the seven-suite delegated-routing grid (AgentDojo's four suites plus AgentDyn
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_07_dark.svg"><img src="docs/assets/readme/h2_07_light.svg" alt="" height="18"></picture>Threat model and limitations
 
 The attacker writes only free text in tool outputs, plus one channel name in Slack. The scope is identity targets. Found an injection that reaches an attacker's target in this scope? [Report it privately](https://github.com/saintmachines/spillway/security/advisories/new).
+
+### Restrict identity-target recovery
+
+The judge can admit a target that the deterministic check did not approve. Removing instruction-like text narrows this path; it does not guarantee that every unsafe target is removed. The reported zeros concern the specified benchmark conditions, and the released PISmith evaluation has nonzero attack success.
+
+Version 0.1.2 disables this identity-target recovery by default, while preserving object-case judging and deterministic delegation. The equivalent explicit policy is:
+
+```python
+from spillway_guard import Policy
+
+policy = Policy(escalate_mv=False)
+```
+
+Pass this policy to your `Guard`. Set `Policy(escalate_mv=True)` to restore the identity-target recovery used for the paper's reference results. For the reference runner, `--paper` selects the recorded recovery-ON settings in a clean environment. An explicit `SPW_ESCALATE_MV` value can override the default; use a clean environment for exact paper reproduction. Version 0.1.2 adds `--no-identity-target-recovery` to force this path off, including historical aliases. `--no-escalate` controls a different path.
+
+```bash
+spillway-agentdojo --paper --no-identity-target-recovery --help
+```
+
+The recovery-OFF configuration can also refuse legitimate destinations found only in document text. Other policy paths remain, so this is not a guarantee against every attack. The original full-system SPILLWAY results used recovery ON. They are not measurements of the new default; component ablations keep their stated settings.
 
 <details>
 <summary><b>Threat model</b> (Sec. 2 of the paper)</summary>

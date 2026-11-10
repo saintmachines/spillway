@@ -97,7 +97,7 @@ class FloorTests(unittest.TestCase):
         # refuses it; it is never admitted by a deterministic rule, only referred to the judge
         # (fail-closed without one)
         d = admit("send_email", {"recipients": ["evil@attacker.com"], "body": "x"},
-                  task, None, tainted, idx)
+                  task, None, tainted, idx, policy=Policy(escalate_mv=True))
         self.assertEqual(d.verdict, REFER_TO_JUDGE)
         self.assertEqual(d.resolve_without_judge().verdict, BLOCK)
 
@@ -112,18 +112,20 @@ class FloorTests(unittest.TestCase):
         tainted = norm("sender: boss@corp.com recipients: me@corp.com subject: Notes body: [redacted-injected-instruction]")
         judge = NoJudge()
         d = admit("send_email", {"recipients": ["mark.black-2134@gmail.com"], "body": "notes"},
-                  "send the meeting notes to the address in the notes", None, tainted, idx, judge=judge)
+                  "send the meeting notes to the address in the notes", None, tainted, idx,
+                  policy=Policy(escalate_mv=True), judge=judge)
         self.assertEqual(d.verdict, BLOCK)
         self.assertEqual(d.label, "block_taint_target")
         self.assertEqual(judge.calls, [])
         # same call with no judge configured: the floor must not even refer it
         d = admit("send_email", {"recipients": ["mark.black-2134@gmail.com"], "body": "notes"},
-                  "send the meeting notes to the address in the notes", None, tainted, idx)
+                  "send the meeting notes to the address in the notes", None, tainted, idx,
+                  policy=Policy(escalate_mv=True))
         self.assertEqual(d.verdict, BLOCK)
         # a target NOT in any span, outside the index, is what the judge is for
         d = admit("send_email", {"recipients": ["partner@external.org"], "body": "notes"},
                   "send the meeting notes to the address in the notes", None,
-                  tainted + " partner@external.org", idx)
+                  tainted + " partner@external.org", idx, policy=Policy(escalate_mv=True))
         self.assertEqual(d.verdict, REFER_TO_JUDGE)
         self.assertEqual(d.judge_request.mode, "routing")
         self.assertTrue(d.judge_request.fail_closed)
@@ -273,9 +275,10 @@ class FloorTests(unittest.TestCase):
         d = admit("send_money", {"payee": "US133000000121212121212"}, "pay rent", None,
                   tainted + " note: us133000000121212121212", idx2, lexicon=lex)
         self.assertEqual(d.resolve_without_judge().label, "block_taint_target")
-        # Policy fields are the paper's defaults
+        # Version 0.1.2 disables identity-target recovery; other settings remain.
         p = Policy()
-        self.assertTrue(p.access_grant and p.exfil_provenance and p.escalate_mv and p.injspan_recover)
+        self.assertTrue(p.access_grant and p.exfil_provenance and p.injspan_recover and p.mv_integrity)
+        self.assertFalse(p.escalate_mv)
         self.assertFalse(p.escalate or p.integrity or p.rbrp_narrow)
         self.assertTrue(Lexicon().extprincipal)
         self.assertTrue(Lexicon.for_agentdyn().agentdyn_mode)

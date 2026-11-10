@@ -13,8 +13,11 @@ The command line is the one of the evaluated gate, ``reference/spillway_gate.py`
 4. installs a small client shim that fills temperature, seed, ``max_tokens`` and the request timeout on every agent
    call that leaves them unset and sends the system prompt in the ``system`` role, as the paper's harness did.
 
-``--paper`` is the only option the runner adds. It expands to the defense switches of every run in the paper,
+Identity-target recovery defaults to off. ``--paper`` selects its recorded on setting and expands to the defense switches of every run in the paper,
 ``--auto --access-grant --chatml-guard --exfil-provenance``, and is removed before the command line is forwarded.
+``--no-identity-target-recovery`` disables the two-view recovery of refused identity targets, including
+historical environment aliases. It preserves object recovery and the other policy settings. This is an
+optional operating point, not the paper's default configuration or its Floor ablation.
 
 Judge endpoint: the gate reads ``SPW_OLLAMA_URL`` (default ``http://127.0.0.1:11434``) and posts each judge request to
 ``<SPW_OLLAMA_URL>/api/generate`` (Ollama's native API, JSON mode, 4096-token context, temperature 0). The judge
@@ -280,6 +283,9 @@ def prepare(argv: list[str]) -> tuple[list[str], Path]:
     Returns the command line to forward and the reference directory. Importing the gate is left to the caller.
     """
     argv = list(argv)
+    paper_mode = "--paper" in argv
+    disable_target_recovery = "--no-identity-target-recovery" in argv
+    argv = [arg for arg in argv if arg != "--no-identity-target-recovery"]
     if "--paper" in argv:
         argv = [a for a in argv if a != "--paper"]
         argv += [flag for flag in PAPER_FLAGS if flag not in argv]
@@ -295,9 +301,20 @@ def prepare(argv: list[str]) -> tuple[list[str], Path]:
     for path in (str(reference), str(harness)):
         if path not in sys.path:
             sys.path.insert(0, path)
-    for key, value in paper_env_defaults(_option_value(argv, "--agent-model")).items():
+    defaults = paper_env_defaults(_option_value(argv, "--agent-model"))
+    if not paper_mode:
+        defaults["SPW_ESCALATE_MV"] = "0"
+    for key, value in defaults.items():
         os.environ.setdefault(key, value)
     check_prompt_file()
+    if disable_target_recovery or (not paper_mode and os.environ["SPW_ESCALATE_MV"] == "0"):
+        # Existing historical aliases win over mirror_switches. An explicit
+        # safety option must reach every spelling actually read by the gate.
+        names = set(os.environ) | harness_env_names(harness, reference)
+        names.add("SPW_ESCALATE_MV")
+        for name in names:
+            if name.endswith("_ESCALATE_MV"):
+                os.environ[name] = "0"
     mirror_switches(harness, reference)
     install_agent_shim()
     return argv, reference

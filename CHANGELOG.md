@@ -6,6 +6,23 @@ All notable changes to SPILLWAY are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.1.2]
+
+### Changed
+
+- `Policy.escalate_mv` now defaults to `False`. The optional judge no longer restores a refused identity target through the two-view target-recovery path. `mv_integrity` and other policy fields are unchanged. `Policy(escalate_mv=True)` restores the prior target-recovery behavior.
+- The reference runner defaults target recovery to OFF unless `--paper` selects the recorded ON setting or `SPW_ESCALATE_MV=1` opts in. The original full-system SPILLWAY results used recovery ON.
+
+### Added
+
+- `spillway-agentdojo --no-identity-target-recovery` disables the two-view recovery of refused identity targets across both public and historical environment aliases. Object-case recovery and other settings are preserved. The existing library option is `Policy(escalate_mv=False)`.
+- Caller-level regression checks cover stale aliases, unchanged object recovery, the default paper configuration and the separate payload escalation option.
+
+### Clarified
+
+- Reported zeros apply to the stated benchmark conditions. A judge may admit an unsafe target that the deterministic check did not approve. Disabling identity-target recovery may also refuse legitimate delegated work.
+- Recorded paper results are not relabeled as results of the new default. This release does not claim a completed adaptive evaluation.
+
 ## [0.1.1]
 
 Package description, metadata and recorded example. The library's code is unchanged apart from
