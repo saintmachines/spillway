@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: Upload the verified frozen 0.1.2 distributions to PyPI
+        description: Upload the verified frozen 0.1.3 distributions to PyPI
         default: false
         type: boolean
 
@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pypi-spillway-0.1.2
+  group: pypi-spillway-0.1.3
   cancel-in-progress: false
 
 jobs:
@@ -35,30 +35,30 @@ jobs:
           import subprocess
 
           repo = 'saintmachines/spillway'
-          commit = 'fb84c599355f35057047541b4164a67bb49ab1f3'
-          tag_object = '6924c4f8c0b6ebb4d40b956b4bb7e603dc671ea0'
+          commit = '6b0380ab258b0f84f880171ff5e1ffa18db98be7'
+          tag_object = 'a3f97744a209cfccfc74a4d349cf69d22706e13a'
           expected = {
-              'spillway_guard-0.1.2-py3-none-any.whl': {
-                  'id': 733472487,
-                  'size': 69283,
-                  'sha256': '8bed614d3d4aa5f1f14d8741cb8a4d3156ad4ee36f7aaec0ee3596bdb9d4c781',
+              'spillway_guard-0.1.3-py3-none-any.whl': {
+                  'id': 745489635,
+                  'size': 74321,
+                  'sha256': '4705fe784f9db02ad38c08ec42b010a37c2aa7ec80c24d741aac5626ea04a4d8',
               },
-              'spillway_guard-0.1.2.tar.gz': {
-                  'id': 733472486,
-                  'size': 248054,
-                  'sha256': 'badf96e27daa5d89e080d407424508c71c31ef2d896858427db703579d481acb',
+              'spillway_guard-0.1.3.tar.gz': {
+                  'id': 745489657,
+                  'size': 327038,
+                  'sha256': '7a137ab17f4376560b19156ff9dd523368f220f02f80a5a525636c49886b3cf2',
               },
           }
 
           def api(path):
               return json.loads(subprocess.check_output(['gh', 'api', 'repos/' + repo + path]))
 
-          ref = api('/git/ref/tags/v0.1.2')['object']
+          ref = api('/git/ref/tags/v0.1.3')['object']
           assert ref['type'] == 'tag' and ref['sha'] == tag_object, 'The frozen tag changed'
           tag = api('/git/tags/' + tag_object)
-          assert tag['tag'] == 'v0.1.2' and tag['object']['sha'] == commit, 'The frozen commit changed'
-          release = api('/releases/441080921')
-          assert release['id'] == 441080921 and release['tag_name'] == 'v0.1.2'
+          assert tag['tag'] == 'v0.1.3' and tag['object']['sha'] == commit, 'The frozen commit changed'
+          release = api('/releases/444822017')
+          assert release['id'] == 444822017 and release['tag_name'] == 'v0.1.3'
           assert release['target_commitish'] == commit, 'The release target changed'
           assets = {asset['name']: asset for asset in release['assets']}
           dist = Path('dist')
@@ -75,16 +75,16 @@ jobs:
               raw = (dist / name).read_bytes()
               assert len(raw) == record['size'] and hashlib.sha256(raw).hexdigest() == record['sha256'], name
           assert {path.name for path in dist.iterdir()} == set(expected)
-          print('Verified v0.1.2', commit, 'and both existing distribution hashes; no rebuild')
+          print('Verified v0.1.3', commit, 'and both existing distribution hashes; no rebuild')
           PY
       - name: Check both package descriptions
         run: |
           python -m pip install --disable-pip-version-check 'twine>=7'
-          python -m twine check --strict dist/spillway_guard-0.1.2-py3-none-any.whl dist/spillway_guard-0.1.2.tar.gz
+          python -m twine check --strict dist/spillway_guard-0.1.3-py3-none-any.whl dist/spillway_guard-0.1.3.tar.gz
       - name: Verify a fresh wheel installation
         run: |
           python -m venv "$RUNNER_TEMP/spillway-install"
-          "$RUNNER_TEMP/spillway-install/bin/python" -m pip --isolated install --index-url https://pypi.org/simple dist/spillway_guard-0.1.2-py3-none-any.whl
+          "$RUNNER_TEMP/spillway-install/bin/python" -m pip --isolated install --index-url https://pypi.org/simple dist/spillway_guard-0.1.3-py3-none-any.whl
           "$RUNNER_TEMP/spillway-install/bin/python" -m pip check
           "$RUNNER_TEMP/spillway-install/bin/python" -I - <<'PY'
           import hashlib
@@ -99,9 +99,9 @@ jobs:
 
           package = Path(spillway_guard.__file__).resolve()
           assert package.is_relative_to(Path(sys.prefix)), 'Import must come from the fresh installation'
-          assert version('spillway-guard') == '0.1.2'
+          assert version('spillway-guard') == '0.1.3'
           assert not Policy().escalate_mv and Policy().mv_integrity
-          with zipfile.ZipFile('dist/spillway_guard-0.1.2-py3-none-any.whl') as archive:
+          with zipfile.ZipFile('dist/spillway_guard-0.1.3-py3-none-any.whl') as archive:
               members = [name for name in archive.namelist() if name.startswith('spillway_guard/')]
               for name in members:
                   installed = (package.parent.parent / name).read_bytes()
@@ -139,8 +139,8 @@ jobs:
           import hashlib
           from pathlib import Path
           expected = {
-              'spillway_guard-0.1.2-py3-none-any.whl': '8bed614d3d4aa5f1f14d8741cb8a4d3156ad4ee36f7aaec0ee3596bdb9d4c781',
-              'spillway_guard-0.1.2.tar.gz': 'badf96e27daa5d89e080d407424508c71c31ef2d896858427db703579d481acb',
+              'spillway_guard-0.1.3-py3-none-any.whl': '4705fe784f9db02ad38c08ec42b010a37c2aa7ec80c24d741aac5626ea04a4d8',
+              'spillway_guard-0.1.3.tar.gz': '7a137ab17f4376560b19156ff9dd523368f220f02f80a5a525636c49886b3cf2',
           }
           files = {path.name: path for path in Path('dist').iterdir()}
           assert set(files) == set(expected)
