@@ -779,7 +779,7 @@ footer .maker { justify-self: start; padding-block: 12px; color: var(--saint); }
 footer .maker svg { display: block; max-width: 100%; height: auto; }
 
 /* ---- phone overrides: last in the cascade so they win over the component rules above ---- */
-@media (max-width: 600px) { :root { --section: 40px; } .chips { display: none; } .head { margin-bottom: 20px; } .pills .pill:nth-child(n+6) { display: none; }
+@media (max-width: 600px) { :root { --section: 40px; } .chips { display: none; } .head { margin-bottom: 20px; } .pills .pill:nth-child(n+6):not(.hf-paper) { display: none; }
   .heat th, .heat td { padding: 8px 8px; } .db-t { height: 28px; } .db-row:has(em) .db-t { height: 50px; } .hb-bars { padding-block: 6px; } .card, .step, .sbox, .proofcard, .leakband { padding: 20px 16px; } .hero { padding-top: 24px; } .sc-plot { height: 280px; }
   .db-kt { height: 38px; } .db-kt .k.rope { bottom: 23px; } .db-kt .k.hi { bottom: 4px; }  /* separate label baselines only; dot coordinates stay unchanged */
   .hb { --lw: 5.25rem; } .db { --lw: 6.5rem; } .db-l em { white-space: nowrap; } }

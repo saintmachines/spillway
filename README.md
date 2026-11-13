@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/"><b>Project page</b></a> ·
   <a href="https://arxiv.org/abs/2611.07222"><b>Paper (arXiv)</b></a> ·
+  <a href="https://huggingface.co/papers/2611.07222"><b>Hugging Face</b></a> ·
   <a href="#try-it-in-60-seconds"><b>Try it</b></a> ·
   <a href="https://saintmachines.github.io/spillway/try.html"><b>Try in your browser</b></a> ·
   <a href="#connect-an-app"><b>Connect an app</b></a> ·
