@@ -1,5 +1,24 @@
 # SPILLWAY
 
+## Guarded recovery in 0.1.3
+
+The SDK now enables `Policy(mv_guard=True, rolemark=True)`. G1 prevents two-view recovery of an identifier dictated by an imperative in tool text. G2 prevents that recovery for an IBAN payment when the user's task contains no payment request. The same preconditions cover object recovery; ROLEMARK adds forged plain-text role headers to ingress redaction. Identity-target recovery still defaults to `False`. Supplying `Policy(escalate_mv=True)` enables it with these preconditions.
+
+```python
+from spillway_guard import Guard, Policy
+
+guard = Guard(task)  # guarded recovery and ROLEMARK on; identity recovery off
+recovery_on = Guard(task, policy=Policy(escalate_mv=True))
+legacy = Guard(task, policy=Policy(mv_guard=False, rolemark=False))
+```
+
+`Guard` passes the exact tool-channel text, preserving case, clauses and newlines, to both recovery checks. Low-level `admit(..., tool_texts=[...])` callers must provide that exact text; normalized `tainted_text` is not a substitute. The guard checks text actually delivered to the agent after configured ingress sanitization, as the experiment did. It only skips recovery; the remaining deterministic ladder stays in effect.
+
+The AgentDojo runner defaults to the separate guarded reference. `--paper` selects the unchanged v1 paper reference/settings; `--paper --guarded` adds the new guard to the paper's recovery-ON settings. `--legacy-v1` disables both additions, and `--no-mv-guard` / `--no-rolemark` disable each independently. `SPW_MV_GUARD=0` and `SPW_ROLEMARK=0` are equivalent environment opt-outs for ordinary guarded runs. The original frozen reference and published benchmark records are unchanged.
+
+These finite predicates are not a general security proof: imperative-looking legitimate instructions can be refused; G1 does not recognize all declarative routing substitutions, and G2's payment vocabulary does not understand negation. Existing model results belong to their recorded experimental configurations; this release adds CPU caller/predicate/legacy tests and no new paid or model evaluation. The optional local judge can check selected content/object calls as well as refused-target recovery, so it is not globally limited to refused calls.
+
+
 A prompt-injection defense for tool-using agents. Text in an email or a web page can steer an agent to an attacker's address. **SPILLWAY checks recipients against the user's task and the typed fields of tool returns.**
 
 [Project page](https://saintmachines.github.io/spillway/) · [Paper](https://arxiv.org/abs/2611.07222) · [Code and per-cell results](https://github.com/saintmachines/spillway)
@@ -81,7 +100,7 @@ for call in response.choices[0].message.tool_calls:   # OpenAI chat API
 
 ## How it works
 
-SPILLWAY admits a side-effecting call when every new target came from a typed identity field or from the user's task, so an address an attacker wrote into free text is refused by a set lookup. Fixed delegation rules and an optional two-view judge look again only at the calls it refuses. Before the agent reads a tool return, fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls.
+SPILLWAY admits a side-effecting call when every new target came from a typed identity field or from the user's task, so an address an attacker wrote into free text is refused by a set lookup. Fixed delegation rules and optional two-view target recovery can re-examine refused targets; other selected content/object calls may also reach the local judge. Before the agent reads a tool return, fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls.
 
 ## Restrict identity-target recovery
 

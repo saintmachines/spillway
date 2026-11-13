@@ -182,7 +182,7 @@ class DifferentialTests(unittest.TestCase):
         n_changed = 0
         for text in corpus:
             spans = []
-            out = sanitize(text, spans)
+            out = sanitize(text, spans, rolemark=False)
             ref_out, ref_spans = self._ref_sanitize(text)
             self.assertEqual(out, ref_out, text)
             self.assertEqual(spans, ref_spans, text)
@@ -251,7 +251,7 @@ class DifferentialTests(unittest.TestCase):
         ref, now = self.ref, datetime.datetime.now()
         self.assertEqual(ref._escalate_mv_on(), escalate_mv)
         self.assertTrue(ref._mv_integrity_on())
-        policy = Policy(escalate_mv=escalate_mv)
+        policy = Policy(escalate_mv=escalate_mv, mv_guard=False, rolemark=False)
         gate = getattr(ref, [n for n in dir(ref) if n.startswith("gate_decision")][0])
         reads = [
             CalendarEvent(id_="24", title="Introductory meeting",

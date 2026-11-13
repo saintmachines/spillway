@@ -284,6 +284,22 @@ def prepare(argv: list[str]) -> tuple[list[str], Path]:
     """
     argv = list(argv)
     paper_mode = "--paper" in argv
+    explicit_guarded = "--guarded" in argv
+    legacy_mode = "--legacy-v1" in argv or (paper_mode and not explicit_guarded)
+    disable_mv_guard = "--no-mv-guard" in argv
+    disable_rolemark = "--no-rolemark" in argv
+    argv = [a for a in argv if a not in {"--guarded", "--legacy-v1", "--no-mv-guard", "--no-rolemark"}]
+    for suffix, disabled in (("MV_GUARD", disable_mv_guard), ("ROLEMARK", disable_rolemark)):
+        key = "SPW_" + suffix
+        if legacy_mode or disabled:
+            os.environ[key] = "0"
+        elif explicit_guarded:
+            os.environ[key] = "1"
+        else:
+            os.environ.setdefault(key, "1")
+        os.environ["CONRAC_" + suffix] = os.environ[key]
+    os.environ["SPW_REFERENCE_MODULE"] = ("spillway_guarded" if any(
+        os.environ["SPW_" + suffix] == "1" for suffix in ("MV_GUARD", "ROLEMARK")) else "spillway_gate")
     disable_target_recovery = "--no-identity-target-recovery" in argv
     argv = [arg for arg in argv if arg != "--no-identity-target-recovery"]
     if "--paper" in argv:
@@ -324,7 +340,7 @@ def main(argv: list[str] | None = None) -> int:
     """Console entry point: ``spillway-agentdojo [--paper] <arguments of reference/spillway_gate.py>``."""
     argv, _ = prepare(sys.argv[1:] if argv is None else argv)
     try:
-        gate = importlib.import_module("spillway_gate")
+        gate = importlib.import_module(os.environ.get("SPW_REFERENCE_MODULE", "spillway_gate"))
     except ModuleNotFoundError as exc:
         missing = (exc.name or "").split(".")[0]
         if missing in {"agentdojo", "openai", "google", "pydantic"}:

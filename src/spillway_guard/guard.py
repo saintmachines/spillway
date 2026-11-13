@@ -110,6 +110,7 @@ class Guard:
         self.judge = judge
         self.sanitize_returns = sanitize_returns
         self.index = IdentityIndex(lexicon=lexicon)
+        self._tool_texts: List[str] = []
         self._tainted = ""
         self.audit: List[dict] = []
 
@@ -132,6 +133,7 @@ class Guard:
         if user_task is not None:
             self.user_task = str(user_task)
         self.index.reset()
+        self._tool_texts = []
         self._tainted = ""
         self.audit = []
 
@@ -161,9 +163,11 @@ class Guard:
         if self.sanitize_returns:
             spans: List[str] = []
             text = sanitize(text, spans, control_tokens=True, injected_imperatives=True,
-                            agent_addressed=self.policy.ingress_agentaddr, forged_turns_in_spans=True)
+                            agent_addressed=self.policy.ingress_agentaddr, forged_turns_in_spans=True,
+                            rolemark=self.policy.rolemark)
             if spans and self.policy.injspan_recover:
                 self.index.add_spans(spans)
+        self._tool_texts.append(text_of(text))
         self._read(text)
         if not isinstance(typed_return, str):
             for raw in _raw_strings(_dump(typed_return)):
@@ -173,18 +177,21 @@ class Guard:
     def observe_refusal(self, name: str, decision: Decision) -> str:
         """Record the refusal text fed back to the model for a blocked call (it is tool text too)."""
         txt = decision.refusal_text(name)
+        self._tool_texts.append(txt)
         self._read(txt)
         return txt
 
     def observe_text(self, text: str) -> None:
         """Record any other tool-channel text the model read (already sanitized by the caller)."""
+        self._tool_texts.append(text_of(text))
         self._read(text_of(text))
 
     # ---- egress ----------------------------------------------------------------------------------
     def check_call(self, name: str, args: Optional[dict]) -> Decision:
         """Admit, refuse, or (with a judge) re-examine one proposed call."""
         d = admit(name, args, self.user_task, self.trusted, self.tainted, self.index,
-                  policy=self.policy, lexicon=self.lexicon)
+                  policy=self.policy, lexicon=self.lexicon,
+                  tool_texts=tuple(self._tool_texts))
         while d.referred:
             if self.judge is None:
                 d = d.resolve_without_judge()

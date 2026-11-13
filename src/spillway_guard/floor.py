@@ -41,6 +41,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tupl
 from pydantic import BaseModel
 
 from .lexicon import DEFAULT_LEXICON, Lexicon
+from .recovery_guard import _mv_guard_refuses
 from .sanitizer import span_payload
 
 __all__ = [
@@ -1324,6 +1325,8 @@ class Policy:
     # an attacker admit a refused clone or invite target after a judge's no (see CHANGELOG).
     injspan_clean_rule: bool = False
     integrity_ctrl_skip: bool = False  # SPW_INTEGRITY_CTRL_SKIP
+    mv_guard: bool = True             # guarded recovery v1 G1/G2 before two-view recovery
+    rolemark: bool = True             # forged plain-text chat-role headers in ingress
 
     def replace(self, **kw) -> "Policy":
         return replace(self, **kw)
@@ -1498,7 +1501,7 @@ def _multiview_recover(judge: JudgeFn, user_task, name, args, threshold):
 # =============================================================================================
 def _gate(name, args, tainted, trusted, user_task, identity_set, *, policy: Policy, lexicon: Lexicon,
           judge: JudgeFn, selection_records=None, taint_coresident=None, msg_records=None,
-          injection_span=None):
+          injection_span=None, mvg_sources=()):
     P, lex, threshold = policy, lexicon, policy.threshold
     escalate, content_tier, selective = P.escalate, P.content_tier, P.selective
     sentinel, strict, integrity, integrity_llm = P.sentinel, P.strict, P.integrity, P.integrity_llm
@@ -1690,7 +1693,9 @@ def _gate(name, args, tainted, trusted, user_task, identity_set, *, policy: Poli
                     "trusted task string; the attacker controls only the padded suffix of a "
                     "discovery output), with a structural egress "
                     "bound (no URL/email lead can be authorized) (delegation rule, P3)", None)
-        if P.escalate_mv and not (P.ingress_agentaddr and injection_span
+        _mvg_why = (_mv_guard_refuses(name, args, novel_target_tokens, user_task, mvg_sources, identifiers_only=True)
+                    if P.escalate_mv and P.mv_guard else None)
+        if P.escalate_mv and not _mvg_why and not (P.ingress_agentaddr and injection_span
                                   and not no_target_in_injection_span(novel_target_tokens, span_payload(injection_span))):   # mvspan
             _mvok, _mvs = _multiview_recover(judge, user_task, name, args, threshold)
             if _mvok:
@@ -1770,7 +1775,12 @@ def _gate(name, args, tainted, trusted, user_task, identity_set, *, policy: Poli
                 if integrity_user_named(v, user_task):
                     continue                      # user named the object -> $0 short-circuit
                 if not authorized:
-                    if P.mv_integrity and not (P.ingress_agentaddr and injection_span and any(
+                    _mvg_why = (_mv_guard_refuses(
+                        name, args, [t for t in significant_tokens(v)
+                                     if appears_in(t, tainted) and not appears_in(t, trusted)],
+                        user_task, mvg_sources, identifiers_only=False)
+                        if P.mv_integrity and P.mv_guard else None)
+                    if P.mv_integrity and not _mvg_why and not (P.ingress_agentaddr and injection_span and any(
                             appears_in(_t, span_payload(injection_span)) for _t in significant_tokens(v))):   # mvspan
                         _mvok, _mvs = _multiview_recover(judge, user_task, name, args, threshold)
                         if _mvok:
@@ -1852,7 +1862,7 @@ def admit(call_name: str, args: Optional[dict], user_task: str,
           trusted_text: Optional[str] = None, tainted_text: str = "",
           index: Optional[IdentityIndex] = None, spans: Optional[Sequence[str]] = None, *,
           policy: Policy = DEFAULT_POLICY, lexicon: Optional[Lexicon] = None,
-          judge: Optional[JudgeFn] = None, _script: Tuple[Tuple[bool, float], ...] = ()) -> Decision:
+          judge: Optional[JudgeFn] = None, tool_texts: Sequence[str] = (), _script: Tuple[Tuple[bool, float], ...] = ()) -> Decision:
     """Admission decision for one proposed tool call.
 
     ``user_task``   the user's request (raw text).
@@ -1861,6 +1871,8 @@ def admit(call_name: str, args: Optional[dict], user_task: str,
                     removed-span payload is appended here when ``policy.ingress_agentaddr`` is on.
     ``index``       the IdentityIndex of this task (typed identities, co-residence, roster, span text).
     ``spans``       optional extra removed-span texts (raw) to add to the span text for this call.
+    ``tool_texts``  exact tool-channel text read by the agent, preserving clauses/newlines;
+                    Guard supplies it automatically for G1. Never substitute normalized taint.
     ``judge``       optional callable ``JudgeRequest -> (coherent, score)``. Without one, the first
                     judge point returns a REFER_TO_JUDGE decision whose ``resume(coherent, score)``
                     continues the ladder; ``resolve_without_judge()`` applies the fail-closed default.
@@ -1891,13 +1903,14 @@ def admit(call_name: str, args: Optional[dict], user_task: str,
             selection_records=idx.selection_records,
             taint_coresident=(idx.taint_coresident if policy.exfil_provenance else None),
             msg_records=(idx.msg_records if policy.rbrp_narrow else None),
-            injection_span=(span_text if policy.injspan_recover else None))
+            injection_span=(span_text if policy.injspan_recover else None),
+            mvg_sources=(tuple(tool_texts) if policy.mv_guard else ()))
     except _Refer as r:
         req = r.request
 
         def _resume(coherent: bool, sc: float, _req=req) -> Decision:
             return admit(call_name, args, user_task, trusted_text, tainted_text, index, spans,
-                         policy=policy, lexicon=lex, judge=judge,
+                         policy=policy, lexicon=lex, judge=judge, tool_texts=tool_texts,
                          _script=tuple(_script) + ((coherent, sc),))
         return Decision(REFER_TO_JUDGE, "refer_" + req.mode, "deterministic tiers refused or could not decide; "
                         "the %s view of the judge is needed" % req.mode, None, req, _resume)

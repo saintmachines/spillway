@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3
+
+- Integrate guarded recovery v1 G1/G2 into identity and object two-view recovery; preserve exact tool-channel sources across judge resumes.
+- Enable ROLEMARK ingress matching by default. Identity-target recovery remains opt-in.
+- Add independent opt-outs and a separate guarded AgentDojo reference; `--paper` keeps the frozen v1 path.
+- Clarify selected-call judge scope. No new model evaluation or new benchmark numbers are claimed.
+
 All notable changes to SPILLWAY are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [semantic versioning](https://semver.org/).

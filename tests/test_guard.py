@@ -109,7 +109,7 @@ class GuardTests(unittest.TestCase):
                 a = _s.pop(0)
                 return a, 1.0 if a else 0.0
             g = Guard("send the report to the address in the meeting notes",
-                      policy=Policy(escalate_mv=True), judge=judge)
+                      policy=Policy(escalate_mv=True, mv_guard=False, rolemark=False), judge=judge)
             g.observe_tool_return("get_email", {"id": "1"}, em)
             d = g.check_call("send_email", {"recipients": ["partner@external.org"], "body": "report"})
             self.assertEqual(d.label, expect, answers)
@@ -314,7 +314,7 @@ class GuardTests(unittest.TestCase):
 
     def test_version_and_exports(self):
         import spillway_guard
-        self.assertEqual(spillway_guard.__version__, "0.1.2")
+        self.assertEqual(spillway_guard.__version__, "0.1.3")
         for name in ("Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge"):
             self.assertTrue(hasattr(spillway_guard, name), name)
 

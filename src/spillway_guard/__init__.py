@@ -29,7 +29,7 @@ from .judge import Judge
 from .lexicon import Lexicon
 from .sanitizer import sanitize
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 __all__ = ["Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
            "JudgeRequest", "admit", "taint_novel", "index_identity_leaves",

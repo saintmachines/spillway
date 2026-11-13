@@ -1,8 +1,27 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
+## Guarded recovery in 0.1.3
+
+The SDK now enables `Policy(mv_guard=True, rolemark=True)`. G1 prevents two-view recovery of an identifier dictated by an imperative in tool text. G2 prevents that recovery for an IBAN payment when the user's task contains no payment request. The same preconditions cover object recovery; ROLEMARK adds forged plain-text role headers to ingress redaction. Identity-target recovery still defaults to `False`. Supplying `Policy(escalate_mv=True)` enables it with these preconditions.
+
+```python
+from spillway_guard import Guard, Policy
+
+guard = Guard(task)  # guarded recovery and ROLEMARK on; identity recovery off
+recovery_on = Guard(task, policy=Policy(escalate_mv=True))
+legacy = Guard(task, policy=Policy(mv_guard=False, rolemark=False))
+```
+
+`Guard` passes the exact tool-channel text, preserving case, clauses and newlines, to both recovery checks. Low-level `admit(..., tool_texts=[...])` callers must provide that exact text; normalized `tainted_text` is not a substitute. The guard checks text actually delivered to the agent after configured ingress sanitization, as the experiment did. It only skips recovery; the remaining deterministic ladder stays in effect.
+
+The AgentDojo runner defaults to the separate guarded reference. `--paper` selects the unchanged v1 paper reference/settings; `--paper --guarded` adds the new guard to the paper's recovery-ON settings. `--legacy-v1` disables both additions, and `--no-mv-guard` / `--no-rolemark` disable each independently. `SPW_MV_GUARD=0` and `SPW_ROLEMARK=0` are equivalent environment opt-outs for ordinary guarded runs. The original frozen reference and published benchmark records are unchanged.
+
+These finite predicates are not a general security proof: imperative-looking legitimate instructions can be refused; G1 does not recognize all declarative routing substitutions, and G2's payment vocabulary does not understand negation. Existing model results belong to their recorded experimental configurations; this release adds CPU caller/predicate/legacy tests and no new paid or model evaluation. The optional local judge can check selected content/object calls as well as refused-target recovery, so it is not globally limited to refused calls.
+
+
 <h1 align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
-    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, a model reviews refusals. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
+    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
   </picture></a></h1>
 <p align="center"><b>A prompt-injection defense for tool-using agents. A Python library with no model call by default.</b></p>
 
@@ -46,7 +65,7 @@ pip install spillway-guard
 
 A backbone is the agent's model. An in-scope leak sends an action to a target the user never named. The count starts from AgentDojo's check, rescored by executed effect, and excludes a target the task already named and a content-only task that names no recipient or sink. Neither filter reads defense state.
 
-<p align="center"><sub>AgentDojo v1.2.2, same backbone and scorer for every method. SPILLWAY's rows use the optional gemma4:31b judge, a local model that re-checks refused calls, off by default in the library. <a href="https://saintmachines.github.io/spillway/results.html">Values and conditions</a> · <a href="benchmarks/results">Per-cell records</a> · <a href="#detailed-results">Stronger attacks</a> · <a href="#faq">Without the judge</a>.</sub></p>
+<p align="center"><sub>AgentDojo v1.2.2, same backbone and scorer for every method. SPILLWAY's rows use the optional gemma4:31b judge, an optional local model that checks selected calls, off by default in the library. <a href="https://saintmachines.github.io/spillway/results.html">Values and conditions</a> · <a href="benchmarks/results">Per-cell records</a> · <a href="#detailed-results">Stronger attacks</a> · <a href="#faq">Without the judge</a>.</sub></p>
 
 <details>
 <summary>What is different</summary>
@@ -125,16 +144,16 @@ Because the floor is a set lookup, SPILLWAY adds 0.19 (Workspace) and 0.39 (Slac
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_03_dark.svg"><img src="docs/assets/readme/h2_03_light.svg" alt="" height="18"></picture>How it works
 
-### Structure decides where an agent acts, a model reviews refusals.
+### Structure decides where an agent acts, an optional local judge checks selected calls.
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#how"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/steps_phone.png">
-    <img src="docs/assets/readme_page/steps.png" alt="SPILLWAY in four steps. Index typed identities, 0 model calls: read-only tools return typed fields such as an email address, a URI, a recipient or a channel, which go into an identity index, and a body or description never does. Sanitize tool output, 0 model calls: fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls, and the removed text is remembered. Check every target, a set lookup: a call goes through when every target that appears in tool output and not in the user's task is in the index and not repeated in free text, or a fixed delegation rule covers it. Grants and deletions have stricter rules. Re-check refusals only, a local judge, off by default: it may restore a refused recipient or an action the task did not ask for, unless it was in removed text. Grant refusals never reach the judge.">
+    <img src="docs/assets/readme_page/steps.png" alt="SPILLWAY in four steps. Index typed identities, 0 model calls: read-only tools return typed fields such as an email address, a URI, a recipient or a channel, which go into an identity index, and a body or description never does. Sanitize tool output, 0 model calls: fixed rules remove forged chat turns, injection templates, text that addresses the agent and dictated tool calls, and the removed text is remembered. Check every target, a set lookup: a call goes through when every target that appears in tool output and not in the user's task is in the index and not repeated in free text, or a fixed delegation rule covers it. Grants and deletions have stricter rules. Check selected calls, a local judge, off by default: it may restore a refused recipient or an action the task did not ask for, unless it was in removed text. Grant refusals never reach the judge.">
   </picture></a>
 </p>
 
-SPILLWAY lets a call through when every new recipient came from the user's task or a typed field such as an email's sender. An address an attacker wrote into an email's text is refused, with no model call. Fixed rules and an optional local judge, off by default, look again only at the calls it refuses.
+SPILLWAY lets a call through when every new recipient came from the user's task or a typed field such as an email's sender. An address an attacker wrote into an email's text is refused, with no model call. Fixed rules and optional two-view target recovery re-examine refused targets. The optional local judge also checks selected content and object calls.
 
 <p align="center"><sub><a href="#threat-model-and-limitations">Threat model</a> · <a href="#see-it-work">See it work</a> · <a href="#try-it-in-60-seconds">Try it</a>.</sub></p>
 

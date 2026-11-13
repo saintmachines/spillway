@@ -284,6 +284,11 @@ def _paragraph_spans(text):
 # typed data before the injection. When an agentaddr2
 # form fires, the region runs from the start of the sentence or line that holds the first hit to the end of the return.
 _AGENT_ADDR2_RE = re.compile(_AGENT_ADDR2, re.I)
+_ROLEMARK = (
+    r"#{2,}[ \t]*[(\[][ \t]*(?:system|assistant|developer)(?:[ \t_-]*(?:message|prompt|instructions?))?[ \t]*[)\]]"
+    r"|[(\[][ \t]*(?:system|developer)[ \t_-]*(?:message|prompt|instructions?)[ \t]*[)\]]")
+_AGENT_ADDR_RM_RE = re.compile(_AGENT_ADDR_RE.pattern + "|" + _ROLEMARK, re.I)
+_AGENT_ADDR2_RM_RE = re.compile(_AGENT_ADDR2 + "|" + _ROLEMARK, re.I)
 # agentaddr-value: the end of the YAML value that holds a position. A tool
 # return is YAML (real newlines) or its repr (escaped newlines); a folded scalar's continuation lines are indented deeper
 # than the key that owns it. The owner is the hit's line if it starts an item/key, else the nearest earlier item/key line
@@ -429,21 +434,23 @@ def _first_at_or_after(sorted_positions, pos):
     return sorted_positions[k] if k < len(sorted_positions) else float("inf")
 
 
-def agent_addressed_regions(text):
+def agent_addressed_regions(text, *, rolemark: bool = True):
     """[(start, end)] of the regions to redact; [] when no clause addresses the agent."""
-    if not isinstance(text, str) or not (_AGENT_ADDR_RE.search(text) or _PAYEE_CLAIM_RE.search(text)):
+    _AA, _AA2 = ((_AGENT_ADDR_RM_RE, _AGENT_ADDR2_RM_RE) if rolemark
+                 else (_AGENT_ADDR_RE, _AGENT_ADDR2_RE))
+    if not isinstance(text, str) or not (_AA.search(text) or _PAYEE_CLAIM_RE.search(text)):
         return []
     regions = list(payee_claim_regions(text))   # payeeclaim
     covered = []
     for tm in _tag_block_matches(text):
-        if _AGENT_ADDR_RE.search(tm.group(2)):
+        if _AA.search(tm.group(2)):
             regions.append((tm.start(), tm.end()))
             covered.append((tm.start(), tm.end()))
     # the blocks are disjoint and in order: a hit lies in one iff it lies in the last block starting at or before it
     cov_starts = [a for a, _b in covered]
-    hits = [m.start() for m in _AGENT_ADDR_RE.finditer(text)
+    hits = [m.start() for m in _AA.finditer(text)
             if not _in_last_span(cov_starts, covered, m.start())]
-    if hits and _AGENT_ADDR2_RE.search(text):   # agentaddr2-scope: a typed return keeps what precedes the injection
+    if hits and _AA2.search(text):   # agentaddr2-scope: a typed return keeps what precedes the injection
         regions.append((_clause_start(text, min(hits)), len(text)))
         hits = []
     if hits:
@@ -456,7 +463,7 @@ def agent_addressed_regions(text):
         j = hi + 1
         while j < len(paras) and j <= hi + 3:
             seg = text[paras[j][0]:paras[j][1]]
-            if _directive_search(seg) or _AGENT_ADDR_RE.search(seg) or re.match(r"\s*(signed|thanks|regards)", seg, re.I):
+            if _directive_search(seg) or _AA.search(seg) or re.match(r"\s*(signed|thanks|regards)", seg, re.I):
                 hi = j
                 j += 1
             else:
@@ -475,8 +482,8 @@ def agent_addressed_regions(text):
     return merged
 
 
-def redact_agent_addressed(text, span_sink=None):
-    regs = agent_addressed_regions(text)
+def redact_agent_addressed(text, span_sink=None, *, rolemark: bool = True):
+    regs = agent_addressed_regions(text, rolemark=rolemark)
     if not regs:
         return text, 0
     out, last = [], 0
@@ -497,7 +504,7 @@ def injection_template_spans(text) -> List[Tuple[int, int]]:
     return sorted(set(spans))
 
 
-def redact_injected_imperatives(text, span_sink=None, *, agent_addressed: bool = True):
+def redact_injected_imperatives(text, span_sink=None, *, agent_addressed: bool = True, rolemark: bool = True):
     """Mirror of the reference ``_redact_injected_imperatives``; ``agent_addressed`` replaces the
     SPW_INGRESS_AGENTADDR environment switch (paper default: on). Returns (text, n_regions)."""
     if not isinstance(text, str):
@@ -505,7 +512,7 @@ def redact_injected_imperatives(text, span_sink=None, *, agent_addressed: bool =
     low = text.lower()
     if "<information>" not in low and "important message from me" not in low:
         if agent_addressed:   # agentaddr: no template -> the agent-addressing rule alone
-            return redact_agent_addressed(text, span_sink)
+            return redact_agent_addressed(text, span_sink, rolemark=rolemark)
         return text, 0
     n = [0]
     def _r(_m):
@@ -516,7 +523,7 @@ def redact_injected_imperatives(text, span_sink=None, *, agent_addressed: bool =
     text = _sub_matches(_inj_tag_matches(text), _r, text)
     text = _sub_matches(_inj_template_matches(text), _r, text)
     if agent_addressed:   # agentaddr: a residual agent-addressing region outside the template
-        text, _k = redact_agent_addressed(text, span_sink)
+        text, _k = redact_agent_addressed(text, span_sink, rolemark=rolemark)
         n[0] += _k
     return text, n[0]
 
@@ -525,7 +532,8 @@ def sanitize(text: str, span_sink: Optional[list] = None, *,
              control_tokens: bool = True,
              injected_imperatives: bool = True,
              agent_addressed: bool = True,
-             forged_turns_in_spans: bool = False) -> str:
+             forged_turns_in_spans: bool = False,
+             rolemark: bool = True) -> str:
     """Sanitize one tool-return text before the model reads it.
 
     The evaluation harness applied the control-token neutralizer (``--chatml-guard``) first and the
@@ -546,9 +554,9 @@ def sanitize(text: str, span_sink: Optional[list] = None, *,
     if control_tokens:
         text, _ = neutralize_control_tokens(text, span_sink if forged_turns_in_spans else None)
     if injected_imperatives:
-        text, _ = redact_injected_imperatives(text, span_sink, agent_addressed=agent_addressed)
+        text, _ = redact_injected_imperatives(text, span_sink, agent_addressed=agent_addressed, rolemark=rolemark)
     elif agent_addressed:
-        text, _ = redact_agent_addressed(text, span_sink)
+        text, _ = redact_agent_addressed(text, span_sink, rolemark=rolemark)
     return text
 
 

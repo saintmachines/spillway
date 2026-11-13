@@ -218,7 +218,7 @@ _capture = re.match(r"# captured (\d{4}-\d{2}-\d{2}) with spillway-guard (\S+) "
 assert _capture and _capture[2] == project_version(), "capture_checks.py must run on this release"
 CHECKS_DATE = _capture[1]
 assert re.search(rf"^make_tables\.py: {MT_N} checks pass$", CHECKS, re.M), "checks.txt is older than the results"
-_tests = re.search(r"^(\d+) passed in [0-9.]+s$", CHECKS, re.M)
+_tests = re.search(r"^(\d+) passed(?:, \d+ warnings?)? in [0-9.]+s$", CHECKS, re.M)
 assert _tests, "checks.txt: the pytest line must read 'N passed in Xs', with no failed or skipped test"
 TESTS_N = int(_tests.group(1))
 DIFF_N = len(re.findall(r"^    def test_", (ROOT / "tests" / "test_differential.py").read_text(), re.M))
