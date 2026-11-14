@@ -1,5 +1,5 @@
 {
-  "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
+  "about": "Pictures of the project page for the README. Per-file inputs override the historical common input when an image is refreshed separately.",
   "inputs": {
     "docs/index.html": "eb8a95bbd900352d2c48dd92a9a5104a23ea477a07e90984ad8fe51d51898e85"
   },
@@ -13,16 +13,24 @@
   "radius": 16,
   "files": {
     "hero.png": {
-      "sha256": "2c2d0311727a635b380f69f8ad9f06357367b76a04db4f65aa45bc038bb7b4a3",
-      "bytes": 398903,
+      "sha256": "8760da27a7204dc7d727cbd09c17a5b50ef7cf1f26ce6e136597e758ec0d8f1e",
+      "bytes": 414572,
       "pixels": "2200x1196",
-      "window": 1100
+      "window": 1100,
+      "inputs": {
+        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
+        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
+      }
     },
     "hero_phone.png": {
-      "sha256": "e42bacddf5648af559bef4aa1ed433ac0a54b7872c95757249c72eeb587ead37",
-      "bytes": 223216,
+      "sha256": "4267fa3868a58ba2d4842a6d1901ea01b009a7df63a7098f54b5170891fed915",
+      "bytes": 229650,
       "pixels": "648x1804",
-      "window": 324
+      "window": 324,
+      "inputs": {
+        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
+        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
+      }
     },
     "demo.png": {
       "sha256": "8cc480a9c3d8b99c2368fc68f1449485c0cb01abac4728665e0b8085fd6f2b17",
@@ -109,16 +117,37 @@
       "window": 324
     },
     "steps.png": {
-      "sha256": "df1b82466f7805083142d028180f165303f119f5c58451cb5b90ba2d30a06d9b",
-      "bytes": 225037,
-      "pixels": "2184x808",
-      "window": 1100
+      "sha256": "28ff4cce581ccc0dcb3a47718df537fb016238b94090a3c9c05ed708e74755dc",
+      "bytes": 224200,
+      "pixels": "2184x810",
+      "window": 1100,
+      "inputs": {
+        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
+        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
+      }
     },
     "steps_phone.png": {
-      "sha256": "b03d360ef84a2cf10cca6127aa268b8d1d5906d60ecec19768d648385060b2eb",
-      "bytes": 258465,
+      "sha256": "94babd36f710d411d6ac923c8a61781470d0d6899cf67113746dcd1c847f36f8",
+      "bytes": 258621,
       "pixels": "648x2368",
-      "window": 324
+      "window": 324,
+      "inputs": {
+        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
+        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
+      }
     }
+  },
+  "partial_refresh": {
+    "observed_utc": "2026-11-14T00:45:25.322567+00:00",
+    "files": [
+      "hero.png",
+      "hero_phone.png",
+      "steps.png",
+      "steps_phone.png"
+    ],
+    "source_index_sha256": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
+    "renderer_sha256": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400",
+    "method": "Existing make_readme_media.mjs --only hero and --only steps; other PNG bytes preserved",
+    "browser": "Chromium130.0.6723.31"
   }
 }

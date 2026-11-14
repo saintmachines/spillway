@@ -1,6 +1,6 @@
 # SPILLWAY
 
-> Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, a model reviews refusals. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, reviews only refused calls, never one whose target lies in removed text.
+> Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, an optional judge checks selected calls. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, checks selected calls, including refused-target recovery and object checks. Two-view recovery does not restore a target that lies in removed text.
 
 - Install: `pip install spillway-guard` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
 - App integration: [integrate.html](integrate.html), with a runnable local example in [examples/](examples/README.md)
