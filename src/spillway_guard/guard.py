@@ -20,7 +20,7 @@ the judge can still admit the call.
 from __future__ import annotations
 
 import json
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, List, Optional, Sequence, Tuple
 
 from .floor import (
     DEFAULT_POLICY,
@@ -35,10 +35,13 @@ from .floor import (
     strip_injected_endorsements,
     text_of,
 )
+from .ingress import pasted_texts, request_fields, split_pasted
 from .lexicon import DEFAULT_LEXICON, Lexicon
 from .sanitizer import sanitize, span_payload
+from .short_lineage import CreatedObjectReceipts, CreationContracts
+from .source_known import ReadSourceProof, SourceContracts
 
-__all__ = ["Guard", "format_return"]
+__all__ = ["Guard", "format_return", "split_pasted"]
 
 
 def format_return(obj: Any) -> str:
@@ -93,30 +96,64 @@ def _raw_strings(obj: Any) -> List[str]:
 class Guard:
     """Per-task egress guard. Construct one per user task (the index never crosses tasks).
 
-    Typed returns (Pydantic models) are indexed by their declared field types and roles. For an untyped ``dict``
-    return the key name alone decides the role: a value under a routing key such as ``sender``, ``from``, ``to``,
-    ``owner`` or ``author`` (``Lexicon.agentdyn_id_fields``) is indexed as a trusted identity. A tool whose dict keys
-    or values are attacker-controlled (parsed message headers, for example) is the attacker-as-sender case of the
-    paper's threat model, in which the attacker's address enters the index.
+    The default profile indexes declared Pydantic identity fields and application-declared rosters.
+    A raw dictionary key such as ``sender`` does not supply that authority. Applications may validate
+    tool responses against their own declared schema before passing typed values. Source transport
+    and create-new semantics require separate application-owned contracts.
     """
 
     def __init__(self, user_task: str, *, policy: Policy = DEFAULT_POLICY,
                  lexicon: Lexicon = DEFAULT_LEXICON,
                  judge: Optional[Callable[[JudgeRequest], Tuple[bool, float]]] = None,
-                 sanitize_returns: bool = True):
+                 sanitize_returns: bool = True, pasted: Optional[Sequence[str]] = None,
+                 source_contracts: Optional[SourceContracts] = None,
+                 creation_contracts: Optional[CreationContracts] = None):
         self.user_task = str(user_task or "")
         self.policy = policy
         self.lexicon = lexicon
         self.judge = judge
         self.sanitize_returns = sanitize_returns
+        if source_contracts is not None and not isinstance(source_contracts, SourceContracts):
+            raise TypeError("source_contracts must be trusted app configuration")
+        self.source_contracts = source_contracts if source_contracts is not None else SourceContracts()
         self.index = IdentityIndex(lexicon=lexicon)
+        if policy.payload_secret_guard:
+            self.index.sensitive_index.reset(complete=True)
         self._tool_texts: List[str] = []
+        # Unlike the shared tainted/channel history, this list receives only
+        # original strings at observe_tool_return's executed-call boundary.
+        self._fetch_tool_texts: List[str] = []
         self._tainted = ""
         self.audit: List[dict] = []
+        self._created_resources = CreatedObjectReceipts(creation_contracts)
+        # 0.1.4 integrated candidate (item b, owner 2026-11-14): material the user pasted into the request is read like tool text,
+        # not like the user's own words. ``user_task`` is then only the user's instruction. ``split_pasted`` separates
+        # the two when the harness marks the paste with an explicit delimiter.
+        self.pasted_views: List[str] = [self.observe_pasted(t) for t in pasted_texts(pasted)]
+
+    @classmethod
+    def from_request(cls, request, *, policy: Policy = DEFAULT_POLICY,
+                     lexicon: Lexicon = DEFAULT_LEXICON,
+                     judge: Optional[Callable[[JudgeRequest], Tuple[bool, float]]] = None,
+                     sanitize_returns: bool = True, source_contracts: Optional[SourceContracts] = None,
+                     creation_contracts: Optional[CreationContracts] = None):
+        """Use fields the app supplied, never an envelope extracted from pasted text.
+
+        The model reads ``user_task`` and the sanitized ``pasted_views`` in
+        separate content blocks. The app must call ``check_call`` before dispatch.
+        No parsed sender/role field from a paste is promoted to a typed identity.
+        """
+        instruction, material = request_fields(request)
+        return cls(instruction, policy=policy, lexicon=lexicon, judge=judge,
+                   sanitize_returns=sanitize_returns, pasted=material, source_contracts=source_contracts,
+                   creation_contracts=creation_contracts)
 
     # ---- state ---------------------------------------------------------------------------------
     @property
     def trusted(self) -> str:
+        if self.policy.trusted_target_aliases:
+            from .target_grounding import with_user_target_aliases
+            return with_user_target_aliases(self.user_task, self.user_task)
         return norm(self.user_task)
 
     @property
@@ -133,13 +170,19 @@ class Guard:
         if user_task is not None:
             self.user_task = str(user_task)
         self.index.reset()
+        if self.policy.payload_secret_guard:
+            self.index.sensitive_index.reset(complete=True)
         self._tool_texts = []
+        self._fetch_tool_texts = []
         self._tainted = ""
         self.audit = []
+        self.pasted_views = []
+        self._created_resources.reset()
 
     # ---- ingress ---------------------------------------------------------------------------------
     def observe_tool_return(self, name: str, args: Optional[dict], typed_return: Any, *,
-                            text: Optional[str] = None, roster: bool = False) -> str:
+                            text: Optional[str] = None, roster: bool = False,
+                            read_source: Optional[ReadSourceProof] = None) -> str:
         """Record one executed call's return and give back the sanitized text for the model.
 
         ``typed_return`` is the raw return object (a Pydantic model, list, dict or str). ``text``
@@ -149,6 +192,15 @@ class Guard:
         Only READ-ONLY returns are indexed; a write's return is sanitized and added to the tainted
         text but never to the identity set.
         """
+        if self.lexicon.tool_is_read_only(name):
+            from .fetch_boundary import raw_tool_texts
+            self._fetch_tool_texts.extend(raw_tool_texts(typed_return))
+        if self.policy.refbind_source_known:
+            proof = self.source_contracts.proof(name, args, typed_return, supplied=read_source)
+            self.index.named_source_index.observe(name, args, typed_return, self.user_task,
+                                                  proof=proof, lexicon=self.lexicon)
+        if self.policy.payload_secret_guard:
+            self.index.sensitive_index.observe(typed_return, source="Guard.raw_return:" + str(name))
         if text is None:
             text = format_return(typed_return)
         if self.lexicon.tool_is_read_only(name):
@@ -160,6 +212,8 @@ class Guard:
                                          trusted=self.trusted,
                                          roster=(roster and self.policy.signal_c),
                                          policy=self.policy)
+        elif self.policy.short_target_guard:
+            self._created_resources.observe(name, args or {}, typed_return, self.index.identity_set)
         if self.sanitize_returns:
             spans: List[str] = []
             text = sanitize(text, spans, control_tokens=True, injected_imperatives=True,
@@ -175,23 +229,51 @@ class Guard:
         return text
 
     def observe_refusal(self, name: str, decision: Decision) -> str:
-        """Record the refusal text fed back to the model for a blocked call (it is tool text too)."""
+        """Give the model a refusal without treating guard output as fresh tool evidence."""
         txt = decision.refusal_text(name)
-        self._tool_texts.append(txt)
-        self._read(txt)
+        if not self.policy.ground_targets:
+            self._tool_texts.append(txt)
+            self._read(txt)
         return txt
 
     def observe_text(self, text: str) -> None:
         """Record any other tool-channel text the model read (already sanitized by the caller)."""
+        if self.policy.payload_secret_guard:
+            self.index.sensitive_index.observe(text_of(text), source="Guard.sanitized_text_only")
+            self.index.sensitive_index.fail("sanitized text alone cannot establish complete raw source evidence")
         self._tool_texts.append(text_of(text))
         self._read(text_of(text))
+
+    def observe_pasted(self, text: str) -> str:
+        """Read material the user pasted into the request as UNTRUSTED text: sanitized like a tool return (templates,
+        forged turns, agent-addressed regions removed from what the model should read, the removed spans kept for the
+        span veto), added to the tainted text, never to the trusted text or the identity index. An address that
+        appears only in the paste is therefore not user-named, and a call to it meets the target rules. Returns the
+        text the model should read for the paste. Only text is accepted: a dict or list carrying role-like keys
+        ("sender", "trusted") must not be laundered into the identity index through this entrance (Codex A27, 2026-11-14);
+        structured material a harness trusts goes through observe_tool_return as a typed value."""
+        if not isinstance(text, str):
+            raise TypeError("pasted material must be a str; pass structured material through observe_tool_return")
+        raw = text
+        if self.policy.payload_secret_guard:
+            self.index.sensitive_index.observe(raw, source="Guard.raw_pasted")
+        spans: List[str] = []
+        view = sanitize(raw, spans, control_tokens=True, injected_imperatives=True,
+                        agent_addressed=self.policy.ingress_agentaddr, forged_turns_in_spans=True,
+                        rolemark=self.policy.rolemark) if self.sanitize_returns else raw
+        if spans and self.policy.injspan_recover:
+            self.index.add_spans(spans)
+        self._tool_texts.append(text_of(view))
+        self._read(view)
+        self._read(raw)
+        return view
 
     # ---- egress ----------------------------------------------------------------------------------
     def check_call(self, name: str, args: Optional[dict]) -> Decision:
         """Admit, refuse, or (with a judge) re-examine one proposed call."""
         d = admit(name, args, self.user_task, self.trusted, self.tainted, self.index,
                   policy=self.policy, lexicon=self.lexicon,
-                  tool_texts=tuple(self._tool_texts))
+                  tool_texts=tuple(self._tool_texts), fetch_tool_texts=tuple(self._fetch_tool_texts))
         while d.referred:
             if self.judge is None:
                 d = d.resolve_without_judge()
@@ -202,6 +284,8 @@ class Guard:
                 ok, sc = False, 0.0   # a judge that fails counts as a no
             d = d.resume(ok is True, sc)
         self.audit.append({"tool": name, "decision": d.label, "score": d.score})
+        if self.policy.short_target_guard:
+            self._created_resources.record(name, args or {}, d.allowed)
         return d
 
     def check_calls(self, calls) -> List[Decision]:
@@ -230,3 +314,5 @@ class Guard:
         if not to_drop:
             return answer, []
         return strip_injected_endorsements(answer, to_drop), to_drop
+
+

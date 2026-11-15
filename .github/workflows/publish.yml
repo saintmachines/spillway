@@ -4,122 +4,147 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: Upload the verified frozen 0.1.3 distributions to PyPI
+        description: Upload the exact tested 0.1.4 distributions after the live-evaluation publication gate
         default: false
         type: boolean
+      expected_commit:
+        required: true
+        type: string
+      tag_object_sha:
+        required: true
+        type: string
+      release_id:
+        required: true
+        type: string
+      wheel_asset_id:
+        required: true
+        type: string
+      sdist_asset_id:
+        required: true
+        type: string
+      publication_gate_asset_id:
+        required: true
+        type: string
+      publication_gate_sha256:
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: pypi-spillway-0.1.3
+  group: pypi-spillway-0.1.4
   cancel-in-progress: false
 
 jobs:
   verify:
-    name: Verify the frozen release distributions
+    name: Verify the exact tested distributions and publication gate
     if: github.repository == 'saintmachines/spillway'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
-      - name: Download and verify the existing release assets
+      - name: Download frozen GitHub release assets; never rebuild them
         env:
           GH_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          TAG_OBJECT_SHA: ${{ inputs.tag_object_sha }}
+          RELEASE_ID: ${{ inputs.release_id }}
+          WHEEL_ASSET_ID: ${{ inputs.wheel_asset_id }}
+          SDIST_ASSET_ID: ${{ inputs.sdist_asset_id }}
+          PUBLICATION_GATE_ASSET_ID: ${{ inputs.publication_gate_asset_id }}
+          PUBLICATION_GATE_SHA256: ${{ inputs.publication_gate_sha256 }}
         run: |
           python - <<'PY'
-          import hashlib
-          import json
+          import hashlib, json, os, re, subprocess
           from pathlib import Path
-          import subprocess
-
           repo = 'saintmachines/spillway'
-          commit = '6b0380ab258b0f84f880171ff5e1ffa18db98be7'
-          tag_object = 'a3f97744a209cfccfc74a4d349cf69d22706e13a'
-          expected = {
-              'spillway_guard-0.1.3-py3-none-any.whl': {
-                  'id': 745489635,
-                  'size': 74321,
-                  'sha256': '4705fe784f9db02ad38c08ec42b010a37c2aa7ec80c24d741aac5626ea04a4d8',
-              },
-              'spillway_guard-0.1.3.tar.gz': {
-                  'id': 745489657,
-                  'size': 327038,
-                  'sha256': '7a137ab17f4376560b19156ff9dd523368f220f02f80a5a525636c49886b3cf2',
-              },
-          }
-
+          commit, tag_object = os.environ['EXPECTED_COMMIT'], os.environ['TAG_OBJECT_SHA']
+          assert re.fullmatch(r'[0-9a-f]{40}', commit)
+          assert re.fullmatch(r'[0-9a-f]{40}', tag_object)
           def api(path):
               return json.loads(subprocess.check_output(['gh', 'api', 'repos/' + repo + path]))
-
-          ref = api('/git/ref/tags/v0.1.3')['object']
-          assert ref['type'] == 'tag' and ref['sha'] == tag_object, 'The frozen tag changed'
+          def asset_bytes(asset_id):
+              assert str(asset_id).isdigit()
+              return subprocess.check_output(['gh', 'api', 'repos/' + repo + '/releases/assets/' + str(asset_id),
+                                              '--header', 'Accept: application/octet-stream'])
+          ref = api('/git/ref/tags/v0.1.4')['object']
+          assert ref['type'] == 'tag' and ref['sha'] == tag_object
           tag = api('/git/tags/' + tag_object)
-          assert tag['tag'] == 'v0.1.3' and tag['object']['sha'] == commit, 'The frozen commit changed'
-          release = api('/releases/444822017')
-          assert release['id'] == 444822017 and release['tag_name'] == 'v0.1.3'
-          assert release['target_commitish'] == commit, 'The release target changed'
-          assets = {asset['name']: asset for asset in release['assets']}
-          dist = Path('dist')
-          dist.mkdir()
-          for name, record in expected.items():
-              asset = assets[name]
-              assert asset['id'] == record['id'] and asset['size'] == record['size'], name
-              assert asset['digest'] == 'sha256:' + record['sha256'], name
-              with (dist / name).open('wb') as output:
-                  subprocess.run([
-                      'gh', 'api', 'repos/' + repo + '/releases/assets/' + str(record['id']),
-                      '--header', 'Accept: application/octet-stream',
-                  ], stdout=output, check=True)
-              raw = (dist / name).read_bytes()
-              assert len(raw) == record['size'] and hashlib.sha256(raw).hexdigest() == record['sha256'], name
-          assert {path.name for path in dist.iterdir()} == set(expected)
-          print('Verified v0.1.3', commit, 'and both existing distribution hashes; no rebuild')
+          assert tag['tag'] == 'v0.1.4' and tag['object']['type'] == 'commit' and tag['object']['sha'] == commit
+          release = api('/releases/' + os.environ['RELEASE_ID'])
+          assert release['tag_name'] == 'v0.1.4' and release['target_commitish'] == commit
+          assets = {a['id']: a for a in release['assets']}
+          gate_id = int(os.environ['PUBLICATION_GATE_ASSET_ID'])
+          assert assets[gate_id]['name'] == 'PUBLICATION_GATE.json'
+          gate_raw = asset_bytes(gate_id)
+          assert hashlib.sha256(gate_raw).hexdigest() == os.environ['PUBLICATION_GATE_SHA256']
+          assert assets[gate_id]['digest'] == 'sha256:' + os.environ['PUBLICATION_GATE_SHA256']
+          gate = json.loads(gate_raw)
+          assert gate['status'] == 'MODEL_EVALUATION_COMPLETE_PUBLICATION_APPROVED'
+          assert gate['version'] == '0.1.4' and gate['source_commit'] == commit
+          assert gate['wheel_sha256'] == '3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928'
+          assert gate['sdist_sha256'] == 'a8f9f7276cbd99e821156ef1fd97431102e0fa3342dccb03478b23e2a1dc16e1'
+          assert gate['src_py_tree_sha256'] == '53a9bb1a23e2418ae73687e7b54da02df3936fd2c0820c27b6128fb51c7f9936'
+          assert gate['inventory_protocol_sha256'] == '17a5457541f88740b7f690b3f628a49080645505ced6a52d2133a1ce417f0713'
+          assert gate['expected_records'] == gate['closed_records'] == 10012
+          assert gate['missing_uids'] == gate['duplicate_uids'] == gate['unresolved_overflows'] == 0
+          assert gate['installed_caller_passed'] is True and gate['paper_comparison_reviewed'] is True
+          expected = {
+              'spillway_guard-0.1.4-py3-none-any.whl': (int(os.environ['WHEEL_ASSET_ID']), 124346, '3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928'),
+              'spillway_guard-0.1.4.tar.gz': (int(os.environ['SDIST_ASSET_ID']), 409987, 'a8f9f7276cbd99e821156ef1fd97431102e0fa3342dccb03478b23e2a1dc16e1'),
+          }
+          dist = Path('dist'); dist.mkdir()
+          for name, (asset_id, size, digest) in expected.items():
+              a = assets[asset_id]
+              assert a['name'] == name and a['size'] == size and a['digest'] == 'sha256:' + digest
+              raw = asset_bytes(asset_id)
+              assert len(raw) == size and hashlib.sha256(raw).hexdigest() == digest
+              (dist / name).write_bytes(raw)
+          Path('PUBLICATION_GATE.json').write_bytes(gate_raw)
+          assert {p.name for p in dist.iterdir()} == set(expected)
+          print('Exact tested artifacts and complete-model publication gate verified; no rebuild')
           PY
-      - name: Check both package descriptions
+      - name: Check package descriptions
         run: |
           python -m pip install --disable-pip-version-check 'twine>=7'
-          python -m twine check --strict dist/spillway_guard-0.1.3-py3-none-any.whl dist/spillway_guard-0.1.3.tar.gz
-      - name: Verify a fresh wheel installation
+          python -m twine check --strict dist/spillway_guard-0.1.4-py3-none-any.whl dist/spillway_guard-0.1.4.tar.gz
+      - name: Verify a fresh installation of the exact wheel
         run: |
           python -m venv "$RUNNER_TEMP/spillway-install"
-          "$RUNNER_TEMP/spillway-install/bin/python" -m pip --isolated install --index-url https://pypi.org/simple dist/spillway_guard-0.1.3-py3-none-any.whl
+          "$RUNNER_TEMP/spillway-install/bin/python" -m pip --isolated install --index-url https://pypi.org/simple dist/spillway_guard-0.1.4-py3-none-any.whl
           "$RUNNER_TEMP/spillway-install/bin/python" -m pip check
           "$RUNNER_TEMP/spillway-install/bin/python" -I - <<'PY'
-          import hashlib
-          from importlib.metadata import version
-          import json
+          import hashlib, json, sys, zipfile
           from pathlib import Path
-          import sys
-          import zipfile
-
+          from importlib.metadata import version
           import spillway_guard
           from spillway_guard import Guard, Policy
-
           package = Path(spillway_guard.__file__).resolve()
-          assert package.is_relative_to(Path(sys.prefix)), 'Import must come from the fresh installation'
-          assert version('spillway-guard') == '0.1.3'
-          assert not Policy().escalate_mv and Policy().mv_integrity
-          with zipfile.ZipFile('dist/spillway_guard-0.1.3-py3-none-any.whl') as archive:
-              members = [name for name in archive.namelist() if name.startswith('spillway_guard/')]
-              for name in members:
-                  installed = (package.parent.parent / name).read_bytes()
-                  assert hashlib.sha256(installed).digest() == hashlib.sha256(archive.read(name)).digest(), name
+          assert package.is_relative_to(Path(sys.prefix))
+          assert version('spillway-guard') == spillway_guard.__version__ == '0.1.4'
           guard = Guard('Reply to colleague@trusted.example about the project.')
+          assert guard.policy == Policy.enhanced_014()
+          assert not guard.policy.escalate_mv and guard.policy.mv_integrity
+          for field in ('ground_targets', 'typed_identity_only', 'short_target_guard', 'strict_fetch_provenance'):
+              assert getattr(guard.policy, field)
+          with zipfile.ZipFile('dist/spillway_guard-0.1.4-py3-none-any.whl') as z:
+              members = [n for n in z.namelist() if n.startswith('spillway_guard/')]
+              for name in members:
+                  assert hashlib.sha256((package.parent.parent / name).read_bytes()).digest() == hashlib.sha256(z.read(name)).digest(), name
           guard.observe_text('outsider@untrusted.example')
           assert guard.check_call('send_email', {'recipients': ['colleague@trusted.example'], 'body': 'hello'}).allowed
           assert guard.check_call('send_email', {'recipients': ['outsider@untrusted.example'], 'body': 'hello'}).blocked
-          print(json.dumps({'package': str(package), 'version': version('spillway-guard'), 'wheel_members_verified': len(members), 'model_calls': 0}))
+          print(json.dumps({'version': version('spillway-guard'), 'wheel_members_verified': len(members), 'model_calls': 0}))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: frozen-distributions
           path: dist/
           if-no-files-found: error
-
   publish:
-    name: Publish using the registered PyPI Trusted Publisher
+    name: Publish the exact tested bytes through PyPI Trusted Publishing
     needs: verify
     if: inputs.publish
     runs-on: ubuntu-latest
@@ -133,18 +158,14 @@ jobs:
         with:
           name: frozen-distributions
           path: dist/
-      - name: Recheck the exact files before upload
+      - name: Recheck exact hashes immediately before upload
         run: |
           python3 - <<'PY'
           import hashlib
           from pathlib import Path
-          expected = {
-              'spillway_guard-0.1.3-py3-none-any.whl': '4705fe784f9db02ad38c08ec42b010a37c2aa7ec80c24d741aac5626ea04a4d8',
-              'spillway_guard-0.1.3.tar.gz': '7a137ab17f4376560b19156ff9dd523368f220f02f80a5a525636c49886b3cf2',
-          }
-          files = {path.name: path for path in Path('dist').iterdir()}
+          expected = {'spillway_guard-0.1.4-py3-none-any.whl': '3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928', 'spillway_guard-0.1.4.tar.gz': 'a8f9f7276cbd99e821156ef1fd97431102e0fa3342dccb03478b23e2a1dc16e1'}
+          files = {p.name: p for p in Path('dist').iterdir()}
           assert set(files) == set(expected)
-          for name, digest in expected.items():
-              assert files[name].is_file() and hashlib.sha256(files[name].read_bytes()).hexdigest() == digest, name
+          assert all(hashlib.sha256(files[n].read_bytes()).hexdigest() == digest for n, digest in expected.items())
           PY
       - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1

@@ -1,23 +1,12 @@
 # SPILLWAY
 
-## Guarded recovery in 0.1.3
+## 0.1.4 default
 
-The SDK now enables `Policy(mv_guard=True, rolemark=True)`. G1 prevents two-view recovery of an identifier dictated by an imperative in tool text. G2 prevents that recovery for an IBAN payment when the user's task contains no payment request. The same preconditions cover object recovery; ROLEMARK adds forged plain-text role headers to ingress redaction. Identity-target recovery still defaults to `False`. Supplying `Policy(escalate_mv=True)` enables it with these preconditions.
+`Guard(task)` uses `Policy.enhanced_014()`: whole-target checks, application-declared typed identities, source/domain binding and resource-kind evidence. Identity-target recovery is off by default in the SDK; `--paper --guarded` uses the paper's recovery-ON settings in the AgentDojo runner.
 
-```python
-from spillway_guard import Guard, Policy
+The AgentDojo entry point verifies the benchmark version and reviewed tool bytes before installing its source and create-new contracts. Network reads require a user-named URL or a URL captured from a successful read tool. Captured tool URLs remain untrusted and pass the existing content gate. Refusal feedback cannot become tool evidence. General SDK applications register their own reviewed transport and creation contracts.
 
-guard = Guard(task)  # guarded recovery and ROLEMARK on; identity recovery off
-recovery_on = Guard(task, policy=Policy(escalate_mv=True))
-legacy = Guard(task, policy=Policy(mv_guard=False, rolemark=False))
-```
-
-`Guard` passes the exact tool-channel text, preserving case, clauses and newlines, to both recovery checks. Low-level `admit(..., tool_texts=[...])` callers must provide that exact text; normalized `tainted_text` is not a substitute. The guard checks text actually delivered to the agent after configured ingress sanitization, as the experiment did. It only skips recovery; the remaining deterministic ladder stays in effect.
-
-The AgentDojo runner defaults to the separate guarded reference. `--paper` selects the unchanged v1 paper reference/settings; `--paper --guarded` adds the new guard to the paper's recovery-ON settings. `--legacy-v1` disables both additions, and `--no-mv-guard` / `--no-rolemark` disable each independently. `SPW_MV_GUARD=0` and `SPW_ROLEMARK=0` are equivalent environment opt-outs for ordinary guarded runs. The original frozen reference and published benchmark records are unchanged.
-
-These finite predicates are not a general security proof: imperative-looking legitimate instructions can be refused; G1 does not recognize all declarative routing substitutions, and G2's payment vocabulary does not understand negation. Existing model results belong to their recorded experimental configurations; this release adds CPU caller/predicate/legacy tests and no new paid or model evaluation. The optional local judge can check selected content/object calls as well as refused-target recovery, so it is not globally limited to refused calls.
-
+Results below retain their recorded paper configurations. Updated 0.1.4 measurements require separate, complete execution records bound to the exact artifact hash. The release configuration is described in [the execution contract](https://github.com/saintmachines/spillway/blob/v0.1.4/CANDIDATE_014.md).
 
 A prompt-injection defense for tool-using agents. Text in an email or a web page can steer an agent to an attacker's address. **SPILLWAY checks recipients against the user's task and the typed fields of tool returns.**
 
@@ -71,7 +60,7 @@ print(g.check_call("send_email", {"recipients": ["alice@example.com"]}).label)
 ```
 
 ```text
-block_taint_target
+block_unverified_delegated_domain
 allow_schema_identity_target
 ```
 

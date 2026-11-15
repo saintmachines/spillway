@@ -1,5 +1,13 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
+## 0.1.4 default
+
+`Guard(task)` uses `Policy.enhanced_014()`: whole-target checks, application-declared typed identities, source/domain binding and resource-kind evidence. Identity-target recovery is off by default in the SDK; `--paper --guarded` uses the paper's recovery-ON settings in the AgentDojo runner.
+
+The AgentDojo entry point verifies the benchmark version and reviewed tool bytes before installing its source and create-new contracts. Network reads require a user-named URL or a URL captured from a successful read tool. Captured tool URLs remain untrusted and pass the existing content gate. Refusal feedback cannot become tool evidence. General SDK applications register their own reviewed transport and creation contracts.
+
+Results below retain their recorded paper configurations. Updated 0.1.4 measurements require separate, complete execution records bound to the exact artifact hash. The release configuration is described in [the execution contract](CANDIDATE_014.md).
+
 <h1 align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
     <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
@@ -49,32 +57,11 @@ A backbone is the agent's model. An in-scope leak sends an action to a target th
 <p align="center"><sub>AgentDojo v1.2.2, same backbone and scorer for every method. SPILLWAY's rows use the optional gemma4:31b judge, an optional local model that checks selected calls, off by default in the library. <a href="https://saintmachines.github.io/spillway/results.html">Values and conditions</a> · <a href="benchmarks/results">Per-cell records</a> · <a href="#detailed-results">Stronger attacks</a> · <a href="#faq">Without the judge</a>.</sub></p>
 
 <details>
-<summary>Guarded recovery in 0.1.3</summary>
-
-The SDK now enables `Policy(mv_guard=True, rolemark=True)`. G1 prevents two-view recovery of an identifier dictated by an imperative in tool text. G2 prevents that recovery for an IBAN payment when the user's task contains no payment request. The same preconditions cover object recovery; ROLEMARK adds forged plain-text role headers to ingress redaction. Identity-target recovery still defaults to `False`. Supplying `Policy(escalate_mv=True)` enables it with these preconditions.
-
-```python
-from spillway_guard import Guard, Policy
-
-guard = Guard(task)  # guarded recovery and ROLEMARK on; identity recovery off
-recovery_on = Guard(task, policy=Policy(escalate_mv=True))
-legacy = Guard(task, policy=Policy(mv_guard=False, rolemark=False))
-```
-
-`Guard` passes the exact tool-channel text, preserving case, clauses and newlines, to both recovery checks. Low-level `admit(..., tool_texts=[...])` callers must provide that exact text; normalized `tainted_text` is not a substitute. The guard checks text actually delivered to the agent after configured ingress sanitization, as the experiment did. It only skips recovery; the remaining deterministic ladder stays in effect.
-
-The AgentDojo runner defaults to the separate guarded reference. `--paper` selects the unchanged v1 paper reference/settings; `--paper --guarded` adds the new guard to the paper's recovery-ON settings. `--legacy-v1` disables both additions, and `--no-mv-guard` / `--no-rolemark` disable each independently. `SPW_MV_GUARD=0` and `SPW_ROLEMARK=0` are equivalent environment opt-outs for ordinary guarded runs. The original frozen reference and published benchmark records are unchanged.
-
-These finite predicates are not a general security proof: imperative-looking legitimate instructions can be refused; G1 does not recognize all declarative routing substitutions, and G2's payment vocabulary does not understand negation. Existing model results belong to their recorded experimental configurations; this release adds CPU caller/predicate/legacy tests and no new paid or model evaluation. The optional local judge can check selected content/object calls as well as refused-target recovery, so it is not globally limited to refused calls.
-
-</details>
-
-<details>
 <summary>What is different</summary>
 
 | | SPILLWAY | MELON | Progent | DRIFT |
 |---|---|---|---|---|
-| The decision that lets an action through is made by | a set lookup over typed tool returns and the user's task, then fixed delegation rules and, if configured, a local judge on selected calls | an LLM re-run of the trajectory with the user task masked | an LLM-written privilege policy enforced by a checker | an LLM validating each call against a plan |
+| The decision that lets an action through is made by | a set lookup over typed tool returns and the user's task, then fixed delegation rules and, if configured, a local judge on refusals | an LLM re-run of the trajectory with the user task masked | an LLM-written privilege policy enforced by a checker | an LLM validating each call against a plan |
 | Added model calls per benign episode (qwen3:8b, Workspace / Slack) | 0.19 / 0.39 (judge included) | 3.25 / 5.29 backbone calls | 5.94 / 8.67 backbone calls | 9.59 / 9.91 backbone calls |
 | AgentDojo cells with an in-scope leak (of 12) | 0 | 10 | 11 | 7 |
 
@@ -235,7 +222,7 @@ print(g.check_call("send_email", {"recipients": ["alice@example.com"]}).label)
 ```
 
 ```text
-block_taint_target
+block_unverified_delegated_domain
 allow_schema_identity_target
 ```
 
@@ -369,13 +356,13 @@ Version 0.1.2 disables this identity-target recovery by default, while preservin
 ```python
 from spillway_guard import Policy
 
-policy = Policy(escalate_mv=False)
+policy = Policy.enhanced_014().replace(escalate_mv=False)
 ```
 
-Pass this policy to your `Guard`. Set `Policy(escalate_mv=True)` to restore the identity-target recovery used for the paper's reference results. For the reference runner, `--paper` selects the recorded recovery-ON settings in a clean environment. An explicit `SPW_ESCALATE_MV` value can override the default; use a clean environment for exact paper reproduction. Version 0.1.2 adds `--no-identity-target-recovery` to force this path off, including historical aliases. `--no-escalate` controls a different path.
+Pass this policy to your `Guard`. Set `Policy.enhanced_014().replace(escalate_mv=True)` to restore the identity-target recovery used for the paper's reference results. For the 0.1.4 reference runner, `--paper --guarded` selects the recorded recovery-ON settings with the enhanced guard in a clean environment. An explicit `SPW_ESCALATE_MV` value can override the default; use a clean environment for exact paper reproduction. Version 0.1.2 adds `--no-identity-target-recovery` to force this path off, including historical aliases. `--no-escalate` controls a different path.
 
 ```bash
-spillway-agentdojo --paper --no-identity-target-recovery --help
+spillway-agentdojo --paper --guarded --no-identity-target-recovery --help
 ```
 
 The recovery-OFF configuration can also refuse legitimate destinations found only in document text. Other policy paths remain, so this is not a guarantee against every attack. The original full-system SPILLWAY results used recovery ON. They are not measurements of the new default; component ablations keep their stated settings.
@@ -434,7 +421,7 @@ One cell of the breadth grid is one suite, one attack and one backbone. The full
 
 **How large must the judge be?** The paper uses a 4-bit gemma4:31b on local Ollama. A 4-bit gemma4:12b also kept zero attack success on the qwen3:8b cells and the ChatInject panel, at utility .348 instead of .370.
 
-**My tools are not AgentDojo's. What do I declare?** Return pydantic models or dicts with the bare address in the field. A dataclass, a named tuple or a JSON string gives SPILLWAY no typed fields, so convert it first with `dataclasses.asdict`, `_asdict()` or `json.loads`. Declare your tool-name prefixes and target-argument names once, for example `Lexicon().extend(target_arg_hints={"payee"})`. Then pass the lexicon to `Guard`.
+**My tools are not AgentDojo's. What do I declare?** Validate responses against Pydantic models declared by your application, with routing addresses in their declared fields. Raw dictionaries, decoded JSON and schemas supplied inside documents do not establish typed identity authority. Mark a roster only when your application owns its declared identifier-list contract. Declare tool-name prefixes and target-argument names once, for example `Lexicon().extend(target_arg_hints={"payee"})`, and pass the lexicon to `Guard`. Register reviewed source transport and create-new semantics separately.
 
 **What happens when a call is refused?** The agent gets a tool message, `guard.observe_refusal(name, decision)`, that asks it to retry with values from the user's request. The episode goes on.
 

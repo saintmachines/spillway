@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.1.4
+
+- Use one enhanced SDK and AgentDojo default: whole-target checks, source/domain binding, application-declared typed identities and resource-kind evidence. Keep source-value research rules off.
+- Default verified in-memory AgentDojo source/create contracts after checking version and implementation bytes. Other hosts register their own reviewed contracts.
+- Let URLs captured from successful read-tool executions reach the existing content judge. Pasted-only, unseen and changed URLs remain subject to the fetch precondition; observed tool text is not automatic authority.
+- Deliver actionable refusal feedback through the model-visible error channel and exclude the guard's own emissions from future evidence. Do not reduce or execute repaired calls automatically.
+- Preserve all typed objects when collecting original strings from list returns. Retain the complete-target punctuation and numeric-pagination fixes.
+- Keep historical paper results separate from updated artifact-bound model measurements.
+
+## 0.1.4rc4 — private alignment candidate
+
+- Share the SDK whole-value referent predicate at both live reference entry points. A delegation that fails this predicate can still reach the original subsequent ladder; the legacy opt-out restores the original helper.
+- Treat terminal question punctuation after a user-named email as prose while retaining whole-identifier and URL-query boundaries.
+- Preserve rc3 evidence separately. Fresh package and caller validation is required for this candidate; no model benchmark or public release is implied.
+
+## 0.1.4rc3 — private integrated release candidate
+
+- Enable strict user-directed URL fetch checks by default; provide an explicit previous-policy opt-out. Preserve path/query case and check dotless HTTP hosts, IP literals and nested URL containers.
+- Add separate instruction/pasted-text fields and strict nonce boundary validation. Pasted material cannot supply its own authority or typed identity schema.
+- Add the explicit `Policy.enhanced_014()` deployment profile: source/domain checks, application-declared identity and scoped short-resource provenance. Verified transport and create-new registrations remain host-owned configuration.
+- Retain finite R5 value/fragment checks as research options. Document legitimate document-link refusal and untyped-schema integration costs separately from attack decisions.
+- Prepare source-bound package, executor and fixed-call benchmark checks. Historical paper model metrics are not new candidate measurements; publication has not been performed.
+
+## 0.1.4rc1 — isolated research candidate
+
+- Add `Policy.ground_targets=False`: a whole-target presence precondition inside the gate, before judge/delegation. Short targets are checked; arbitrary observed tool text is not typed provenance.
+- Add `Policy.trusted_target_aliases=False`: restricted deterministic email/URL/IBAN spelling aliases derived only from the original user task. No typo guessing, Unicode transliteration, or tool-text alias promotion.
+- Connect `--ground-targets`, `--trusted-target-aliases`, and `--delegation-span-veto` to the AgentDojo runtime gate without editing frozen reference files.
+- With `ground_targets`, the URL of a fetch must be grounded too, read-only tools included (`Policy.ground_fetch_urls`, on by default; off restores the inbound fetch exemption). A rebuilt or data-appended fetch URL is refused, and a grounded one still meets the content tier.
+- An identifier that occurs in the user's request only inside a longer identifier (a prefix of a user-named URL, a parent domain of a user-named address) is refused even when tool text repeats it.
+- A URL target is compared with and without `http://` or `https://` and a trailing slash.
+- In the user's request, a period glued to a Capitalized word ends the lower-case identifier before it (AgentDojo slack user_task_4 writes "www.our-company.com.They").
+- Aliases never join prose into an identifier: a dot with whitespace only after it, or before a Capitalized word, is not folded, so "bob@acme.example. It is urgent" never yields a new domain. A comma is never read as a dot.
+- Aliases from the user's request also cover full-width ASCII, invisible characters inside an identifier, and a spelled-out bare host that carries a path or two dots. Tool text is never read this way.
+- Keep recorded benchmark numbers and existing defaults. No new model evaluation, efficacy estimate, or public release is claimed.
+
 ## 0.1.3
 
 - Integrate guarded recovery v1 G1/G2 into identity and object two-view recovery; preserve exact tool-channel sources across judge resumes.

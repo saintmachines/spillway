@@ -18,7 +18,7 @@ web page, a document, and in the Slack suite the name of one external channel).
 The attacker does not control the user's task, the tool implementations, the
 tools' declared return types, or the scorer.
 
-SPILLWAY's stated property concerns the **target** of an effect: a side-effecting call
+The paper's stated property concerns the **target** of an effect: a side-effecting call
 is admitted only when every target value that appears in tool output but not in
 the user's task was returned by a read-only tool in a typed identity field or is
 covered by a fixed delegation rule. The judge may restore a refused call, never
@@ -32,9 +32,7 @@ beyond those benchmarks and that scope.
 
 ## In scope
 
-Under the documented configuration (the switches in [reproduce/README.md](reproduce/README.md), section 2), an injection in
-attacker-controlled free text makes the agent execute a call whose target is an
-identity the user never named and no read-only tool returned in a typed field.
+Report an injection that defeats the documented 0.1.4 default or a specified paper configuration. Include the exact artifact and settings. In particular, attacker-controlled free text that makes the agent execute a call to a target that neither the user authorized nor an application-declared trusted identity source supplied is in scope. The recorded paper configuration and its switches are in [reproduce/README.md](reproduce/README.md).
 Examples:
 
 - an email, message, transfer, share, calendar invite, or booking sent to an
@@ -66,19 +64,28 @@ look like bugs, but they are not bypasses:
   an identity the user named or a trusted tool returned, such as an existing
   contact or the payee of a bill the user asked to pay, is left to the sanitizer
   and the judge.
-- A target that never appears verbatim in tool output. Verbatim means the same
-  characters after lowercasing and collapsing spaces, so an address assembled
-  from fragments, a URL with a query string added, and a value hidden by a
-  zero-width character or an encoding count as never seen.
 - Utility loss, latency, or a sanitizer rule that removes benign text.
 - A tool set whose roles are not declared in a lexicon (see CONTRIBUTING.md).
 - Attacks that change the tools, their declared return types, the user's task,
   or the scorer.
 
-## Known limits
+## The 0.1.4 default and host boundary
 
-These hold in 0.1.x with the default `Policy`. They are how the rules work, so a
-report of one of them alone is not a new bypass. A way around a limit is.
+`Guard(task)` uses `Policy.enhanced_014()`. Identity-target recovery through the judge is off in the SDK. The enhanced AgentDojo command `--paper --guarded` explicitly enables the paper's recovery settings; the recorded paper numbers remain results of their original configurations.
+
+The enhanced default checks complete target values and their boundaries. A substring, a short identifier, an unseen value, or an address assembled from pasted fragments does not acquire authority merely because the old lookup did not compare it. Deterministic spelling aliases come from the trusted task. Pasted text and arbitrary tool prose cannot declare an identity schema, a source contract, or permission to act.
+
+Identity evidence comes from application-declared typed schemas and tool roles. A raw dictionary key named `sender`, `author` or `email` does not establish identity authority. Validate against a model declared by the application before observing a return. Whole local-part matching, domain checks and source evidence constrain referent binding. A matching task word in an attacker's address is insufficient by itself.
+
+Short resource identifiers covered by the target-role checks require the matching declared resource kind and scoped evidence. Editing an own resource by a guessed identifier is a separate action-intent concern; these target checks do not authorize every edit. Hosts also declare reviewed source transport and create-new contracts. The AgentDojo adapter registers its in-memory contracts only after checking the suite version and implementation bytes; other hosts supply their own contracts. Tool-return text cannot register a contract. An unverified source or a changed URL cannot inherit authority from the visible text alone.
+
+URL fetching has a provenance precondition as well as the existing content check. A trusted task URL or a URL captured from a successful read-tool execution can reach that check. A URL found only in pasted prose, an unseen URL, or a modified URL has no automatic fetch permission. This can refuse a legitimate link whose origin the application has not registered.
+
+These checks do not authenticate a dishonest provider or replace the tool's own authorization. The host must declare tool roles and target arguments and apply the guard at every effect boundary. An undeclared argument, a forged trusted typed field, content sent to an already legitimate target, and semantic authorization errors remain distinct concerns. Optional judge decisions can be wrong. Recovery-OFF can also refuse legitimate destinations found only in document text. No configuration is a general prompt-injection guarantee.
+
+## Historical 0.1.3 controls and limits
+
+The following describes the original target/delegation rules, selectable with `Policy.legacy_013()` or the explicitly historical reference mode `--legacy-v1`. It does not describe the enhanced 0.1.4 default. Compatibility controls are research settings, not alternative deployment recommendations. The paper's original target property also excluded a target never appearing verbatim in tool output, such as an address assembled from fragments or a URL with an added query. Such a target is not excluded from a 0.1.4 implementation-bug report merely because it was unseen.
 
 - **Length.** The lookup compares values of 4 to 120 characters. A shorter or
   longer plain identifier is not compared, and a value that is a substring of

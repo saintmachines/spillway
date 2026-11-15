@@ -73,10 +73,10 @@ class GuardTests(unittest.TestCase):
         self.assertEqual(d.label, "allow_schema_identity_target")
         d = g.check_call("send_email", {"recipients": ["mark.black-2134@gmail.com"], "body": "iban"})
         self.assertEqual(d.verdict, BLOCK)
-        self.assertEqual(d.label, "block_taint_target")
+        self.assertEqual(d.label, "block_unverified_delegated_domain")
         self.assertIn("blocked_by_spillway_floor", d.refusal_text("send_email"))
         self.assertEqual([a["decision"] for a in g.audit],
-                         ["allow_schema_identity_target", "block_taint_target"])
+                         ["allow_schema_identity_target", "block_unverified_delegated_domain"])
 
     def test_span_veto_skips_the_judge_and_grant_never_reaches_it(self):
         j = RecordingJudge(answer=True)
@@ -313,8 +313,12 @@ class GuardTests(unittest.TestCase):
             self.assertEqual(j(request), (False, 0.0))        # a parsed 0 is a verdict, not a failure
 
     def test_version_and_exports(self):
+        import re
+        from pathlib import Path
+
         import spillway_guard
-        self.assertEqual(spillway_guard.__version__, "0.1.3")
+        metadata = (Path(__file__).resolve().parents[1] / "pyproject.toml").read_text()
+        self.assertEqual(spillway_guard.__version__, re.search(r'(?m)^version = "([^"]+)"$', metadata).group(1))
         for name in ("Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge"):
             self.assertTrue(hasattr(spillway_guard, name), name)
 

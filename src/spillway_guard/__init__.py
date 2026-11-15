@@ -25,12 +25,14 @@ from .floor import (
                     taint_novel,
 )
 from .guard import Guard
+from .ingress import PasteBoundaryError, split_pasted
 from .judge import Judge
 from .lexicon import Lexicon
 from .sanitizer import sanitize
+from .short_lineage import CreationContracts
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
-__all__ = ["Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
+__all__ = ["CreationContracts", "PasteBoundaryError", "split_pasted", "Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
            "JudgeRequest", "admit", "taint_novel", "index_identity_leaves",
            "ALLOW", "BLOCK", "REFER_TO_JUDGE", "__version__"]

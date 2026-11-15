@@ -9,6 +9,8 @@ PYTHONPATH=src python docs/_build/capture_checks.py
 PYTHONPATH=src python docs/_build/build_page.py
 ```
 
+The SDK suite checks the current 0.1.4 implementation. The final capture command, `spillway_guard.agentdojo.runner --legacy-v1 --self-test`, checks the pinned historical reference's original decision and reason strings. It is a parity check rather than a measurement of the enhanced default. The bare historical `--self-test` expects legacy reason strings and is incompatible with the enhanced wrapper.
+
 `publication.json` contains publication facts used for the install controls.
 While `pypi_version` is `null`, the page selects the source command and disables
 the pip and uv registry tabs. After the exact version is published and a fresh

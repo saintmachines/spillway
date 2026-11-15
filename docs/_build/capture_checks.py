@@ -20,8 +20,8 @@ CHECKS = [
      [sys.executable, "benchmarks/scripts/make_tables.py", "--no-write", "--quiet"], True),
     ("python -m pytest -q tests | tail -1",
      [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests"], True),
-    ("python -m spillway_guard.agentdojo.runner --self-test",
-     [sys.executable, "-W", "ignore::RuntimeWarning", "-m", "spillway_guard.agentdojo.runner", "--self-test"], False),
+    ("python -m spillway_guard.agentdojo.runner --legacy-v1 --self-test",
+     [sys.executable, "-W", "ignore::RuntimeWarning", "-m", "spillway_guard.agentdojo.runner", "--legacy-v1", "--self-test"], False),
 ]
 
 

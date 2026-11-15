@@ -283,9 +283,66 @@ def prepare(argv: list[str]) -> tuple[list[str], Path]:
     Returns the command line to forward and the reference directory. Importing the gate is left to the caller.
     """
     argv = list(argv)
+    # This is privileged app/tool configuration, never metadata parsed from a paste.
+    for option, setting in (("--source-no-redirect-tools", "SPW_SOURCE_NO_REDIRECT_TOOLS"),
+                            ("--new-resource-tools", "SPW_NEW_RESOURCE_TOOLS")):
+        for index, argument in enumerate(argv):
+            if argument == option:
+                if index + 1 >= len(argv) or argv[index + 1].startswith("--"):
+                    raise ValueError(option + " needs comma-separated verified tool names")
+                os.environ[setting] = argv[index + 1]
+                del argv[index:index + 2]
+                break
+            if argument.startswith(option + "="):
+                os.environ[setting] = argument.split("=", 1)[1]
+                del argv[index]
+                break
+    # Candidate flags are consumed here and installed at the actual reference
+    # decision callable by patch_gate; they are never forwarded as dead flags.
+    candidate_flags = {
+        "--ground-targets": "SPW_GROUND_TARGETS",
+        "--trusted-target-aliases": "SPW_TRUSTED_TARGET_ALIASES",
+        "--delegation-span-veto": "SPW_DELEGATION_SPAN_VETO",
+        "--refbind-whole-local": "SPW_REFBIND_WHOLE_LOCAL",
+        "--refbind-domain-known": "SPW_REFBIND_DOMAIN_KNOWN",
+        "--refbind-source-known": "SPW_REFBIND_SOURCE_KNOWN",
+        "--payload-secret-guard": "SPW_PAYLOAD_SECRET_GUARD",
+        "--payload-partial-guard": "SPW_PAYLOAD_PARTIAL_GUARD",
+        "--short-target-guard": "SPW_SHORT_TARGET_GUARD",
+        "--typed-identity-only": "SPW_TYPED_IDENTITY_ONLY",
+        "--strict-fetch-provenance": "SPW_STRICT_FETCH_PROVENANCE",
+    }
+    defaults = {"SPW_GROUND_TARGETS": "1", "SPW_TRUSTED_TARGET_ALIASES": "1", "SPW_DELEGATION_SPAN_VETO": "0",
+                "SPW_REFBIND_WHOLE_LOCAL": "1", "SPW_REFBIND_DOMAIN_KNOWN": "1", "SPW_REFBIND_SOURCE_KNOWN": "1", "SPW_PAYLOAD_SECRET_GUARD": "0", "SPW_PAYLOAD_PARTIAL_GUARD": "0", "SPW_SHORT_TARGET_GUARD": "1", "SPW_TYPED_IDENTITY_ONLY": "1", "SPW_STRICT_FETCH_PROVENANCE": "1"}
+    if "--no-strict-fetch-provenance" in argv:
+        os.environ["SPW_STRICT_FETCH_PROVENANCE"] = "0"
+        argv = [a for a in argv if a != "--no-strict-fetch-provenance"]
+    for flag, key in candidate_flags.items():
+        if flag in argv:
+            os.environ[key] = "1"
+        else:
+            os.environ.setdefault(key, defaults[key])
+    if os.environ["SPW_PAYLOAD_PARTIAL_GUARD"] == "1":
+        os.environ["SPW_PAYLOAD_SECRET_GUARD"] = "1"
+    if os.environ["SPW_REFBIND_SOURCE_KNOWN"] == "1":
+        os.environ["SPW_REFBIND_DOMAIN_KNOWN"] = "1"
+    disable_candidate = "--no-target-provenance" in argv
+    if disable_candidate:   # the 0.1.3 gate
+        os.environ["SPW_GROUND_TARGETS"] = "0"
+        os.environ["SPW_TRUSTED_TARGET_ALIASES"] = "0"
+    if {"-h", "--help"} & set(argv):
+        print("0.1.4 options: target provenance on by default, --no-target-provenance restores the 0.1.3 gate; "
+              "declared identity, domain/source provenance, short-resource and strict-fetch checks on by default; "
+              "--delegation-span-veto (default off)", file=sys.stderr)
+    argv = [a for a in argv if a not in candidate_flags and a != "--no-target-provenance"]
     paper_mode = "--paper" in argv
     explicit_guarded = "--guarded" in argv
     legacy_mode = "--legacy-v1" in argv or (paper_mode and not explicit_guarded)
+    if legacy_mode or disable_candidate:
+        for key in defaults:
+            os.environ[key] = "0"
+        os.environ["SPW_SOURCE_NO_REDIRECT_TOOLS"] = ""
+        os.environ["SPW_NEW_RESOURCE_TOOLS"] = ""
     disable_mv_guard = "--no-mv-guard" in argv
     disable_rolemark = "--no-rolemark" in argv
     argv = [a for a in argv if a not in {"--guarded", "--legacy-v1", "--no-mv-guard", "--no-rolemark"}]
@@ -322,6 +379,15 @@ def prepare(argv: list[str]) -> tuple[list[str], Path]:
         defaults["SPW_ESCALATE_MV"] = "0"
     for key, value in defaults.items():
         os.environ.setdefault(key, value)
+    if not (legacy_mode or disable_candidate):
+        from .benchmark_contracts import configure_standard_contracts
+        contract_receipt = configure_standard_contracts(
+            _option_value(argv, "--suite") or "workspace", os.environ["SPW_SUITE_VERSION"])
+        # The audit record is configuration metadata, never tool-return evidence.
+        os.environ["SPW_BENCHMARK_CONTRACT_RECEIPT"] = json.dumps(contract_receipt, sort_keys=True)
+        if not contract_receipt["verified"] and not {"-h", "--help", "--self-test"} & set(argv):
+            print("spillway-agentdojo: no implicit benchmark contracts: "
+                  + contract_receipt["reason"], file=sys.stderr)
     check_prompt_file()
     if disable_target_recovery or (not paper_mode and os.environ["SPW_ESCALATE_MV"] == "0"):
         # Existing historical aliases win over mirror_switches. An explicit
@@ -363,6 +429,8 @@ def patch_gate(gate) -> None:
        detector under the renamed prefix (``harness...CascadeDetector``), which the harness module defines only
        under its own prefix (a rename artefact); the alias makes the flag usable.
     """
+    from .candidate_policy import install_candidate_policy
+    install_candidate_policy(gate)
     harness = getattr(gate, "m30", None)
     if harness is not None:
         for name, obj in list(vars(harness).items()):
@@ -380,6 +448,7 @@ def patch_gate(gate) -> None:
         return
 
     def _blocked_msg(self, tool_call, reason, score):
+        from .refusal_context import refusal_message
         payload = {
             "status": "blocked_by_spillway",
             "reason": reason,
@@ -391,12 +460,13 @@ def patch_gate(gate) -> None:
             "tool": tool_call.function,
             "score": score,
         }
+        payload, refusal, error = refusal_message(self, tool_call, reason, score, "SPILLWAY refused the call.")
         return ChatToolResultMessage(
             role="tool",
-            content=[text_content_block_from_string("<SPILLWAY> " + json.dumps(payload))],
+            content=[text_content_block_from_string(refusal)],
             tool_call_id=tool_call.id,
             tool_call=tool_call,
-            error="SPILLWAY refused the call: a side-effecting call used a target derived from untrusted text.",
+            error=error,
         )
 
     executor._blocked_msg = _blocked_msg

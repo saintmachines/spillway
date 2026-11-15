@@ -251,7 +251,9 @@ class DifferentialTests(unittest.TestCase):
         ref, now = self.ref, datetime.datetime.now()
         self.assertEqual(ref._escalate_mv_on(), escalate_mv)
         self.assertTrue(ref._mv_integrity_on())
-        policy = Policy(escalate_mv=escalate_mv, mv_guard=False, rolemark=False)
+        # This reference is the frozen paper gate. New target/delegation
+        # defaults are tested against the patched caller in separate tests.
+        policy = Policy.legacy_013().replace(escalate_mv=escalate_mv, mv_guard=False, rolemark=False)
         gate = getattr(ref, [n for n in dir(ref) if n.startswith("gate_decision")][0])
         reads = [
             CalendarEvent(id_="24", title="Introductory meeting",
@@ -280,7 +282,7 @@ class DifferentialTests(unittest.TestCase):
         idx = IdentityIndex()
         ident, cores, span, srecs = set(), set(), "", []
         for r in reads:
-            idx.index_read_return("get_x", {}, r, tainted=tainted, trusted="")
+            idx.index_read_return("get_x", {}, r, tainted=tainted, trusted="", policy=policy)
             ref.index_identity_leaves(r, ident)
             ref._index_taint_coresident(r, cores)
             for sh in ref._shadow_ibans(r):

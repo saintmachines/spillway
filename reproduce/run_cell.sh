@@ -86,5 +86,6 @@ echo "run_cell.sh: logs -> $logdir ; summary -> $SPW_OUT_DIR/summary_${suite}_${
 exec "${runner[@]}" \
   --suite "$suite" --agent-model "$backbone" --attack important_instructions \
   --auto --access-grant --chatml-guard --exfil-provenance \
+  --paper --guarded \
   --logdir "$logdir" --run-id "$run_id" --summary-tag "$run_id" \
   "$@"

@@ -34,7 +34,7 @@ historical prefix. The runner mirrors every `SPW_<NAME>` value to those names, s
 | System prompt | AgentDojo's default (469 bytes, sha256 `a021a92b...`) in the `system` role | `SPW_HARNESS_PROMPT_FILE` = the packaged [`agentdojo_default_prompt.txt`](../src/spillway_guard/agentdojo/agentdojo_default_prompt.txt). The runner checks its hash and sends the leading message as `system` |
 | Decoding | temperature 0, seed 42, at most 8192 output tokens (the paper), a 600 s timeout on each agent request (the paper's runs) | `SPW_TEMPERATURE=0 SPW_SEED=42 SPW_MAX_TOKENS=8192 SPW_REQUEST_TIMEOUT=600`, filled on every agent call that leaves them unset, except the timeout, which is set on every call (`SPW_AGENT_SHIM=0` disables the shim) |
 | Reasoning | switched off where the backbone has a switch | `reasoning_effort: none` on qwen3 backbones (`SPW_SHIM_RULES`) |
-| Defense switches | the four of every run in the paper | `--auto --access-grant --chatml-guard --exfil-provenance` (or `--paper`) |
+| Defense switches | the four of every run in the paper | `--auto --access-grant --chatml-guard --exfil-provenance` (or `--paper --guarded` for the current 0.1.4 guard) |
 | Judge switches | multi-view recovery and the integrity judge | `SPW_ESCALATE_MV=1 SPW_MV_INTEGRITY=1` |
 | Recovery switches | all on | `SPW_REFBIND SPW_SELF_OWNED SPW_TASKNAMED_FETCH SPW_AUTHZ_SELFOP SPW_INJSPAN_RECOVER SPW_EXTPRINCIPAL SPW_EXFIL_INV SPW_READFETCH2 SPW_ID_AGENTDYN SPW_QUERYENTAIL SPW_CONJUNCTION SPW_SELFWRITE_INTEGRITY SPW_INGRESS_REDACT SPW_GRANT_PRINCIPAL_NAMED SPW_SELFWRITE_RECIPIENTS SPW_INGRESS_AGENTADDR`, each `=1` |
 | Judge | gemma4:31b (Q4_K_M), 4096-token context, temperature 0, JSON verdict. A missing verdict counts as a no | `SPW_VOTERS=gemma4:31b`. The gate posts to `${SPW_OLLAMA_URL}/api/generate` (Ollama's native API) with `num_ctx 4096`, `temperature 0`, `format json`, `think false` |
@@ -103,9 +103,13 @@ reproduce/run_cell.sh workspace gpt-4o-mini-2024-07-18                          
 reproduce/run_cell.sh slack qwen3:8b --user-tasks user_task_0 --injection-tasks injection_task_1   # one pair
 ```
 
-The same without the wrapper: `spillway-agentdojo --paper --suite banking --agent-model qwen3:8b`
-(`--paper` expands to the four defense switches). `spillway-agentdojo --self-test` runs the gate's own
-predicate-level and gate-level self-tests (no server needed, `agentdojo` must be installed).
+The same without the wrapper: `spillway-agentdojo --paper --guarded --suite banking --agent-model qwen3:8b`
+(`--paper` expands to the four defense switches). `spillway-agentdojo --legacy-v1 --self-test` runs the pinned historical gate's
+predicate-level and gate-level fixtures (no server needed, `agentdojo` must be installed).
+Those fixtures assert historical decision labels. The enhanced 0.1.4 wrapper changes some
+labels, so the bare historical `--self-test` is incompatible with that wrapper. This legacy
+parity check does not evaluate the enhanced default; the SDK test suite and installed-caller
+checks cover the current implementation. It does not select a deployment policy for model runs.
 
 ## 4. Expected outputs
 
