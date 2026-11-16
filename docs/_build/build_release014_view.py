@@ -151,11 +151,6 @@ def activate(module, actual):
                                               "SPILLWAY 1.0.0 values are shown in the standard and stress charts. Seven-suite, ablation and cost comparisons retain their paper measurements.")
     if display_version == "1.0.0":
         module.TEMPLATE = module.TEMPLATE.replace("Version 0.1.4 uses the enhanced default", "Version @@PACKAGE_VERSION@@ uses the enhanced default")
-        module.TEMPLATE = re.sub(
-            r'(<p class="req">Default:.*?</p>)',
-            r'\1<p class="req inote">The same validated runtime was measured in 0.1.4. <a href="release-1.0.0.html#runtime-equivalence">Runtime equivalence</a>.</p>',
-            module.TEMPLATE, count=1, flags=re.S,
-        )
     module.TEMPLATE = module.TEMPLATE.replace("Every method uses the same agent and scorer.",
                                               "SPILLWAY 1.0.0 uses the matched backbone and task/scoring protocol; comparison methods retain the paper measurements.")
     # Existing cost/ablation/seven-suite arrays intentionally stay untouched.

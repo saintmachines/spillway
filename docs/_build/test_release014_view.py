@@ -101,7 +101,7 @@ class ActualDisplayView(unittest.TestCase):
         self.assertNotIn("SPILLWAY ties ROPE at", page)
         self.assertNotIn("SPILLWAY 0.1.4", page)
         self.assertNotIn("SPILLWAY 0.1.4", results)
-        self.assertEqual(page.count("0.1.4"), 1)
+        self.assertNotIn("0.1.4", page)
         self.assertEqual(results.count("0.1.4"), 1)
         self.assertIn('<td>.539</td><td>.489</td><td>.000</td>', results)
         self.assertIn("SPILLWAY 1.0.0, four mini suites", results)
