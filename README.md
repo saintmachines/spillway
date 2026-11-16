@@ -36,8 +36,6 @@
 pip install spillway-guard==1.0.0
 ```
 
-<p align="center"><sub>Accepted for presentation at the NeurIPS 2026 Workshop on Agents in the Wild.</sub></p>
-
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/SPILLWAY_100_Overview_Autoplay.gif" width="560" alt="SPILLWAY 1.0.0 animated preview: the real-time safety guard for AI agents."></a><br>
   <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 28-second overview</b></a> ·
