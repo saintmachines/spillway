@@ -1146,6 +1146,10 @@
  ],
  "display_view": {
   "version": "0.1.4",
+  "measurement_version": "0.1.4",
+  "display_version": "1.0.0",
+  "library_version": "1.0.0",
+  "runtime_equivalence_url": "release-1.0.0.html#runtime-equivalence",
   "actual_source": "benchmarks/results/release_014_actual.json",
   "scope": "standard and stress SPILLWAY slots",
   "paper_only": [

@@ -1,8 +1,9 @@
-# SPILLWAY
+# SPILLWAY 1.0.0
 
 > Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, an optional judge checks selected calls. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, checks selected calls, including refused-target recovery and object checks. Two-view recovery does not restore a target that lies in removed text.
 
-- Install: `pip install spillway-guard` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
+- Install: `pip install spillway-guard==1.0.0` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
+- Runtime provenance: 1.0.0 promotes the runtime validated as 0.1.4, with release metadata changes. The measurement version and original wheel identity remain 0.1.4. [Runtime equivalence](release-1.0.0.html#runtime-equivalence).
 - App integration: [integrate.html](integrate.html), with a runnable local example in [examples/](examples/README.md)
 - Paper: [arXiv:2611.07222](https://arxiv.org/abs/2611.07222), [PDF](SPILLWAY_preprint.pdf)
 - Code: https://github.com/saintmachines/spillway
@@ -10,10 +11,10 @@
 - Authors: Woosang Lim (SAINT Machines and KAIST), Yeseul Chang and Jaewoo Lee (Chung-Ang University). Project of SAINT Machines: https://saintmachines.ai. Contact: contact@saintmachines.ai
 
 ## Headline results (AgentDojo v1.2.2, 3 backbones x 4 suites, in-scope attack success)
-- SPILLWAY: 0 of 12 cells leak, utility under attack .484, benign utility .520 (undefended .540).
+- SPILLWAY: 0 of 12 cells leak, utility under attack .489, benign utility .539 (undefended .540). These are the recorded 0.1.4 measurements; comparison methods retain the paper results. Mini's four-suite scatter point is .608 utility and .000 ASR, separately from the twelve-cell .489 mean.
 - MELON, Progent, DRIFT leak on 10, 11 and 7 of 12 cells. On benign qwen3:8b Workspace and Slack episodes they add 3.25 to 9.91 model calls per episode. SPILLWAY adds 0.19 to 0.39, judge included.
-- Against ROPE with its authors' Claude Opus 4.8 router, gpt-4o-mini, AgentDyn's three suites and AgentDojo's four: SPILLWAY's in-scope attack success is .000 on every suite and its utility under attack is higher on each (mean .553 against .468). ROPE leaks on three suites.
-- Stress tests: ChatInject raw zero. AutoDojo in-scope .000 on the 389 released pairs (descriptive). On two held-out Banking sets .000 and .007 by AgentDojo's check, .014 counting a second transfer that check misses. PISmith (replayed open-loop at ASR@1, first of ten variants per injection) mean in-scope .007.
+- Paper seven-suite comparison: against ROPE with its authors' Claude Opus 4.8 router, gpt-4o-mini, AgentDyn's three suites and AgentDojo's four, SPILLWAY's in-scope attack success is .000 on every suite and its utility is higher on each (mean .553 against .468). ROPE leaks on three suites. This comparison is retained from the paper.
+- Actual 0.1.4 stress tests: ChatInject 0/665 effects, AutoDojo 0/389 (descriptive), sender 0/126. PISmith ASR@1 retains mini 4/949 effects (macro ASR .005, utility .257) and qwen3:8b 1/949 (macro ASR .002, utility .173). Historical held-out and latency studies remain paper measurements.
 
 ## Scope
-The stated property covers identity targets. A tool that writes an attacker's value into a typed identity field, content-only effects, and a target that never appears verbatim in tool output are out of scope.
+The structural identity-target property depends on reviewed typed roles and transport contracts. It does not authenticate an attacker-written identity field or guarantee all content-only effects. Reported attack success retains each original family scorer's convention, including the recorded qwen PISmith calendar-integrity effect. See the artifact-bound report for denominators, context overflows and execution amendments.

@@ -68,6 +68,7 @@ def activate(module, actual):
     index = {(r["group"], r["model"], r["profile"], r["suite"]): r for r in rows}
     assert len(index) == 54, "Duplicate actual condition"
     assert module.DATA["grid"]["SPILLWAY"][1] == .484, "View must start from validated historical data"
+    display_version = module.project_version()
     original_data, original_cells = module.DATA, module.CELLS
     module.DATA, module.CELLS = copy.deepcopy(original_data), copy.deepcopy(original_cells)
     module.PIS_SUITES = copy.deepcopy(module.PIS_SUITES)
@@ -148,6 +149,17 @@ def activate(module, actual):
     module.TEMPLATE = module.TEMPLATE.replace("Source: Tables 4 and 7 of the preprint", CAPTION + "; PISmith mini .257 utility / .005 ASR (4/949), qwen3:8b .173 / .002 (1/949)")
     module.TEMPLATE = module.TEMPLATE.replace("The charts report their recorded paper configurations.",
                                               "SPILLWAY values in the standard and stress charts are from 0.1.4. Seven-suite, ablation and cost comparisons retain their paper measurements.")
+    if display_version == "1.0.0":
+        module.TEMPLATE = module.TEMPLATE.replace("Version 0.1.4 uses the enhanced default", "Version @@PACKAGE_VERSION@@ uses the enhanced default")
+        module.TEMPLATE = re.sub(
+            r'(<p class="req">Default:.*?</p>)',
+            r'\1<p class="req inote">The same validated runtime was measured in 0.1.4. <a href="release-1.0.0.html#runtime-equivalence">Runtime equivalence</a>.</p>',
+            module.TEMPLATE, count=1, flags=re.S,
+        )
+        # Until root supplies a verified 1.0.0 film, keep the existing clip explicitly
+        # identified as recorded 0.1.4 footage, rather than silently renaming it.
+        if "assets/SPILLWAY_100_Final_28s_1080p.mp4" not in module.TEMPLATE:
+            module.TEMPLATE = module.TEMPLATE.replace("Watch the 28-second overview", "Watch the recorded 0.1.4 overview")
     module.TEMPLATE = module.TEMPLATE.replace("Every method uses the same agent and scorer.",
                                               "SPILLWAY 0.1.4 uses the matched backbone and task/scoring protocol; comparison methods retain the paper measurements.")
     # Existing cost/ablation/seven-suite arrays intentionally stay untouched.
@@ -177,7 +189,9 @@ def activate(module, actual):
     def rendered_json():
         result = json.loads(original_json())
         result["source"] = CAPTION
-        result["display_view"] = {"version": "0.1.4", "actual_source": "benchmarks/results/release_014_actual.json", "scope": "standard and stress SPILLWAY slots", "paper_only": ["other methods", "seven-suite routing", "ablation", "cost and latency"]}
+        result["display_view"] = {"version": "0.1.4", "measurement_version": "0.1.4", "display_version": display_version,
+                                  "library_version": display_version, "runtime_equivalence_url": "release-1.0.0.html#runtime-equivalence" if display_version == "1.0.0" else None,
+                                  "actual_source": "benchmarks/results/release_014_actual.json", "scope": "standard and stress SPILLWAY slots", "paper_only": ["other methods", "seven-suite routing", "ablation", "cost and latency"]}
         result["notes"]["grid_means"] = "SPILLWAY 0.1.4 / comparison methods: paper; equal-weight twelve-cell means."
         result["notes"]["standard_attack_gpt_4o_mini_suite_means_figure_1a"] = "Four mini suites; SPILLWAY 0.1.4, other points paper; ROPE uses its authors' router."
         result["notes"]["stress"] = "SPILLWAY actual 0.1.4 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
@@ -218,7 +232,8 @@ def main():
         target.write_text(value)
     assert before == {str(p.relative_to(ROOT)): sha(p) for p in protected}, "Historical source/cache changed"
     report.update(status="ACTUAL014_DISPLAY_ONLY_BUILD_PASS", actual_json_sha256=sha(args.actual_json), historical_inputs_sha256=before,
-                  output_sha256={name: sha(out if name == "index.html" else out.parent / name) for name in outputs})
+                  output_sha256={name: sha(out if name == "index.html" else out.parent / name) for name in outputs},
+                  display_version=module.project_version(), library_version=module.project_version(), measurement_version="0.1.4")
     (out.parent / "RELEASE014_DISPLAY_RECEIPT.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k not in ("historical_inputs_sha256", "output_sha256")}))
 

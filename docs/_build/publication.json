@@ -1,5 +1,5 @@
 {
-  "pypi_version": null,
-  "source_ref": "release/1.0.0",
+  "pypi_version": "1.0.0",
+  "source_ref": "v1.0.0",
   "release_notes_url": "https://github.com/saintmachines/spillway/releases/tag/v1.0.0"
 }

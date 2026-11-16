@@ -25,7 +25,7 @@
   "status": "ACTUAL014_DISPLAY_ONLY_BUILD_PASS",
   "actual_json_sha256": "5b62ac9ca06495e5155df85122abf871cdfc3e8f12a8c3308951999ec3f70bfd",
   "historical_inputs_sha256": {
-    "docs/_build/build_page.py": "dac1951c1bbfd52b613b4c068ca8b26d6b691e36e706e2a4233c7a964dda84b1",
+    "docs/_build/build_page.py": "686f1eeff8b70c74b118a902a010f8aa9c1a629146bdb5c4d2ec21ccdd3e760b",
     "docs/_build/cells_table1.json": "2b3de87592b97c494a9c76e8832aca384961ff42300c1c352c83eb7b0c7d291d",
     "benchmarks/TABLES.md": "e2d6432a2db49f1943dbf1e7a194c456a04d9e594ba2145dbbc8c7ef40c35bb3",
     "benchmarks/results/breadth_grid_cells.json": "f0d054b753cf1564ecbddbe90d978e833c5704e5074d4cb618d98c835e909882",
@@ -47,9 +47,12 @@
     "benchmarks/results/pismith_a4/drift_a25f.md": "584b61c939638394a0407fb43fe9301f65a6e979d1bdd9bc9dd01e22fe60d872"
   },
   "output_sha256": {
-    "index.html": "d70ee3628c430ce312173fbc9c75d9194b63b325688661ac37aebaac93854f9c",
-    "results.html": "a7a82e287ae759820bb7f49c1cd393e5195b67b444588d57b564a4da78604972",
-    "integrate.html": "e339f6fe1a84b41ffde0b14a7488483ff279ea76e3592bb9104a244c9309cd1a",
-    "results.json": "8ac5d5ab9a1a50173337db085378a95a66288a1ce39b8baab6ea2437b1764851"
-  }
+    "index.html": "fa16c378efa64b48f6b021fb964f249ee84dfabdfe187c4a4e201af67d116b31",
+    "results.html": "1c61f5a184033fa8d1dcac08ac1364630c50b3b646d11d643a88380aae1c58ca",
+    "integrate.html": "2c114bd654376280e663d5aa543c3260f5a1cae83e2711524573707a1cbe9887",
+    "results.json": "eea5ebdfe9443732e42bb882ccfa219b91c6024603c579365d4c6140193d5cf3"
+  },
+  "display_version": "1.0.0",
+  "library_version": "1.0.0",
+  "measurement_version": "0.1.4"
 }

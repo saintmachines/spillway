@@ -113,6 +113,26 @@ class ActualDisplayView(unittest.TestCase):
         self.assertEqual((self.m.NO_JUDGE, self.m.WITH_JUDGE), (old_nojudge, old_judge))
         self.assertIn("Paper comparison:", self.m.TEMPLATE)
 
+    def test_display_version_does_not_rename_measurement_identity(self):
+        self.apply()
+        data = json.loads(self.m.results_json())
+        self.assertEqual(data["display_view"]["library_version"], "1.0.0")
+        self.assertEqual(data["display_view"]["display_version"], "1.0.0")
+        self.assertEqual(data["display_view"]["measurement_version"], "0.1.4")
+        self.assertEqual(ACTUAL["version"], "0.1.4")
+        self.assertEqual(ACTUAL["wheel_sha256"], "3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928")
+
+    def test_install_controls_follow_verified_registry_state(self):
+        self.apply()
+        page = self.m.build()
+        publication = json.loads(self.m.PUBLICATION_PATH.read_text())
+        if publication["pypi_version"] is None:
+            self.assertIn("pip install git+https://github.com/saintmachines/spillway.git@release/1.0.0", page)
+            self.assertIn("Available after the PyPI release", page)
+        else:
+            self.assertEqual(publication["pypi_version"], "1.0.0")
+            self.assertIn('id="cmd-install">pip install spillway-guard==1.0.0', page)
+
     def test_historical_files_and_source_data_objects_remain_unchanged(self):
         paths = [view.SOURCE, HERE/"cells_table1.json", view.ACTUAL]
         before = {str(p):view.sha(p) for p in paths}
