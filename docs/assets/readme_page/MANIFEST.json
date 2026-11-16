@@ -1,7 +1,7 @@
 {
   "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
   "inputs": {
-    "docs/index.html": "6de229734eabdaee98ba098399e7555f54ee1acc64c58f64aad88719959918da"
+    "docs/index.html": "80e30061c82fca0a431bf9778dfe5d97004344c456a2928bf10a415a7f1ce5fe"
   },
   "theme": "dark",
   "css_width": {

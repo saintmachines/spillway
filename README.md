@@ -434,7 +434,7 @@ One cell of the breadth grid is one suite, one attack and one backbone. The full
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_10_dark.svg"><img src="docs/assets/readme/h2_10_light.svg" alt="" height="18"></picture>Citation
 
-Woosang Lim<sup>1,2,*</sup>, Yeseul Chang<sup>3</sup>, Jaewoo Lee<sup>3</sup>. <sup>1</sup>SAINT Machines, <sup>2</sup>KAIST, <sup>3</sup>Chung-Ang University. An earlier version was accepted at the Third Workshop on Agents in the Wild: Safety, Security, and Beyond (NeurIPS 2026).
+Woosang Lim<sup>1,2,*</sup>, Yeseul Chang<sup>3</sup>, Jaewoo Lee<sup>3</sup>. <sup>1</sup>SAINT Machines, <sup>2</sup>KAIST, <sup>3</sup>Chung-Ang University. Accepted for presentation at the NeurIPS 2026 Workshop on Agents in the Wild.
 
 ```bibtex
 @misc{lim2026spillway,
