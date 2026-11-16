@@ -36,7 +36,7 @@
 pip install spillway-guard==1.0.0
 ```
 
-<p align="center"><sub>An earlier version was accepted at a NeurIPS 2026 workshop.</sub></p>
+<p align="center"><sub>Accepted for presentation at the NeurIPS 2026 Workshop on Agents in the Wild.</sub></p>
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/SPILLWAY_100_Overview_Autoplay.gif" width="560" alt="SPILLWAY 1.0.0 animated preview: the real-time safety guard for AI agents."></a><br>
@@ -434,7 +434,7 @@ One cell of the breadth grid is one suite, one attack and one backbone. The full
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_10_dark.svg"><img src="docs/assets/readme/h2_10_light.svg" alt="" height="18"></picture>Citation
 
-Woosang Lim<sup>1,2,*</sup>, Yeseul Chang<sup>3</sup>, Jaewoo Lee<sup>3</sup>. <sup>1</sup>SAINT Machines, <sup>2</sup>KAIST, <sup>3</sup>Chung-Ang University. Accepted for presentation at the NeurIPS 2026 Workshop on Agents in the Wild.
+Woosang Lim<sup>1,2,*</sup>, Yeseul Chang<sup>3</sup>, Jaewoo Lee<sup>3</sup>. <sup>1</sup>SAINT Machines, <sup>2</sup>KAIST, <sup>3</sup>Chung-Ang University. An earlier version was accepted at the Third Workshop on Agents in the Wild: Safety, Security, and Beyond (NeurIPS 2026).
 
 ```bibtex
 @misc{lim2026spillway,
