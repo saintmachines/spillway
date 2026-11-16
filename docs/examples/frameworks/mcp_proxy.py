@@ -42,11 +42,14 @@ def _supported(schema: dict, structural: set) -> None:
         raise ValueError("unsupported output schema")
 
 
-def _model_of(name: str, schema: dict, defs: dict, built: dict, building: set) -> Any:
+def _model_of(name: str, schema: dict, defs: dict, built: dict, building: set, root: bool = False) -> Any:
     """A Pydantic model for one object schema the downstream server declared."""
-    if name in building:
+    identity = id(schema)
+    if identity in building:
         raise ValueError("recursive output schema")
-    _supported(schema, {"type", "properties", "required", "additionalProperties"})
+    if identity in built:
+        return built[identity]
+    _supported(schema, {"type", "properties", "required", "additionalProperties"} | ({"$defs"} if root else set()))
     if schema.get("type") != "object" or not isinstance(schema.get("properties"), dict):
         raise ValueError("output object must declare properties")
     required_names = schema.get("required", [])
@@ -57,21 +60,30 @@ def _model_of(name: str, schema: dict, defs: dict, built: dict, building: set) -
     additional = schema.get("additionalProperties", True)
     if not isinstance(additional, bool):
         raise ValueError("unsupported additionalProperties schema")
-    building.add(name)
+    building.add(identity)
     required, fields = set(required_names), {}
     for key, prop in schema["properties"].items():
         if not isinstance(key, str) or not key.isidentifier() or key.startswith("_") or hasattr(BaseModel, key):
             raise ValueError(f"field {key!r} cannot be declared")
         kind = _type_of(f"{name}_{key}", prop, defs, built, building)
         fields[key] = (kind, ...) if key in required else (kind, None)
-    built[name] = create_model(name, __config__=ConfigDict(strict=True, extra="ignore" if additional else "forbid"), **fields)
-    building.discard(name)
-    return built[name]
+    built[identity] = create_model(name, __config__=ConfigDict(strict=True, extra="ignore" if additional else "forbid"), **fields)
+    building.discard(identity)
+    return built[identity]
 
 
 def _type_of(name: str, prop: dict, defs: dict, built: dict, building: set) -> Any:
     if not isinstance(prop, dict):
         raise ValueError("invalid property schema")
+    if "$ref" in prop:
+        # Pydantic writes a nested model as a reference into the same document's $defs. Only that exact form is
+        # read, with no sibling constraint, and the definition goes through the same strict builder.
+        _supported(prop, {"$ref"})
+        ref = prop["$ref"]
+        key = ref[len("#/$defs/"):] if isinstance(ref, str) and ref.startswith("#/$defs/") else ""
+        if not key or "/" in key or "~" in key or not isinstance(defs.get(key), dict):
+            raise ValueError("unresolved reference")
+        return _model_of(key, defs[key], defs, built, building)
     kind = prop.get("type")
     if kind == "object":
         return _model_of(name, prop, defs, built, building)
@@ -89,16 +101,22 @@ def declared_models(tools) -> dict:
 
     The Guard takes roles only from declared fields. The proxy validates each structured return against the schema the
     server you launched declared when the proxy connected, and it reads that list once, so a later change is ignored.
-    Only objects with declared properties, homogeneous arrays and primitive JSON types are supported. Unsupported
-    keywords (including enum, const, pattern, formats, unions and references) leave the entire tool's returns as plain
-    dicts, which state no roles. Invalid values do likewise. No schema is inferred from a result's keys.
+    Only objects with declared properties, homogeneous arrays, primitive JSON types and references to object
+    definitions in the same schema (the form Pydantic writes for a nested model) are supported. Unsupported keywords
+    (including enum, const, pattern, formats, unions, recursive or outside references) leave the entire tool's returns
+    as plain dicts, which state no roles. Invalid values do likewise. No schema is inferred from a result's keys.
     """
     models = {}
     for tool in tools:
         schema = getattr(tool, "output_schema", None)
         if isinstance(schema, dict) and schema.get("type") == "object" and schema.get("properties"):
             try:
-                models[tool.name] = _model_of("Output", schema, schema.get("$defs") or {}, {}, set())
+                defs, built, building = schema.get("$defs", {}), {}, set()
+                if not isinstance(defs, dict) or "Output" in defs:
+                    raise ValueError("unsupported definitions")
+                for key in defs:   # every definition must be a supported object, used or not
+                    _model_of(key, defs[key], defs, built, building)
+                models[tool.name] = _model_of("Output", schema, defs, built, building, root=True)
             except Exception:
                 pass
     return models

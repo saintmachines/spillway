@@ -47,7 +47,7 @@ def publication_slots():
     assert publication["pypi_version"] in (None, version)
     source_ref = publication["source_ref"]
     assert re.fullmatch(r"[A-Za-z0-9._/-]+", source_ref)
-    commands = {"pip": "pip install spillway-guard", "uv": "uv pip install spillway-guard",
+    commands = {"pip": f"pip install spillway-guard=={version}", "uv": f"uv pip install spillway-guard=={version}",
                 "source": f"pip install git+{REPO}.git@{source_ref}"}
     selected = "pip" if ready else "source"
     tabs = []

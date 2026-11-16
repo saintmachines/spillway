@@ -7,18 +7,18 @@
 <script>try{var t=localStorage.getItem('spw-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <!--@CSP--><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'"><!--@END-->
 <title>SPILLWAY | prompt-injection defense for tool-using agents</title>
-<meta name="description" content="SPILLWAY 0.1.4: 48.9% task success under the standard attack and 0/2847 reported effects across 3 backbones and 4 suites. Historical paper figures are labelled separately.">
+<meta name="description" content="SPILLWAY: runtime safety for tool-using AI agents. Check before they act. Version 0.1.4 records 48.9% task success under the standard attack and 0/2847 reported effects across 3 backbones and 4 suites.">
 <link rel="canonical" href="@@SITE@@">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SPILLWAY checks recipients against the user's task and the typed fields of tool returns.">
-<meta property="og:description" content="Historical paper v1 figures and comparisons are preserved. New SPILLWAY 0.1.4 artifact-bound measurements are linked separately.">
+<meta property="og:description" content="SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, with 0/2847 reported effects across three backbones and four suites.">
 <meta property="og:url" content="@@SITE@@">
-<meta property="og:image" content="@@SITE@@assets/og-card.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Historical paper v1 figures and comparisons are preserved. New SPILLWAY 0.1.4 artifact-bound measurements are linked separately.">
+<meta property="og:image" content="@@SITE@@assets/release014-cover.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, with 0/2847 reported effects across three backbones and four suites.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="@@SITE@@assets/og-card.png">
+<meta name="twitter:image" content="@@SITE@@assets/release014-cover.png">
 <meta name="author" content="Woosang Lim, Yeseul Chang, Jaewoo Lee">
 <meta name="citation_title" content="SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection">
 <meta name="citation_author" content="Lim, Woosang">
@@ -1082,7 +1082,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 </header>
 
 <main id="main">
-<section class="band first" id="release014" aria-labelledby="release014-h"><div class="wrap"><p class="eyebrow">0.1.4 · measured on 3 backbones × 4 AgentDojo suites</p><h2 id="release014-h">48.9% task success under attack.<br>0/2,847 reported standard-attack effects.</h2><p>These new artifact-bound measurements are separate from the original paper’s 48.4%. PISmith remains nonzero: mini 4/949 and qwen 1/949; the qwen calendar-integrity hit stays counted.</p><p><a href="release-0.1.4.html">Read the 0.1.4 report, counts and limitations</a></p><p class="note">The figures and comparisons below retain their historical paper configurations. Historical latency is a separate-session mean episode-time comparison.</p></div></section>
+<section class="band first" id="release014" aria-labelledby="release014-h"><div class="wrap"><p class="eyebrow">SPILLWAY 0.1.4</p><h2 id="release014-h">Runtime safety for<br>tool-using AI agents.</h2><p class="lede"><strong>Check before they act.</strong> Check recipients, accounts and resource targets at the tool boundary. CPU rules, with an optional local judge.</p><p style="font-size:1.4rem"><strong>48.9% task success under attack.</strong><br><strong>0/2,847 reported standard-attack effects.</strong></p><p>Measured on three backbones and four AgentDojo suites, with the judge enabled. PISmith: mini 4/949, qwen 1/949. <a href="release-0.1.4.html">Results and execution settings</a></p><p><a href="#start">Install 0.1.4</a> · <a href="assets/SPILLWAY_014_Final_28s_1080p.mp4">Watch the 28-second overview</a> · <a href="integrate.html">Connect your agent</a> · <a href="@@REPO@@">GitHub</a></p><p class="note">Original paper figures and comparisons follow below. New 0.1.4 utility under attack is 48.9%; the historical paper records 48.4%.</p></div></section>
 
 <section class="hero" id="top" aria-labelledby="h1">
   <div class="wrap hero-grid">

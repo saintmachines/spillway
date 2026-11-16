@@ -61,3 +61,5 @@ Wheel SHA-256: `3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928
 [Public 54-condition count data](benchmarks/results/release_014_actual.json) · [Web report](https://saintmachines.github.io/spillway/release-0.1.4.html) · [Historical paper v1](https://arxiv.org/abs/2611.07222v1)
 
 The JSON binds the completed strict join, merge, formatter, original summary and protocol hashes without private paths or credentials. Publication and registry-install verification are separate gates. Verify the exact 0.1.4 registry installation before any HF submission or listing announcement.
+
+Official PyPI 0.1.4 wheel and sdist downloads match the tested hashes. A fresh registry installation passed all 26 package-member comparisons, enhanced-policy checks, and benign/repeated-untrusted-target probes. [Registry verification](benchmarks/results/release_014_registry.json).

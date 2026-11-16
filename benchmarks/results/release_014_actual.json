@@ -4,7 +4,7 @@
   "measurement_scope_complete": true,
   "source_alignment_review_complete": true,
   "publication_approved": true,
-  "registry_install_verified": false,
+  "registry_install_verified": true,
   "version": "0.1.4",
   "wheel_sha256": "3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928",
   "scope": {
@@ -1342,5 +1342,7 @@
     "known_repeat_abort_logical_attempts": 3,
     "failed_attempt_usage_unknown_retained": true,
     "auxiliary_records_outside_target_denominators": 695
-  }
+  },
+  "registry_receipt_file": "release_014_registry.json",
+  "registry_receipt_sha256": "22363df5f944c3f3c25994951c34c93e37b0858dfe86cd3f1689affcf5d48e0e"
 }

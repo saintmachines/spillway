@@ -1,0 +1,21 @@
+{
+  "status": "OFFICIAL_PYPI_014_FRESH_INSTALL_AND_MEMBERS_PASS",
+  "version": "0.1.4",
+  "package_members_verified": 26,
+  "expected_wheel_sha256": "3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928",
+  "SDK_enhanced_default": true,
+  "benign_allow": true,
+  "untrusted_repeated_target_block": true,
+  "model_calls": 0,
+  "pip_check": "PASS",
+  "verified_at_utc": "2026-11-16T04:36:50.958994+00:00",
+  "official_project_url": "https://pypi.org/project/spillway-guard/0.1.4/",
+  "official_JSON_sha256": "8a8cbbc46f9ef2b4bc0178eb893e9279e004d18b2ef3fc661456c26fcdb4e0ab",
+  "registry_distributions_sha256": {
+    "spillway_guard-0.1.4-py3-none-any.whl": "3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928",
+    "spillway_guard-0.1.4.tar.gz": "a8f9f7276cbd99e821156ef1fd97431102e0fa3342dccb03478b23e2a1dc16e1"
+  },
+  "publish_workflow": "https://github.com/saintmachines/spillway/actions/runs/43804617004",
+  "publish_conclusion": "success",
+  "registry_download_digests_match": true
+}

@@ -1,12 +1,20 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
-## 0.1.4 artifact-bound measurements
+# SPILLWAY
+
+**Runtime safety for tool-using AI agents.**
+
+**Check before they act.** Check recipients, accounts and resource targets at the tool boundary, with CPU rules and an optional local judge.
+
+[![SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, 0/2,847 reported effects across three backbones and four suites.](docs/assets/release014-cover.png)](https://saintmachines.github.io/spillway/assets/SPILLWAY_014_Final_28s_1080p.mp4)
+
+## 0.1.4 measurements
 
 **Standard attack, 3 backbones × 4 suites: 48.9% task success under attack and 0/2,847 reported effects.**
 
 Under the standard attack, the exact 0.1.4 artifact records **48.9% utility under attack** and **.000 reported in-scope ASR** in all 12 cells. The original paper’s 48.4% belongs to its historical configuration. PISmith remains nonzero: mini 4/949 (ASR macro .005) and qwen 1/949 (macro .002); the qwen calendar-integrity hit stays counted.
 
-[New0.1.4 result report](RELEASE_014_RESULTS.md) · [Public54-condition counts](benchmarks/results/release_014_actual.json)
+[New 0.1.4 result report](RELEASE_014_RESULTS.md) · [Public 54-condition counts](benchmarks/results/release_014_actual.json)
 
 ## 0.1.4 default
 
