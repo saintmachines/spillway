@@ -82,6 +82,10 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/site"
           python docs/_build/build_page.py --out "$RUNNER_TEMP/site/index.html"
+      - name: Current release display matches the actual report
+        run: |
+          python docs/_build/test_release014_view.py
+          python docs/_build/build_release014_view.py --out "$RUNNER_TEMP/site014/index.html"
 
   package:
     name: build and check the distribution

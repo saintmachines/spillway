@@ -1,7 +1,7 @@
 {
-  "about": "Pictures of the project page for the README. Per-file inputs override the historical common input when an image is refreshed separately.",
+  "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
   "inputs": {
-    "docs/index.html": "eb8a95bbd900352d2c48dd92a9a5104a23ea477a07e90984ad8fe51d51898e85"
+    "docs/index.html": "d70ee3628c430ce312173fbc9c75d9194b63b325688661ac37aebaac93854f9c"
   },
   "theme": "dark",
   "css_width": {
@@ -13,141 +13,112 @@
   "radius": 16,
   "files": {
     "hero.png": {
-      "sha256": "8760da27a7204dc7d727cbd09c17a5b50ef7cf1f26ce6e136597e758ec0d8f1e",
-      "bytes": 414572,
+      "sha256": "d2fd129101b54d7cdf67bc197faf135ce91fcb2370feb4fbc253e6494087ef20",
+      "bytes": 381860,
       "pixels": "2200x1196",
-      "window": 1100,
-      "inputs": {
-        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
-        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
-      }
+      "window": 1100
     },
     "hero_phone.png": {
-      "sha256": "4267fa3868a58ba2d4842a6d1901ea01b009a7df63a7098f54b5170891fed915",
-      "bytes": 229650,
-      "pixels": "648x1804",
-      "window": 324,
-      "inputs": {
-        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
-        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
-      }
+      "sha256": "1f70cbafed44c94fd47ff607c7c3b290c33adc9720a7bae383795bef786fbc71",
+      "bytes": 209690,
+      "pixels": "648x1696",
+      "window": 324
     },
     "demo.png": {
-      "sha256": "8cc480a9c3d8b99c2368fc68f1449485c0cb01abac4728665e0b8085fd6f2b17",
-      "bytes": 360036,
-      "pixels": "2184x1628",
+      "sha256": "060f4ba442130864a664bf0dd29e17a6c6de76b1e8eadabba36127b989035f35",
+      "bytes": 359798,
+      "pixels": "2184x1626",
       "window": 1100
     },
     "demo_phone.png": {
-      "sha256": "5b844d332356bd462058d0963d6c610fb0a94f89c0262c06281f04caaec980db",
-      "bytes": 267269,
+      "sha256": "8fe1968ee284223f51c95da2106f2060ff685394ed65bf40930eb058034a3cb5",
+      "bytes": 267272,
       "pixels": "648x2292",
       "window": 324
     },
     "demo_calls.png": {
-      "sha256": "9b4894da1e598aff9132124c5f324b74c4f600e2fd1bdee5837b78bf355eaa5a",
-      "bytes": 311247,
-      "pixels": "2184x1346",
+      "sha256": "e118fe436112271cfe34c7084e521fca883af9fc81533896c51ccc9a63931fa9",
+      "bytes": 310332,
+      "pixels": "2184x1328",
       "window": 1100
     },
     "demo_calls_phone.png": {
-      "sha256": "9a1bcdfc0de57af915b79b266654759f4b4a37383b8401b181b10f74a85e15d9",
-      "bytes": 200271,
-      "pixels": "648x1980",
+      "sha256": "7be1c4ffe6ffa51eb90ca4f55475d699a409b713d9f545e60744107b7ccadbd7",
+      "bytes": 199826,
+      "pixels": "648x1964",
       "window": 324
     },
     "score.png": {
-      "sha256": "31af234b4dd1daa8480a3e27973169171b1b5d3cb24b191c332d6fcf9a0e821d",
-      "bytes": 332566,
+      "sha256": "483b9fc7ff616fec40c64fe20ab796749062baaecb332f53629d83abbb0b26a2",
+      "bytes": 338339,
       "pixels": "2184x1118",
       "window": 1100
     },
     "score_phone.png": {
-      "sha256": "4b94a50d4cf79c3a8f5885f4113f57eccb6e648cfdc1f4f646fb87977a8bd91b",
-      "bytes": 265880,
-      "pixels": "648x2212",
+      "sha256": "bfd47755ec721dc40f7bb7c09de79aa2962c36e79fec78fdc47eee8ea2cc8256",
+      "bytes": 275459,
+      "pixels": "648x2214",
       "window": 324
     },
     "cost.png": {
-      "sha256": "168f48223692c41df7700498d582a232385e1ec9614f973516f645a7c835562c",
-      "bytes": 233791,
-      "pixels": "2184x974",
+      "sha256": "383ca3423ba5261ce99544ff0279fb3f5d8973daecd602708784fa3ac6a18905",
+      "bytes": 281836,
+      "pixels": "2184x1018",
       "window": 1100
     },
     "cost_phone.png": {
-      "sha256": "c427d71a18a8189321900785796eab27cba1046f1efc94b01a83fbfccdf500cb",
-      "bytes": 273269,
-      "pixels": "648x2320",
+      "sha256": "9ebaefacd6f18c1582377b553e699375876e8a9ca003ebad7524066e69f8916e",
+      "bytes": 287730,
+      "pixels": "648x2404",
       "window": 324
     },
     "means.png": {
-      "sha256": "7b385278c88ca58e9603a2b5014343da6aeac18e2dd3db626250a6e096f936e8",
-      "bytes": 142342,
+      "sha256": "a0362cfa33f5f53d843a11fff76ab1b5bec155d9d922a03f9c8f4d859d14c859",
+      "bytes": 145937,
       "pixels": "2184x438",
       "window": 1100
     },
     "means_phone.png": {
-      "sha256": "754ebf87a7c4e0f09a39f8d1197cb9d2a2e5fa68fbca9f9ddcf193f0791bfda8",
-      "bytes": 179368,
-      "pixels": "648x1198",
+      "sha256": "dd1880e71e4aa59488f3869b8ee1aa2fd5b5f5126ce39f10d14edad901183648",
+      "bytes": 183486,
+      "pixels": "648x1200",
       "window": 324
     },
     "rope.png": {
-      "sha256": "57ee036df1d04161b56c5c1ed01bc91d883406140463ce7195fec04c2609fec7",
-      "bytes": 315471,
+      "sha256": "1f1be5b356291993e7b6da3096011b38c4bfed4878888d7cd98b943729ef5093",
+      "bytes": 315277,
       "pixels": "1660x1582",
       "window": 838
     },
     "rope_phone.png": {
-      "sha256": "79c80e582c43b5a109f1aef767f625b80e50a0c329a12d60983e472da816e4e1",
-      "bytes": 276343,
+      "sha256": "81eead542de0a7fe14008fa6947e7be89affc038e7f0d5f18f8dcaae5c5605e5",
+      "bytes": 276416,
       "pixels": "648x1956",
       "window": 324
     },
     "attacks.png": {
-      "sha256": "3a675228d09630ebd589635ccf4577662fb7d00151817f5f4098273a23d2954f",
-      "bytes": 249595,
-      "pixels": "1660x1360",
+      "sha256": "477642247609101c1f889b1ad3f7b04371319a25486ccf0ddbda15e5a7569835",
+      "bytes": 219032,
+      "pixels": "1660x1320",
       "window": 838
     },
     "attacks_phone.png": {
-      "sha256": "4f7b94144f0c19a12c1c8741eaa866b2d3fb2ca2228647bd51ab6da01d79a8df",
-      "bytes": 273983,
-      "pixels": "648x2776",
+      "sha256": "7ebed63d7d5678c73feeb93a0950f65396d4a20d59ff8ef0a3a6c60bacd9dd05",
+      "bytes": 236578,
+      "pixels": "648x2582",
       "window": 324
     },
     "steps.png": {
-      "sha256": "28ff4cce581ccc0dcb3a47718df537fb016238b94090a3c9c05ed708e74755dc",
-      "bytes": 224200,
+      "sha256": "4529ca7dfb3503525bfad8e105247b6f72e0ea9b67684bf1057ae7683fee5f9f",
+      "bytes": 224190,
       "pixels": "2184x810",
-      "window": 1100,
-      "inputs": {
-        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
-        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
-      }
+      "window": 1100
     },
     "steps_phone.png": {
-      "sha256": "94babd36f710d411d6ac923c8a61781470d0d6899cf67113746dcd1c847f36f8",
-      "bytes": 258621,
+      "sha256": "110ba09fad21217a4b70e2ca11b08289f0bd7a10972d58c90b8eaaf870c0f277",
+      "bytes": 258594,
       "pixels": "648x2368",
-      "window": 324,
-      "inputs": {
-        "docs/index.html": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
-        "docs/_build/make_readme_media.mjs": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400"
-      }
+      "window": 324
     }
-  },
-  "partial_refresh": {
-    "observed_utc": "2026-11-14T00:45:25.322567+00:00",
-    "files": [
-      "hero.png",
-      "hero_phone.png",
-      "steps.png",
-      "steps_phone.png"
-    ],
-    "source_index_sha256": "16fbe8c847c490026e3deaf9125c5ebd7a61e2f23fca2a7e07b8ca820e9bcc39",
-    "renderer_sha256": "f592875ff95197f0f21ac37e2c2b7a95911f314e716724f89b51477ce0da9400",
-    "method": "Existing make_readme_media.mjs --only hero and --only steps; other PNG bytes preserved",
-    "browser": "Chromium130.0.6723.31"
   }
 }

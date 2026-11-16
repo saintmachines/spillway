@@ -6,17 +6,17 @@
 <meta name="color-scheme" content="light dark">
 <script>try{var t=localStorage.getItem('spw-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <!--@CSP--><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'"><!--@END-->
-<title>SPILLWAY | prompt-injection defense for tool-using agents</title>
-<meta name="description" content="SPILLWAY: runtime safety for tool-using AI agents. Check before they act. Version 0.1.4 records 48.9% task success under the standard attack and 0/2847 reported effects across 3 backbones and 4 suites.">
+<title>SPILLWAY | Real-time safety guard for AI agents</title>
+<meta name="description" content="SPILLWAY: real-time safety guard for AI agents. Check before they act. 48.9% task success under the standard attack and 0/2847 in-scope attack successes across 3 backbones and 4 suites, with the judge enabled.">
 <link rel="canonical" href="@@SITE@@">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SPILLWAY checks recipients against the user's task and the typed fields of tool returns.">
-<meta property="og:description" content="SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, with 0/2847 reported effects across three backbones and four suites.">
+<meta property="og:title" content="SPILLWAY | Real-time safety guard for AI agents">
+<meta property="og:description" content="SPILLWAY: Real-time safety guard for AI agents. Check before they act. 48.9% task success under standard attack, with 0/2847 in-scope attack successes across three backbones and four suites, judge on.">
 <meta property="og:url" content="@@SITE@@">
 <meta property="og:image" content="@@SITE@@assets/release014-cover.png">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
-<meta property="og:image:alt" content="SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, with 0/2847 reported effects across three backbones and four suites.">
+<meta property="og:image:alt" content="SPILLWAY: Real-time safety guard for AI agents. 48.9% task success under standard attack and 0/2847 in-scope attack successes, judge on. At most 500 ms added per task on average in the paper timing study.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="@@SITE@@assets/release014-cover.png">
 <meta name="author" content="Woosang Lim, Yeseul Chang, Jaewoo Lee">
@@ -1082,25 +1082,22 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 </header>
 
 <main id="main">
-<section class="band first" id="release014" aria-labelledby="release014-h"><div class="wrap"><p class="eyebrow">SPILLWAY 0.1.4</p><h2 id="release014-h">Runtime safety for<br>tool-using AI agents.</h2><p class="lede"><strong>Check before they act.</strong> Check recipients, accounts and resource targets at the tool boundary. CPU rules, with an optional local judge.</p><p style="font-size:1.4rem"><strong>48.9% task success under attack.</strong><br><strong>0/2,847 reported standard-attack effects.</strong></p><p>Measured on three backbones and four AgentDojo suites, with the judge enabled. PISmith: mini 4/949, qwen 1/949. <a href="release-0.1.4.html">Results and execution settings</a></p><p><a href="#start">Install 0.1.4</a> · <a href="assets/SPILLWAY_014_Final_28s_1080p.mp4">Watch the 28-second overview</a> · <a href="integrate.html">Connect your agent</a> · <a href="@@REPO@@">GitHub</a></p><p class="note">Original paper figures and comparisons follow below. New 0.1.4 utility under attack is 48.9%; the historical paper records 48.4%.</p></div></section>
-
 <section class="hero" id="top" aria-labelledby="h1">
   <div class="wrap hero-grid">
     <div class="hero-head">
-      <p class="note">Historical paper v1 figures follow; they are not the new 0.1.4 result panel above.</p>
       <p class="eyebrow hero-eb"><span class="tl">Prompt&#8209;injection defense for tool&#8209;using agents</span><span class="ts">SAINT Machines · Prompt&#8209;injection defense</span></p>
-      <h1 id="h1">SPILLWAY: structure decides where agents act, an optional judge checks selected calls.</h1>
+      <h1 id="h1">SPILLWAY<br>Real-time safety guard<br>for AI agents.</h1>
     </div>
     <div class="hero-copy">
-      <p class="lede">Text in an email or a web page can steer an agent to an attacker's address. <strong>SPILLWAY checks recipients against the user's task and the typed fields of tool returns.</strong><a class="fn" href="#tm" aria-label="Footnote 1, the threat model">1</a> The optional judge is off by default and on in these results.</p>
+      <p class="lede"><strong>Check before they act.</strong> SPILLWAY checks recipients, accounts and resource targets against the user's task and the typed fields of tool returns.<a class="fn" href="#tm" aria-label="Footnote 1, the threat model">1</a> CPU rules decide first. An optional local judge checks selected calls.</p>
       <div class="cta">
         <div class="install-head"><span>Install</span><div class="seg" role="tablist" aria-label="Install command">@@INSTALL_TABS@@</div></div>
         <div class="cmd"><span class="p" aria-hidden="true">$</span><code id="cmd-install">@@INSTALL_COMMAND@@</code><button class="copy" type="button" data-copy="#cmd-install" aria-label="Copy install command">Copy</button></div>
 @@INSTALL_NOTE@@
-        <p class="req">Python 3.10+ · Apache-2.0 · v@@PACKAGE_VERSION@@ <span class="venue">Earlier version accepted · NeurIPS 2026 Workshop<span class="tl"> · Agents in the Wild</span></span></p>
+        <p class="req">Default: spillway-guard @@PACKAGE_VERSION@@ · Python 3.10+ · Apache-2.0 <span class="venue">Earlier version accepted · NeurIPS 2026 Workshop<span class="tl"> · Agents in the Wild</span></span></p>
         <div class="btns">
           <a class="btn primary" href="#results">See the results</a>
-          <a class="btn" href="#start">Try the quickstart</a>
+          <a class="btn" href="#overview">Watch the 28-second overview</a>
           <a class="textlink" href="SPILLWAY_preprint.pdf">Read the paper (PDF) →</a>
         </div>
       </div>
@@ -1109,7 +1106,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       <div><dt>0 of 12</dt><dd><span class="hk"><span class="tl">AgentDojo cells leak in&#8209;scope</span><span class="ts">cells leak in&#8209;scope</span></span><span class="hc"><span class="tl">others leak in @@LEAK_MIN@@&nbsp;to&nbsp;@@LEAK_MAX@@</span><span class="ts">others leak in @@LEAK_MIN@@&nbsp;to&nbsp;@@LEAK_MAX@@</span></span></dd></div>
       <div><dt>@@UAU_S@@</dt><dd><span class="hk"><span class="tl">utility under attack, 12&#8209;cell&nbsp;mean</span><span class="ts">utility under attack</span></span><span class="hc"><span class="tl">next best @@UAU_NEXT@@, @@UAU_NEXT_M@@</span><span class="ts">next best @@UAU_NEXT@@, @@UAU_NEXT_M@@</span></span></dd></div>
       <div><dt>@@RATIO_MIN@@&nbsp;to&nbsp;@@RATIO_MAX@@×</dt><dd><span class="hk"><span class="tl">fewer added model calls</span><span class="ts">fewer added calls</span></span><span class="hc"><span class="tl">than MELON, Progent, DRIFT on benign qwen3:8b Workspace and&nbsp;Slack</span><span class="ts">than MELON, Progent, DRIFT</span></span></dd></div>
-      <div><dt>&le;@@SPW_WITHIN_S@@&nbsp;s</dt><dd><span class="hk"><span class="tl">historical mean episode-time difference</span><span class="ts">historical mean time</span></span><span class="hc"><span class="tl">those three add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span><span class="ts">others add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span></span></dd></div>
+      <div><dt>&le;@@SPW_WITHIN_S@@&nbsp;s</dt><dd><span class="hk"><span class="tl">mean added time per task</span><span class="ts">mean added time per task</span></span><span class="hc"><span class="tl">those three add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span><span class="ts">others add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span></span></dd></div>
     </dl>
     <div class="byline" aria-label="Authors and affiliations">
       <p><span class="author">Woosang Lim<sup>1,2,*</sup></span> · <span class="author">Yeseul Chang<sup>3</sup></span> · <span class="author">Jaewoo Lee<sup>3</sup></span></p>
@@ -1138,10 +1135,19 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
   </div>
 </section>
 
+<section id="overview" aria-label="SPILLWAY 28-second overview">
+  <div class="wrap">
+    <video controls playsinline preload="metadata" poster="assets/release014-cover.png" style="display:block;width:100%;height:auto;border-radius:16px" aria-label="SPILLWAY checks what AI agents read and do">
+      <source src="assets/SPILLWAY_014_Final_28s_1080p.mp4" type="video/mp4">
+      <a href="assets/SPILLWAY_014_Final_28s_1080p.mp4">Watch the 28-second overview</a>.
+    </video>
+  </div>
+</section>
+
 <section class="band first" id="results" aria-labelledby="why-h">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Historical paper results · arXiv v1 · AgentDojo v1.2.2 · 3 backbones ×4 suites</p>
+      <p class="eyebrow">AgentDojo v1.2.2 · 3 backbones ×4 suites</p>
       <h2 id="why-h">Under the standard attack, SPILLWAY has the most utility and the only zero in&#8209;scope attack success.</h2>
       <p>Fewer added model calls and less added time than three other defenses.</p>
     </div>

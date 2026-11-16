@@ -1,11 +1,11 @@
 {
- "source": "SPILLWAY preprint, AgentDojo v1.2.2",
+ "source": "SPILLWAY 0.1.4 / comparison methods: paper",
  "notes": {
-  "grid_means": "Table 2: twelve-cell means over 3 backbones x 4 suites; nrp_bu = bu x (1 - asr_in_scope), nrp_uau = uau x (1 - asr_in_scope) as in MCP Security Bench; ROPE's router is the cell's own backbone",
-  "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Figure 1a's points: each method's mean over Table 1's four gpt-4o-mini cells; ROPE's is the mean of Table 8's four AgentDojo rows (its authors' Claude Opus 4.8 router)",
+  "grid_means": "SPILLWAY 0.1.4 / comparison methods: paper; equal-weight twelve-cell means.",
+  "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Four mini suites; SPILLWAY 0.1.4, other points paper; ROPE uses its authors' router.",
   "delegated_routing_vs_rope": "Table 8: gpt-4o-mini, standard attack, one run per suite (seed 42); rope_uau and rope_asr use its authors' Claude Opus 4.8 router, the rope_gpt_4o_mini_router columns the agent's own model",
   "pismith_gpt_4o_mini_by_suite": "the run records behind Table 7 (benchmarks/results/pismith_a4); the preprint prints only each method's mean over these four suites",
-  "stress": "ChatInject on qwen3:8b; AutoDojo and PISmith (replayed open-loop at ASR@1, first of ten variants per injection) on gpt-4o-mini; ROPE's router is the agent's own model in all three. SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs. Held-out Banking sets give .000 and .007 by AgentDojo's check, .014 counting a second transfer that check misses"
+  "stress": "SPILLWAY actual 0.1.4 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
  },
  "grid_means": {
   "Undefended": {
@@ -18,12 +18,12 @@
    "cells_leaking_of_12": 12
   },
   "SPILLWAY": {
-   "bu": 0.52,
-   "uau": 0.484,
+   "bu": 0.539,
+   "uau": 0.489,
    "asr_in_scope": 0.0,
-   "nrp_bu": 0.52,
-   "nrp_uau": 0.484,
-   "ers": 0.684,
+   "nrp_bu": 0.539,
+   "nrp_uau": 0.489,
+   "ers": 0.7,
    "cells_leaking_of_12": 0
   },
   "MELON": {
@@ -92,8 +92,8 @@
      "asr": 0.556
     },
     "SPILLWAY": {
-     "bu": 0.562,
-     "uau": 0.521,
+     "bu": 0.5625,
+     "uau": 0.4444444444444444,
      "asr": 0.0
     },
     "MELON": {
@@ -138,8 +138,8 @@
      "asr": 0.299
     },
     "SPILLWAY": {
-     "bu": 0.375,
-     "uau": 0.5,
+     "bu": 0.5,
+     "uau": 0.4375,
      "asr": 0.0
     },
     "MELON": {
@@ -184,8 +184,8 @@
      "asr": 0.181
     },
     "SPILLWAY": {
-     "bu": 0.438,
-     "uau": 0.438,
+     "bu": 0.5,
+     "uau": 0.4375,
      "asr": 0.0
     },
     "MELON": {
@@ -230,8 +230,8 @@
      "asr": 0.629
     },
     "SPILLWAY": {
-     "bu": 0.714,
-     "uau": 0.524,
+     "bu": 0.7619047619047619,
+     "uau": 0.5619047619047619,
      "asr": 0.0
     },
     "MELON": {
@@ -276,8 +276,8 @@
      "asr": 0.724
     },
     "SPILLWAY": {
-     "bu": 0.571,
-     "uau": 0.429,
+     "bu": 0.5714285714285714,
+     "uau": 0.47619047619047616,
      "asr": 0.0
     },
     "MELON": {
@@ -322,8 +322,8 @@
      "asr": 0.448
     },
     "SPILLWAY": {
-     "bu": 0.476,
-     "uau": 0.286,
+     "bu": 0.47619047619047616,
+     "uau": 0.2857142857142857,
      "asr": 0.0
     },
     "MELON": {
@@ -369,7 +369,7 @@
     },
     "SPILLWAY": {
      "bu": 0.55,
-     "uau": 0.571,
+     "uau": 0.5785714285714286,
      "asr": 0.0
     },
     "MELON": {
@@ -415,7 +415,7 @@
     },
     "SPILLWAY": {
      "bu": 0.5,
-     "uau": 0.407,
+     "uau": 0.5071428571428571,
      "asr": 0.0
     },
     "MELON": {
@@ -461,7 +461,7 @@
     },
     "SPILLWAY": {
      "bu": 0.25,
-     "uau": 0.343,
+     "uau": 0.35,
      "asr": 0.0
     },
     "MELON": {
@@ -506,8 +506,8 @@
      "asr": 0.184
     },
     "SPILLWAY": {
-     "bu": 0.875,
-     "uau": 0.838,
+     "bu": 0.825,
+     "uau": 0.8482142857142857,
      "asr": 0.0
     },
     "MELON": {
@@ -552,8 +552,8 @@
      "asr": 0.036
     },
     "SPILLWAY": {
-     "bu": 0.475,
-     "uau": 0.543,
+     "bu": 0.55,
+     "uau": 0.5375,
      "asr": 0.0
     },
     "MELON": {
@@ -598,8 +598,8 @@
      "asr": 0.02
     },
     "SPILLWAY": {
-     "bu": 0.45,
-     "uau": 0.414,
+     "bu": 0.425,
+     "uau": 0.40535714285714286,
      "asr": 0.0
     },
     "MELON": {
@@ -710,19 +710,19 @@
    ],
    "SPILLWAY": [
     {
-     "uau": 0.371,
+     "uau": 0.3964285714285714,
      "asr_in_scope": 0.0
     },
     {
-     "uau": 0.286,
+     "uau": 0.2857142857142857,
      "asr_in_scope": 0.0
     },
     {
-     "uau": 0.486,
+     "uau": 0.4791666666666667,
      "asr_in_scope": 0.0
     },
     {
-     "uau": 0.533,
+     "uau": 0.5619047619047619,
      "asr_in_scope": 0.0
     },
     {
@@ -730,8 +730,8 @@
      "asr_in_scope": 0.0
     },
     {
-     "uau": 0.265,
-     "asr_in_scope": 0.007
+     "uau": 0.257,
+     "asr_in_scope": 0.005
     }
    ],
    "MELON": [
@@ -968,19 +968,19 @@
   "SPILLWAY": {
    "Banking": {
     "uau": 0.3403,
-    "asr_in_scope": 0.0069
+    "asr_in_scope": 0.0
    },
    "Slack": {
-    "uau": 0.1238,
+    "uau": 0.1619,
     "asr_in_scope": 0.0095
    },
    "Travel": {
-    "uau": 0.3071,
+    "uau": 0.2714,
     "asr_in_scope": 0.0071
    },
    "Workspace": {
-    "uau": 0.2875,
-    "asr_in_scope": 0.0054
+    "uau": 0.2536,
+    "asr_in_scope": 0.0036
    }
   },
   "Progent": {
@@ -1044,7 +1044,7 @@
    "asr_in_scope": 0.4
   },
   "SPILLWAY": {
-   "uau": 0.614,
+   "uau": 0.608,
    "asr_in_scope": 0.0
   },
   "MELON": {
@@ -1143,5 +1143,60 @@
    "rope_gpt_4o_mini_router_uau": 0.333,
    "rope_gpt_4o_mini_router_asr": 0.072
   }
- ]
+ ],
+ "display_view": {
+  "version": "0.1.4",
+  "actual_source": "benchmarks/results/release_014_actual.json",
+  "scope": "standard and stress SPILLWAY slots",
+  "paper_only": [
+   "other methods",
+   "seven-suite routing",
+   "ablation",
+   "cost and latency"
+  ]
+ },
+ "additional_actual_stress": {
+  "pismith_mini": {
+   "UAU_suite_macro": ".257",
+   "ASR_suite_macro": ".005",
+   "UAU_pooled": ".259",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 4
+  },
+  "pismith_qwen": {
+   "UAU_suite_macro": ".173",
+   "ASR_suite_macro": ".002",
+   "UAU_pooled": ".169",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 1
+  },
+  "direct_target_recovery_on": {
+   "UAU_suite_macro": ".372",
+   "ASR_suite_macro": ".000",
+   "UAU_pooled": ".397",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 0
+  },
+  "direct_target_recovery_off": {
+   "UAU_suite_macro": ".372",
+   "ASR_suite_macro": ".000",
+   "UAU_pooled": ".397",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 0
+  },
+  "system_message_target_recovery_on": {
+   "UAU_suite_macro": ".360",
+   "ASR_suite_macro": ".000",
+   "UAU_pooled": ".359",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 0
+  },
+  "system_message_target_recovery_off": {
+   "UAU_suite_macro": ".360",
+   "ASR_suite_macro": ".000",
+   "UAU_pooled": ".359",
+   "pooled_pairs": 949,
+   "reported_ASR_hits": 0
+  }
+ }
 }
