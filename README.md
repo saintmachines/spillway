@@ -1,16 +1,24 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
+## 0.1.4 artifact-bound measurements
+
+**Standard attack, 3 backbones × 4 suites: 48.9% task success under attack and 0/2,847 reported effects.**
+
+Under the standard attack, the exact 0.1.4 artifact records **48.9% utility under attack** and **.000 reported in-scope ASR** in all 12 cells. The original paper’s 48.4% belongs to its historical configuration. PISmith remains nonzero: mini 4/949 (ASR macro .005) and qwen 1/949 (macro .002); the qwen calendar-integrity hit stays counted.
+
+[New0.1.4 result report](RELEASE_014_RESULTS.md) · [Public54-condition counts](benchmarks/results/release_014_actual.json)
+
 ## 0.1.4 default
 
 `Guard(task)` uses `Policy.enhanced_014()`: whole-target checks, application-declared typed identities, source/domain binding and resource-kind evidence. Identity-target recovery is off by default in the SDK; `--paper --guarded` uses the paper's recovery-ON settings in the AgentDojo runner.
 
 The AgentDojo entry point verifies the benchmark version and reviewed tool bytes before installing its source and create-new contracts. Network reads require a user-named URL or a URL captured from a successful read tool. Captured tool URLs remain untrusted and pass the existing content gate. Refusal feedback cannot become tool evidence. General SDK applications register their own reviewed transport and creation contracts.
 
-Results below retain their recorded paper configurations. Updated 0.1.4 measurements require separate, complete execution records bound to the exact artifact hash. The release configuration is described in [the execution contract](CANDIDATE_014.md).
+**Historical paper v1 figures and results begin below.** They preserve their recorded configurations and are separate from the new 0.1.4 measurements linked above. Historical latency reports separate-session mean episode differences, not individual-episode limits. See [the execution contract](CANDIDATE_014.md).
 
 <h1 align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
-    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. At most 0.5 s added time, others add 1.6 to 10.5 s. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
+    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. Historical separate-session mean episode-time differences are within 0.5 s; other recorded means add 1.6 to 10.5 s. This is not a per-episode bound. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
   </picture></a></h1>
 <p align="center"><b>A prompt-injection defense for tool-using agents. A Python library with no model call by default.</b></p>
 
@@ -111,12 +119,12 @@ AgentDojo suite v1.2.2, full grid of user and injection tasks, every method on t
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_02_dark.svg"><img src="docs/assets/readme/h2_02_light.svg" alt="" height="18"></picture>Cost
 
-### SPILLWAY adds 13 to 50 times fewer model calls, within 0.5 s per episode.
+### Historical paper: fewer model calls; separate-session mean episode times within 0.5 s.
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#c-calls"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/cost_phone.png">
-    <img src="docs/assets/readme_page/cost.png" alt="13 to 50 times fewer added model calls per benign qwen3:8b episode, Workspace and Slack: SPILLWAY 0.19 and 0.39, MELON 3.25 and 5.29, Progent 5.94 and 8.67, DRIFT 9.59 and 9.91. Within 0.5 s added time per benign episode: SPILLWAY at most 0.5 s on both, MELON +7.9 and +4.9 s, Progent +2.3 and +1.6 s, DRIFT +10.5 and +9.9 s.">
+    <img src="docs/assets/readme_page/cost.png" alt="13 to 50 times fewer added model calls per benign qwen3:8b episode, Workspace and Slack: SPILLWAY 0.19 and 0.39, MELON 3.25 and 5.29, Progent 5.94 and 8.67, DRIFT 9.59 and 9.91. Historical mean episode-time difference within 0.5 s: SPILLWAY within 0.5 s on both, MELON +7.9 and +4.9 s, Progent +2.3 and +1.6 s, DRIFT +10.5 and +9.9 s.">
   </picture></a>
 </p>
 
@@ -127,7 +135,7 @@ AgentDojo suite v1.2.2, full grid of user and injection tasks, every method on t
 
 <p align="center"><a href="https://saintmachines.github.io/spillway/results.html#calls"><img src="docs/assets/fig_cost_4panel.png" width="820" alt="Bar charts for Banking, Slack, Travel and Workspace of the model calls each defense adds per benign episode over the undefended agent, each bar labeled with its added calls and added seconds. Banking: SPILLWAY 0.8 calls and under 0.5 s, MELON 2.2 calls and 2.1 s, Progent 3.1 calls and 0.5 s, DRIFT 9.2 calls and 7.5 s. Slack: SPILLWAY 0.4 calls and under 0.5 s, MELON 5.3 calls and 4.9 s, Progent 8.7 calls and 1.6 s, DRIFT 9.9 calls and 9.9 s. Travel: SPILLWAY 0.05 calls and under 0.5 s, MELON 4.7 calls and 9.0 s, Progent 6.0 calls and 3.2 s, DRIFT 13.6 calls and 22.7 s. Workspace: SPILLWAY 0.2 calls and under 0.5 s, MELON 3.2 calls and 7.9 s, Progent 5.9 calls and 2.3 s, DRIFT 9.6 calls and 10.5 s."></a></p>
 
-Because the floor is a set lookup, SPILLWAY adds 0.19 (Workspace) and 0.39 (Slack) model calls per benign qwen3:8b episode, judge included, against 3.25 and 5.29 backbone calls for MELON, 5.94 and 8.67 for Progent and 9.59 and 9.91 for DRIFT. SPILLWAY's episodes ran within 0.5 s of the undefended agent on an RTX PRO 6000 (timed in a separate session), against +7.9 and +4.9 s for MELON, +2.3 and +1.6 s for Progent and +10.5 and +9.9 s for DRIFT.
+Because the floor is a set lookup, SPILLWAY adds 0.19 (Workspace) and 0.39 (Slack) model calls per benign qwen3:8b episode, judge included, against 3.25 and 5.29 backbone calls for MELON, 5.94 and 8.67 for Progent and 9.59 and 9.91 for DRIFT. SPILLWAY's historical mean episode times were within 0.5 s of the undefended means on an RTX PRO 6000 (timed in a separate session), against +7.9 and +4.9 s for MELON, +2.3 and +1.6 s for Progent and +10.5 and +9.9 s for DRIFT.
 
 </details>
 

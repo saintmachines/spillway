@@ -67,6 +67,8 @@ The proxy starts your server and answers the host in its place. In your host's c
 
 A host does not send a server the user's message, so `--task` states what this deployment was asked to do. One proxy holds one Guard and handles one call at a time. Give your tools typed return models, as `demo_mcp_server.py` does, so the guard can read their field names. If the host does not see your virtual environment, write that environment's full Python path in place of `python`.
 
+Set `--task` from the application's authenticated user request. A task supplied by the model or by tool content cannot serve as trusted authorization. The proxy reads output schemas once from the server the operator starts. Its schema adapter supports objects with declared properties, homogeneous arrays and primitive JSON types. A schema with unsupported constraints, unions, formats or references stays untyped for the entire tool; it does not grant identity roles. Invalid structured returns also stay untyped. For more complex schemas, validate responses with an application-defined Pydantic model before observing them.
+
 ## Claude Code
 
 ```bash
@@ -85,6 +87,8 @@ In `.claude/settings.json`, with the full path to this folder:
 ```
 
 The hook keeps one Guard per session and checks each call before it runs. The user's prompts are the task. The model reads each tool's own output here, and the hook records it for the checks that follow. For the shell tool it checks the URLs and addresses written in the command, and it works alongside your usual permission settings. If the hook cannot load or cannot check a call, it blocks that call. If Claude Code does not see your virtual environment, write that environment's full Python path in place of `python`.
+
+The hook receives JSON, without an application-declared response model. Under the 0.1.4 default, those returns do not establish typed sender identities. A reply can therefore be refused unless the user names the recipient. Use a validated typed adapter when the application needs that delegation.
 
 ## Your own loop
 

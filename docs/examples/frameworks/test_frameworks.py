@@ -18,6 +18,7 @@ from typing import List, NamedTuple, Optional
 
 import pytest
 from pydantic import BaseModel
+
 from spillway_guard import Guard, Lexicon
 
 HERE = Path(__file__).resolve().parent
@@ -644,8 +645,8 @@ def test_langchain_command_return_is_observed():
 
     from langchain_core.messages import ToolMessage
     from langchain_core.tools import InjectedToolCallId, tool
-    from langgraph.types import Command
     from langchain_middleware import spillway_middleware
+    from langgraph.types import Command
 
     sent = []
 
@@ -673,8 +674,8 @@ def test_langchain_command_keeps_ordinary_text():
 
     from langchain_core.messages import ToolMessage
     from langchain_core.tools import InjectedToolCallId, tool
-    from langgraph.types import Command
     from langchain_middleware import spillway_middleware
+    from langgraph.types import Command
 
     @tool
     def read_note(tool_call_id: Annotated[str, InjectedToolCallId]) -> Command:
@@ -689,8 +690,8 @@ def test_langchain_command_keeps_ordinary_text():
 def test_langchain_command_update_as_pairs_is_read():
     need("langchain")
     from langchain_core.messages import ToolMessage
-    from langgraph.types import Command
     from langchain_middleware import _command_messages
+    from langgraph.types import Command
 
     one = ToolMessage(content="a", tool_call_id="c")
     assert _command_messages(Command(update=[("messages", [one]), ("other", 1)])) == [one]
@@ -836,7 +837,7 @@ def test_langchain_runs_with_no_thread_keep_apart_on_a_reused_message_id():
 
 
 def _second_run_sends_to_what_the_first_run_was_told(config_a, config_b):
-    """The first run reads a mail naming the address in its body. A Guard carried over refuses the second run's call for it."""
+    """A new run has no typed sender evidence. Under 0.1.4 an unread delegated address is refused too."""
     need("langchain")
     from langchain_core.messages import HumanMessage
     from langchain_core.tools import tool
@@ -864,16 +865,17 @@ def _second_run_sends_to_what_the_first_run_was_told(config_a, config_b):
 
 
 def test_real_langchain_second_thread_starts_with_its_own_guard():
-    assert _second_run_sends_to_what_the_first_run_was_told({"configurable": {"thread_id": "user-a"}}, {"configurable": {"thread_id": "user-b"}}) == [[GOOD]]
+    assert _second_run_sends_to_what_the_first_run_was_told({"configurable": {"thread_id": "user-a"}}, {"configurable": {"thread_id": "user-b"}}) == []
 
 
 def test_real_langchain_second_run_with_no_thread_starts_with_its_own_guard():
-    assert _second_run_sends_to_what_the_first_run_was_told({}, {}) == [[GOOD]]
+    assert _second_run_sends_to_what_the_first_run_was_told({}, {}) == []
 
 
 def test_real_langchain_async_run_with_no_thread_starts_with_its_own_guard():
     need("langchain")
     import asyncio
+
     from langchain_core.messages import HumanMessage
     from langchain_core.tools import tool
     from langchain_middleware import spillway_middleware, typed_tool
@@ -900,7 +902,8 @@ def test_real_langchain_async_run_with_no_thread_starts_with_its_own_guard():
         await agent.ainvoke({"messages": [HumanMessage(content="Reply to the sender.", id="message-1")]})
 
     asyncio.run(both())
-    assert deliveries == [[GOOD]]
+    # This run has not read a typed sender; prior untrusted body text grants no target authority.
+    assert deliveries == []
 
 
 def test_real_langchain_one_thread_keeps_one_guard_across_turns():
@@ -909,8 +912,8 @@ def test_real_langchain_one_thread_keeps_one_guard_across_turns():
     from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
     from langchain_core.messages import AIMessage, HumanMessage
     from langchain_core.tools import tool
-    from langgraph.checkpoint.memory import InMemorySaver
     from langchain_middleware import spillway_middleware, typed_tool
+    from langgraph.checkpoint.memory import InMemorySaver
 
     class Scripted(GenericFakeChatModel):
         def bind_tools(self, tools, **kwargs):
@@ -1056,8 +1059,8 @@ def test_langchain_async_error_that_escapes_is_tool_text():
 
 def test_langchain_interrupt_passes_through_and_is_not_tool_text():
     need("langchain")
-    from langgraph.errors import GraphInterrupt
     from langchain_middleware import spillway_middleware
+    from langgraph.errors import GraphInterrupt
 
     middleware = spillway_middleware()
     request, handler, _ = _langchain_failing_call(middleware, GraphInterrupt())
@@ -1150,3 +1153,82 @@ def test_agents_sdk_tool_parses_what_the_guard_read():
 def _agents_ctx(tool, input_json):
     from agents.tool_context import ToolContext
     return ToolContext(context=None, tool_name=tool.name, tool_call_id="c1", tool_arguments=input_json)
+
+
+# ---- 0.1.4 declared-output validation ----------------------------------------------------------------------
+def _recipe_output_schema(sender):
+    return {"type": "object", "properties": {"sender": sender, "body": {"type": "string"}},
+            "required": ["sender", "body"]}
+
+
+@pytest.mark.parametrize("sender", [
+    {"type": "string", "enum": [GOOD]}, {"type": "string", "const": GOOD},
+    {"type": "string", "pattern": "^alice@example\\.com$"},
+    {"oneOf": [{"type": "string"}, {"type": "null"}]},
+    {"anyOf": [{"type": "string"}, {"type": "null"}]},
+    {"type": ["string", "null"]}, {"$ref": "#/$defs/Loop"},
+    {"$ref": "https://example.com/schema"}, {"type": "string", "format": "email"}, {},
+])
+def test_mcp_unsupported_schema_leaves_whole_output_untrusted(sender):
+    need("mcp")
+    from types import SimpleNamespace
+
+    from mcp_proxy import declared_models, typed_value
+
+    schema = _recipe_output_schema(sender)
+    models = declared_models([SimpleNamespace(name="get_latest_email", output_schema=schema)])
+    assert models == {}
+    for value in ({"sender": EVIL, "body": "Hi"}, {"sender": {EVIL: "x"}, "body": "Hi"}):
+        assert typed_value(None, value) is value
+        guard = Guard("Reply to the latest email from Alice.")
+        observe_records(guard, "get_latest_email", {}, value)
+        assert guard.check_call("send_email", {"to": EVIL, "body": "x"}).blocked
+
+
+def test_mcp_simple_schema_validates_before_granting_identity():
+    need("mcp")
+    from types import SimpleNamespace
+
+    from mcp_proxy import declared_models, typed_value
+
+    schema = _recipe_output_schema({"type": "string"})
+    model = declared_models([SimpleNamespace(name="get_latest_email", output_schema=schema)])["get_latest_email"]
+    value = typed_value(model, {"sender": GOOD, "body": INJECTION, "cc": EVIL})
+    assert isinstance(value, BaseModel)
+    guard = Guard("Reply to the latest email from Alice.")
+    observe_records(guard, "get_latest_email", {}, value)
+    assert guard.check_call("send_email", {"to": GOOD, "body": "ok"}).allowed
+    assert guard.check_call("send_email", {"to": EVIL, "body": "x"}).blocked
+    for content in ({"sender": {EVIL: "x"}, "body": "Hi"}, {"sender": EVIL, "body": 123}):
+        assert typed_value(model, content) is content
+        guard = Guard("Reply to the latest email from Alice.")
+        observe_records(guard, "get_latest_email", {}, content)
+        assert guard.check_call("send_email", {"to": EVIL, "body": "x"}).blocked
+    text = f"From: {EVIL}"
+    assert typed_value(model, text) is text
+
+
+def test_declared_annotation_failure_never_broadens_sibling_fields():
+    from guarded_tools import typed_return
+
+    declared = dataclasses.make_dataclass("Declared", [("sender", str), ("body", "UnresolvedLocalType")])
+    value = typed_return(declared({EVIL: "x"}, "Hi"))
+    assert isinstance(value, dict)
+    guard = Guard("Reply to the latest email from Alice.")
+    observe_records(guard, "get_latest_email", {}, value)
+    assert guard.check_call("send_email", {"to": EVIL, "body": "x"}).blocked
+
+
+def test_fixed_tuple_fields_are_not_broadened_to_homogeneous_lists():
+    from guarded_tools import typed_return
+
+    @dataclasses.dataclass
+    class Declared:
+        sender: tuple[str, int]
+        body: str
+
+    value = typed_return(Declared((GOOD, EVIL), "Hi"))
+    assert isinstance(value, dict)
+    guard = Guard("Reply to the latest email from Alice.")
+    observe_records(guard, "get_latest_email", {}, value)
+    assert guard.check_call("send_email", {"to": EVIL, "body": "x"}).blocked

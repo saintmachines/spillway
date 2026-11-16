@@ -20,6 +20,7 @@
     <tr><td>Any MCP host</td><td><code>python mcp_proxy.py --task "..." -- your server command</code></td></tr>
     <tr><td>Claude Code</td><td>four hooks in <code>.claude/settings.json</code></td></tr>
   </tbody></table></div>
+  <p>The MCP proxy validates a supported subset of the operator's declared output schemas before recording identities. Unsupported schemas and invalid returns stay untyped. Supply the task from the authenticated user request, never from the model. The Claude Code hook receives untyped JSON, so a reply may require the user to name its recipient. <a href="@@REPO@@/blob/main/docs/examples/frameworks/README.md">Adapter details and supported schemas</a>.</p>
   <div class="head stack" id="run" style="margin-top:32px">
     <h2>Run it without model credentials.</h2>
     <p>The example starts a temporary server on <code>127.0.0.1</code>, runs a fixed sequence of proposed calls with synthetic data, records the HTTP requests and effects, and shuts the server down. It uses the SPILLWAY 0.1.1 API, Pydantic and the standard library.</p>
@@ -45,7 +46,7 @@ python docs/examples/local_app_demo.py --report app-check.json</pre></div>
   <div class="head stack"><p class="eyebrow">Ordinary data and adapters</p><h2 id="data-h">Keep the tool's contract at the boundary.</h2><p>The library accepts typed models, dictionaries, lists and text. What becomes an admitted identity depends on the tool's declared type and role contract.</p></div>
   <div class="scroll"><table class="rt"><thead><tr><th>Input</th><th>How to connect it</th></tr></thead><tbody>
     <tr><td>Pydantic models and nested results</td><td>Pass the raw declared model before serialization. Only read-only returns can add typed identities.</td></tr>
-    <tr><td>JSON dictionaries and lists</td><td>Use provider-controlled routing keys and a declared schema. A dictionary key name is a role convention, not sender authentication.</td></tr>
+    <tr><td>JSON dictionaries and lists</td><td>Validate them against a tool-owner-controlled Pydantic model before observing them. Raw dictionaries establish no typed identity roles under the 0.1.4 default. Schema validation alone does not authenticate a sender.</td></tr>
     <tr><td>Text, retrieved context and memory</td><td>Observe and sanitize it before the agent reads it. Text alone does not declare trusted identity fields.</td></tr>
     <tr><td>CSV</td><td>Parse rows explicitly and validate them with the tool's model. Raw CSV remains text.</td></tr>
     <tr><td>New tool or argument names</td><td>Declare read/write and target roles with <code>Lexicon.extend</code>. The example uses the existing <code>sender</code> and <code>recipients</code> vocabulary.</td></tr>

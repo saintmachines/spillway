@@ -5,15 +5,18 @@ back, and hand the model the text. ``observe_records`` gives the read-side filte
 ``observe_whole`` gives it the whole return, as the paper's runs did. Each adapter here takes either one as ``observe``.
 ``describe_tools`` shows how a lexicon reads your tool names and argument names before you ship them.
 
-Copy this file into your project. It uses the public API of spillway-guard 0.1.0 and loads no SDK.
+Copy this file into your project. It uses the public API of spillway-guard 0.1.4 and imports no framework SDK.
 """
 from __future__ import annotations
 
 import dataclasses
 import re
-from typing import Any, Callable, Iterable, Mapping
+import types
+import typing
+from typing import Any, Callable, Iterable, List, Mapping, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, create_model
+
 from spillway_guard import Guard, Lexicon, sanitize
 from spillway_guard.guard import format_return
 
@@ -24,7 +27,7 @@ def snake_name(name: Any) -> str:
 
 
 def plain_return(value: Any) -> Any:
-    """A dataclass or a named tuple as a dict, so its field names can state its roles. Everything else is unchanged."""
+    """Plain serialization without typed identity authority. Everything else is unchanged."""
     if dataclasses.is_dataclass(value) and not isinstance(value, type):
         return {f.name: plain_return(getattr(value, f.name)) for f in dataclasses.fields(value)}
     if isinstance(value, tuple) and hasattr(value, "_fields"):
@@ -34,6 +37,62 @@ def plain_return(value: Any) -> Any:
     if isinstance(value, dict):
         return {k: plain_return(v) for k, v in value.items()}
     return value
+
+
+_DECLARED: dict = {}
+
+
+def typed_return(value: Any) -> Any:
+    """A dataclass or a named tuple as an instance of a Pydantic model with the same declared fields.
+
+    Since 0.1.4 the Guard takes roles only from declared fields, and a dict's keys come from the payload, so a plain dict
+    states no roles and stays as it is. Lists keep their order. Unresolved annotations, unsupported tuple fields and
+    values that fail strict validation remain plain values without typed identity authority.
+    """
+    if dataclasses.is_dataclass(value) and not isinstance(value, type):
+        try:
+            return _declared(type(value))(**{f.name: typed_return(getattr(value, f.name)) for f in dataclasses.fields(value)})
+        except (TypeError, ValueError, NameError, RecursionError):
+            return plain_return(value)
+    if isinstance(value, tuple) and hasattr(value, "_fields"):
+        try:
+            return _declared(type(value))(**{k: typed_return(v) for k, v in zip(value._fields, value)})
+        except (TypeError, ValueError, NameError, RecursionError):
+            return plain_return(value)
+    if isinstance(value, (list, tuple)):
+        return [typed_return(v) for v in value]
+    return value
+
+
+def _is_declared_class(hint: Any) -> bool:
+    return isinstance(hint, type) and (dataclasses.is_dataclass(hint) or (issubclass(hint, tuple) and hasattr(hint, "_fields")))
+
+
+def _annotation(hint: Any) -> Any:
+    if _is_declared_class(hint):
+        return _declared(hint)
+    origin, args = typing.get_origin(hint), typing.get_args(hint)
+    if origin is tuple:
+        raise ValueError("tuple field annotations are not supported by this recipe")
+    if origin in (list, set, frozenset) and args:
+        return List[_annotation(args[0])]
+    if origin in (Union, types.UnionType) and args:
+        return Union[tuple(_annotation(a) for a in args)]
+    return hint
+
+
+def _declared(cls: type) -> type:
+    """The Pydantic model for a dataclass or named tuple class, built once from the class's own field declarations."""
+    model = _DECLARED.get(cls)
+    if model is None:
+        names = [f.name for f in dataclasses.fields(cls)] if dataclasses.is_dataclass(cls) else list(cls._fields)
+        hints = typing.get_type_hints(cls)
+        if any(n not in hints for n in names):
+            raise ValueError("all declared fields need resolvable annotations")
+        fields = {n: (_annotation(hints[n]), ...) for n in names}
+        model = create_model(cls.__name__, __config__=ConfigDict(strict=True, arbitrary_types_allowed=True), **fields)
+        _DECLARED[cls] = model
+    return model
 
 
 def _is_record(value: Any) -> bool:
@@ -90,7 +149,7 @@ def observe_records(guard: Guard, name: str, args: dict | None, value: Any, *, r
 
     ``paragraphs=True`` treats a text return as records split on blank lines, for a tool that returns long documents.
     """
-    value = plain_return(value)
+    value = typed_return(value)
     pieces = _paragraphs(value) if paragraphs and isinstance(value, str) else None
     records = None if roster or pieces else records_of(value) or ([value] if _is_record(value) else None)
     if not (pieces or records) or not guard.sanitize_returns:
@@ -103,7 +162,7 @@ def observe_records(guard: Guard, name: str, args: dict | None, value: Any, *, r
 
 def observe_whole(guard: Guard, name: str, args: dict | None, value: Any, *, roster: bool = False) -> str:
     """The path the paper evaluated: the whole return through one pass of the read-side filter."""
-    return guard.observe_tool_return(name, args, plain_return(value), roster=roster)
+    return guard.observe_tool_return(name, args, typed_return(value), roster=roster)
 
 
 def guarded_call(guard: Guard, name: str, args: dict | None, tool: Callable[..., Any], *, observe: Callable[..., str] = observe_records) -> str:

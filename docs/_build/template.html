@@ -7,16 +7,16 @@
 <script>try{var t=localStorage.getItem('spw-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <!--@CSP--><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'"><!--@END-->
 <title>SPILLWAY | prompt-injection defense for tool-using agents</title>
-<meta name="description" content="SPILLWAY checks recipients against the user's task and the typed fields of tool returns. On AgentDojo v1.2.2: 0 of 12 cells leak in-scope, utility under attack .484, and 0.19 to 0.39 added model calls per benign qwen3:8b Workspace or Slack episode.">
+<meta name="description" content="SPILLWAY 0.1.4: 48.9% task success under the standard attack and 0/2847 reported effects across 3 backbones and 4 suites. Historical paper figures are labelled separately.">
 <link rel="canonical" href="@@SITE@@">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SPILLWAY checks recipients against the user's task and the typed fields of tool returns.">
-<meta property="og:description" content="Structure decides where agents act, an optional judge checks selected calls. 0 of 12 AgentDojo cells leak in-scope, the most utility under attack of the seven defenses on that grid, 13 to 50 times fewer added model calls than MELON, Progent and DRIFT on benign qwen3:8b Workspace and Slack episodes.">
+<meta property="og:description" content="Historical paper v1 figures and comparisons are preserved. New SPILLWAY 0.1.4 artifact-bound measurements are linked separately.">
 <meta property="og:url" content="@@SITE@@">
 <meta property="og:image" content="@@SITE@@assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="SPILLWAY: 0 of 12 AgentDojo cells with an in-scope leak, utility under attack .484, 13 to 50 times fewer added model calls than MELON, Progent and DRIFT on benign qwen3:8b Workspace and Slack episodes. Code: github.com/saintmachines/spillway.">
+<meta property="og:image:alt" content="Historical paper v1 figures and comparisons are preserved. New SPILLWAY 0.1.4 artifact-bound measurements are linked separately.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="@@SITE@@assets/og-card.png">
 <meta name="author" content="Woosang Lim, Yeseul Chang, Jaewoo Lee">
@@ -1082,9 +1082,12 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 </header>
 
 <main id="main">
+<section class="band first" id="release014" aria-labelledby="release014-h"><div class="wrap"><p class="eyebrow">0.1.4 · measured on 3 backbones × 4 AgentDojo suites</p><h2 id="release014-h">48.9% task success under attack.<br>0/2,847 reported standard-attack effects.</h2><p>These new artifact-bound measurements are separate from the original paper’s 48.4%. PISmith remains nonzero: mini 4/949 and qwen 1/949; the qwen calendar-integrity hit stays counted.</p><p><a href="release-0.1.4.html">Read the 0.1.4 report, counts and limitations</a></p><p class="note">The figures and comparisons below retain their historical paper configurations. Historical latency is a separate-session mean episode-time comparison.</p></div></section>
+
 <section class="hero" id="top" aria-labelledby="h1">
   <div class="wrap hero-grid">
     <div class="hero-head">
+      <p class="note">Historical paper v1 figures follow; they are not the new 0.1.4 result panel above.</p>
       <p class="eyebrow hero-eb"><span class="tl">Prompt&#8209;injection defense for tool&#8209;using agents</span><span class="ts">SAINT Machines · Prompt&#8209;injection defense</span></p>
       <h1 id="h1">SPILLWAY: structure decides where agents act, an optional judge checks selected calls.</h1>
     </div>
@@ -1106,7 +1109,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       <div><dt>0 of 12</dt><dd><span class="hk"><span class="tl">AgentDojo cells leak in&#8209;scope</span><span class="ts">cells leak in&#8209;scope</span></span><span class="hc"><span class="tl">others leak in @@LEAK_MIN@@&nbsp;to&nbsp;@@LEAK_MAX@@</span><span class="ts">others leak in @@LEAK_MIN@@&nbsp;to&nbsp;@@LEAK_MAX@@</span></span></dd></div>
       <div><dt>@@UAU_S@@</dt><dd><span class="hk"><span class="tl">utility under attack, 12&#8209;cell&nbsp;mean</span><span class="ts">utility under attack</span></span><span class="hc"><span class="tl">next best @@UAU_NEXT@@, @@UAU_NEXT_M@@</span><span class="ts">next best @@UAU_NEXT@@, @@UAU_NEXT_M@@</span></span></dd></div>
       <div><dt>@@RATIO_MIN@@&nbsp;to&nbsp;@@RATIO_MAX@@×</dt><dd><span class="hk"><span class="tl">fewer added model calls</span><span class="ts">fewer added calls</span></span><span class="hc"><span class="tl">than MELON, Progent, DRIFT on benign qwen3:8b Workspace and&nbsp;Slack</span><span class="ts">than MELON, Progent, DRIFT</span></span></dd></div>
-      <div><dt>&le;@@SPW_WITHIN_S@@&nbsp;s</dt><dd><span class="hk"><span class="tl">added time per benign episode</span><span class="ts">added time</span></span><span class="hc"><span class="tl">those three add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span><span class="ts">others add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span></span></dd></div>
+      <div><dt>&le;@@SPW_WITHIN_S@@&nbsp;s</dt><dd><span class="hk"><span class="tl">historical mean episode-time difference</span><span class="ts">historical mean time</span></span><span class="hc"><span class="tl">those three add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span><span class="ts">others add @@SECS_MIN@@ to @@SECS_MAX@@&nbsp;s</span></span></dd></div>
     </dl>
     <div class="byline" aria-label="Authors and affiliations">
       <p><span class="author">Woosang Lim<sup>1,2,*</sup></span> · <span class="author">Yeseul Chang<sup>3</sup></span> · <span class="author">Jaewoo Lee<sup>3</sup></span></p>
@@ -1138,11 +1141,11 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 <section class="band first" id="results" aria-labelledby="why-h">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Results · AgentDojo v1.2.2 · 3 backbones × 4 suites</p>
+      <p class="eyebrow">Historical paper results · arXiv v1 · AgentDojo v1.2.2 · 3 backbones ×4 suites</p>
       <h2 id="why-h">Under the standard attack, SPILLWAY has the most utility and the only zero in&#8209;scope attack success.</h2>
       <p>Fewer added model calls and less added time than three other defenses.</p>
     </div>
-    <nav class="pager" aria-label="The three result charts"><a href="#c-util"><b>@@UAU_S@@</b><span>utility under attack</span></a><a href="#c-calls"><b>@@RATIO_MIN@@&nbsp;to&nbsp;@@RATIO_MAX@@×</b><span>fewer added calls, Workspace and Slack</span></a><a href="#c-time"><b>&le;@@SPW_WITHIN_S@@ s</b><span>added time per episode</span></a></nav>
+    <nav class="pager" aria-label="The three result charts"><a href="#c-util"><b>@@UAU_S@@</b><span>utility under attack</span></a><a href="#c-calls"><b>@@RATIO_MIN@@&nbsp;to&nbsp;@@RATIO_MAX@@×</b><span>fewer added calls, Workspace and Slack</span></a><a href="#c-time"><b>&le;@@SPW_WITHIN_S@@ s</b><span>historical mean episode-time difference</span></a></nav>
     <div class="charts" tabindex="0" role="region" aria-label="Result charts">
       <figure class="card" id="c-util" style="margin:0">
         <div class="big">1st of 7</div>
@@ -1160,8 +1163,8 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
       </figure>
       <figure class="card" id="c-time" style="margin:0">
         <div class="big">within @@SPW_WITHIN_S@@ s</div>
-        <h3 id="c4-cap">added time per benign episode</h3>
-        <p class="sub">Against MELON, Progent and DRIFT, which add @@SECS_MIN@@ to @@SECS_MAX@@ s on the same benign qwen3:8b episodes, using one RTX PRO 6000. SPILLWAY was timed in a separate session. Seconds depend on the serving stack.</p>
+        <h3 id="c4-cap">historical mean episode-time difference</h3>
+        <p class="sub">Against MELON, Progent and DRIFT, which add @@SECS_MIN@@ to @@SECS_MAX@@ s on the same benign qwen3:8b episodes, using one RTX PRO 6000. These are historical separate-session means, not an individual-episode bound or new 0.1.4 timing. Seconds depend on the serving stack.</p>
         @@C4@@
         <p class="src">Source: Figure 3 of the preprint, its Workspace and Slack panels · <a href="results.html#calls" data-tv="tv-calls">Table of values</a> · <a href="@@REPO@@/blob/main/benchmarks/scripts/make_tables.py#@@MT_COST_L@@">Recompute</a></p>
       </figure>
