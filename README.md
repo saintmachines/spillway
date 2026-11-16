@@ -1,34 +1,11 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
-# SPILLWAY
-
-**Runtime safety for tool-using AI agents.**
-
-**Check before they act.** Check recipients, accounts and resource targets at the tool boundary, with CPU rules and an optional local judge.
-
-[![SPILLWAY 0.1.4: Runtime safety for tool-using AI agents. Check before they act. 48.9% task success under standard attack, 0/2,847 reported effects across three backbones and four suites.](docs/assets/release014-cover.png)](https://saintmachines.github.io/spillway/assets/SPILLWAY_014_Final_28s_1080p.mp4)
-
-## 0.1.4 measurements
-
-**Standard attack, 3 backbones × 4 suites: 48.9% task success under attack and 0/2,847 reported effects.**
-
-Under the standard attack, the exact 0.1.4 artifact records **48.9% utility under attack** and **.000 reported in-scope ASR** in all 12 cells. The original paper’s 48.4% belongs to its historical configuration. PISmith remains nonzero: mini 4/949 (ASR macro .005) and qwen 1/949 (macro .002); the qwen calendar-integrity hit stays counted.
-
-[New 0.1.4 result report](RELEASE_014_RESULTS.md) · [Public 54-condition counts](benchmarks/results/release_014_actual.json)
-
-## 0.1.4 default
-
-`Guard(task)` uses `Policy.enhanced_014()`: whole-target checks, application-declared typed identities, source/domain binding and resource-kind evidence. Identity-target recovery is off by default in the SDK; `--paper --guarded` uses the paper's recovery-ON settings in the AgentDojo runner.
-
-The AgentDojo entry point verifies the benchmark version and reviewed tool bytes before installing its source and create-new contracts. Network reads require a user-named URL or a URL captured from a successful read tool. Captured tool URLs remain untrusted and pass the existing content gate. Refusal feedback cannot become tool evidence. General SDK applications register their own reviewed transport and creation contracts.
-
-**Historical paper v1 figures and results begin below.** They preserve their recorded configurations and are separate from the new 0.1.4 measurements linked above. Historical latency reports separate-session mean episode differences, not individual-episode limits. See [the execution contract](CANDIDATE_014.md).
-
 <h1 align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
     <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .484, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. Historical separate-session mean episode-time differences are within 0.5 s; other recorded means add 1.6 to 10.5 s. This is not a per-episode bound. A chart of the preprint's Figure 1a, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
   </picture></a></h1>
-<p align="center"><b>A prompt-injection defense for tool-using agents. A Python library with no model call by default.</b></p>
+<p align="center"><b>Runtime safety for tool-using AI agents.</b> Check before they act.</p>
+<p align="center">Default: <a href="CANDIDATE_014.md">spillway-guard 0.1.4</a> · <a href="RELEASE_014_RESULTS.md">Measurements</a></p>
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/"><b>Project page</b></a> ·
