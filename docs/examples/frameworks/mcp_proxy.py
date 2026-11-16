@@ -81,7 +81,7 @@ def _type_of(name: str, prop: dict, defs: dict, built: dict, building: set) -> A
         _supported(prop, {"$ref"})
         ref = prop["$ref"]
         key = ref[len("#/$defs/"):] if isinstance(ref, str) and ref.startswith("#/$defs/") else ""
-        if not key or "/" in key or "~" in key or not isinstance(defs.get(key), dict):
+        if not key or not all(c.isascii() and (c.isalnum() or c in "_-") for c in key) or not isinstance(defs.get(key), dict):
             raise ValueError("unresolved reference")
         return _model_of(key, defs[key], defs, built, building)
     kind = prop.get("type")

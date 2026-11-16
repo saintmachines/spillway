@@ -121,5 +121,15 @@ def test_generated_model_names_cannot_hide_a_forbidden_definition():
 
 
 def test_reference_names_are_single_unescaped_local_pointer_segments():
-    for key in ("Mail/Other", "Mail~1Other", "Mail~0Other"):
+    for key in ("Mail/Other", "Mail~1Other", "Mail~0Other", "M%61il", "%4dail", "Mail%2fOther", "Mail%7e1Other", "Mailé"):
         assert model(inbox(defs={key: MAIL}, items={"$ref": "#/$defs/" + key})) is None
+
+
+def test_percent_encoded_reference_cannot_promote_a_different_literal_definition():
+    # A URI fragment can decode M%61il to Mail. The recipe declines this form rather than typing a different object.
+    shadow = {**MAIL, "properties": {**MAIL["properties"], "reply_to": {"type": "string"}}, "required": ["sender", "body", "reply_to"]}
+    schema = inbox(defs={"Mail": MAIL, "M%61il": shadow}, items={"$ref": "#/$defs/M%61il"})
+    content = {"mails": [{"sender": GOOD, "body": "Hi", "reply_to": EVIL}]}
+    declared = model(schema)
+    value = M.typed_value(declared, content)
+    assert declared is None and value is content and not allowed(value, EVIL)
