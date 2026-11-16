@@ -3,8 +3,9 @@
 
     python3 make_try.py TREE WHEEL
 
-Writes TREE/docs/try.html and TREE/docs/assets/try/<wheel name>. Run it after a page build. Touches nothing else.
+Writes TREE/docs/try.html and TREE/docs/wheels/<wheel name>. Run it after a page build. Touches nothing else.
 """
+import hashlib
 import re
 import shutil
 import sys
@@ -12,6 +13,10 @@ from pathlib import Path
 
 here = Path(__file__).resolve().parent
 tree, wheel = Path(sys.argv[1]), Path(sys.argv[2])
+expected_name = "spillway_guard-1.0.0-py3-none-any.whl"
+expected_sha256 = "38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76"
+if wheel.name != expected_name or hashlib.sha256(wheel.read_bytes()).hexdigest() != expected_sha256:
+    raise SystemExit("expected the verified 1.0.0 wheel, nothing written")
 page = (tree / "docs/integrate.html").read_text()
 
 
@@ -41,8 +46,9 @@ page = page.replace(csp, new_csp)
 page = sub(r"</style>", (here / "try_style.css").read_text() + "</style>", page)
 page = sub(r'<main id="main">.*?</main>', (here / "try_main.html").read_text().strip(), page)
 page = sub(r"</body>", "<script>\n" + (here / "try_script.js").read_text() + "</script>\n</body>", page)
-assets = tree / "docs/assets/try"
+assets = tree / "docs/wheels"
 assets.mkdir(parents=True, exist_ok=True)
-shutil.copy(wheel, assets / wheel.name)
+if wheel.resolve() != (assets / wheel.name).resolve():
+    shutil.copyfile(wheel, assets / wheel.name)
 (tree / "docs/try.html").write_text(page)
 print("wrote", tree / "docs/try.html", len(page), "bytes,", wheel.name)

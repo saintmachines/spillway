@@ -5,7 +5,7 @@ back, and hand the model the text. ``observe_records`` gives the read-side filte
 ``observe_whole`` gives it the whole return, as the paper's runs did. Each adapter here takes either one as ``observe``.
 ``describe_tools`` shows how a lexicon reads your tool names and argument names before you ship them.
 
-Copy this file into your project. It uses the public API of spillway-guard 0.1.4 and imports no framework SDK.
+Copy this file into your project. It uses the public API of spillway-guard 1.0.0 and imports no framework SDK.
 """
 from __future__ import annotations
 

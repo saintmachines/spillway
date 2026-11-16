@@ -23,7 +23,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SOURCE = HERE / "build_page.py"
 ACTUAL = ROOT / "benchmarks/results/release_014_actual.json"
-CAPTION = "SPILLWAY 0.1.4 / comparison methods: paper"
+CAPTION = "SPILLWAY 1.0.0 / comparison methods: paper"
 EXPECTED_ACTUAL_SHA256 = "5b62ac9ca06495e5155df85122abf871cdfc3e8f12a8c3308951999ec3f70bfd"
 MODEL = {"gpt-4o-mini-2024-07-18": "gpt-4o-mini", "qwen3-coder:30b": "qwen3-coder:30b", "qwen3:8b": "qwen3:8b"}
 
@@ -129,15 +129,15 @@ def activate(module, actual):
     # Edit measured source captions in memory. Original source/template files remain frozen.
     module.TEMPLATE = module.TEMPLATE.replace(
         "SPILLWAY lets no injected effect execute in 2,847 attacked pairs, in scope or not, and has no in&#8209;scope leak in 27 reruns over three seeds. Source: Tables 1 and 2 and Appendix B of the preprint",
-        "SPILLWAY 0.1.4 has no executed attack effect in 2,847 standard-attack pairs. The paper also reports no in&#8209;scope leak in 27 reruns over three seeds. SPILLWAY: 0.1.4; comparison methods and reruns: the paper",
+        "SPILLWAY 1.0.0 has no executed attack effect in 2,847 standard-attack pairs. The paper also reports no in&#8209;scope leak in 27 reruns over three seeds. SPILLWAY: 1.0.0; comparison methods and reruns: the paper",
     )
     module.TEMPLATE = module.TEMPLATE.replace(
         "Source: Tables 1 and 2 of the preprint, temperature 0, seed 42",
-        "SPILLWAY: 0.1.4; comparison methods: the paper. Temperature 0, seed 42",
+        "SPILLWAY: 1.0.0; comparison methods: the paper. Temperature 0, seed 42",
     )
     module.TEMPLATE = module.TEMPLATE.replace(
         "AgentDojo v1.2.2 on three backbones, one run per cell, plus 27 reruns over three seeds. AgentDyn on gpt-4o-mini, one run per suite.",
-        "The 0.1.4 standard attack uses AgentDojo v1.2.2 on three backbones, one run per cell. The paper also reports 27 reruns over three seeds and AgentDyn on gpt-4o-mini, one run per suite.",
+        "The 1.0.0 standard attack uses AgentDojo v1.2.2 on three backbones, one run per cell. The paper also reports 27 reruns over three seeds and AgentDyn on gpt-4o-mini, one run per suite.",
     )
     module.TEMPLATE = module.TEMPLATE.replace("SPILLWAY ties ROPE at @@STRESS_MAX@@ under PISmith, with more utility.",
                                               "SPILLWAY has macro ASR @@STRESS_MAX@@ under PISmith on mini, with utility .257 and 4/949 effects. The qwen3:8b run has 1/949 effects.")
@@ -148,7 +148,7 @@ def activate(module, actual):
                                               "The paper's seven-suite comparison uses AgentDojo's four and AgentDyn's three, one run each on gpt&#8209;4o&#8209;mini.")
     module.TEMPLATE = module.TEMPLATE.replace("Source: Tables 4 and 7 of the preprint", CAPTION + "; PISmith mini .257 utility / .005 ASR (4/949), qwen3:8b .173 / .002 (1/949)")
     module.TEMPLATE = module.TEMPLATE.replace("The charts report their recorded paper configurations.",
-                                              "SPILLWAY values in the standard and stress charts are from 0.1.4. Seven-suite, ablation and cost comparisons retain their paper measurements.")
+                                              "SPILLWAY 1.0.0 values are shown in the standard and stress charts. Seven-suite, ablation and cost comparisons retain their paper measurements.")
     if display_version == "1.0.0":
         module.TEMPLATE = module.TEMPLATE.replace("Version 0.1.4 uses the enhanced default", "Version @@PACKAGE_VERSION@@ uses the enhanced default")
         module.TEMPLATE = re.sub(
@@ -156,12 +156,8 @@ def activate(module, actual):
             r'\1<p class="req inote">The same validated runtime was measured in 0.1.4. <a href="release-1.0.0.html#runtime-equivalence">Runtime equivalence</a>.</p>',
             module.TEMPLATE, count=1, flags=re.S,
         )
-        # Until root supplies a verified 1.0.0 film, keep the existing clip explicitly
-        # identified as recorded 0.1.4 footage, rather than silently renaming it.
-        if "assets/SPILLWAY_100_Final_28s_1080p.mp4" not in module.TEMPLATE:
-            module.TEMPLATE = module.TEMPLATE.replace("Watch the 28-second overview", "Watch the recorded 0.1.4 overview")
     module.TEMPLATE = module.TEMPLATE.replace("Every method uses the same agent and scorer.",
-                                              "SPILLWAY 0.1.4 uses the matched backbone and task/scoring protocol; comparison methods retain the paper measurements.")
+                                              "SPILLWAY 1.0.0 uses the matched backbone and task/scoring protocol; comparison methods retain the paper measurements.")
     # Existing cost/ablation/seven-suite arrays intentionally stay untouched.
     module.TEMPLATE = module.TEMPLATE.replace('<h3 id="rope-cap">', '<h3 id="rope-cap">Paper comparison: ')
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("Full results · from the preprint", CAPTION)
@@ -171,30 +167,35 @@ def activate(module, actual):
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("Preprint Table 8", "Paper seven-suite comparison · Table 8")
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace(
         "The script <code>benchmarks/scripts/make_tables.py</code> regenerates Tables 1 to 3, the ChatInject columns, Table 8 and the cost values from those files.",
-        "The paper's comparison records are checked by <code>benchmarks/scripts/make_tables.py</code>. Current SPILLWAY rows and plots are built from the final 0.1.4 measurements by <code>docs/_build/build_release014_view.py</code>.",
+        "The paper's comparison records are checked by <code>benchmarks/scripts/make_tables.py</code>. Current SPILLWAY 1.0.0 rows and plots are built from the final measurements by <code>docs/_build/build_release014_view.py</code>.",
     )
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("The AutoDojo and PISmith columns are copied from Tables 4 and 7 of the preprint.",
-        'SPILLWAY standard and stress values come from <a href="' + module.REPO + '/blob/main/benchmarks/results/release_014_actual.json">the actual 0.1.4 report</a>; comparison methods, cost, ablations and the seven-suite table retain paper values.')
+        'SPILLWAY 1.0.0 standard and stress values come from <a href="' + module.REPO + '/blob/main/benchmarks/results/release_014_actual.json">the actual measurement report</a>; comparison methods, cost, ablations and the seven-suite table retain paper values.')
+    module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace(
+        '<p class="back-row">',
+        '<p class="note">The same validated runtime was measured in 0.1.4; these are SPILLWAY 1.0.0 results. <a href="release-1.0.0.html#runtime-equivalence">Runtime equivalence and measurement provenance</a>.</p><p class="back-row">',
+        1,
+    )
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("SPILLWAY's AutoDojo row uses the address and payee-change rules, written on its four failing pairs. Held-out Banking sets give",
         "In the paper's earlier AutoDojo audit, address and payee-change rules were written on four failing pairs. Those paper held-out Banking sets give")
 
     original_strip = module.results_strip
-    module.results_strip = lambda: original_strip().replace("as in Table 2 of the preprint.", "SPILLWAY 0.1.4 / comparison methods: paper.")
+    module.results_strip = lambda: original_strip().replace("as in Table 2 of the preprint.", "SPILLWAY 1.0.0 / comparison methods: paper.")
     original_fig_table = module.table_fig4a
     def fig_table():
         value = original_fig_table()
-        return re.sub(r'(<tr class="us">.*?<td class="txt">).*?(</td></tr>)', r'\g<1>SPILLWAY 0.1.4, four mini suites\2', value, count=1, flags=re.S)
+        return re.sub(r'(<tr class="us">.*?<td class="txt">).*?(</td></tr>)', r'\g<1>SPILLWAY 1.0.0, four mini suites\2', value, count=1, flags=re.S)
     module.table_fig4a = fig_table
     original_json = module.results_json
     def rendered_json():
         result = json.loads(original_json())
         result["source"] = CAPTION
-        result["display_view"] = {"version": "0.1.4", "measurement_version": "0.1.4", "display_version": display_version,
+        result["display_view"] = {"version": display_version, "measurement_version": "0.1.4", "display_version": display_version,
                                   "library_version": display_version, "runtime_equivalence_url": "release-1.0.0.html#runtime-equivalence" if display_version == "1.0.0" else None,
                                   "actual_source": "benchmarks/results/release_014_actual.json", "scope": "standard and stress SPILLWAY slots", "paper_only": ["other methods", "seven-suite routing", "ablation", "cost and latency"]}
-        result["notes"]["grid_means"] = "SPILLWAY 0.1.4 / comparison methods: paper; equal-weight twelve-cell means."
-        result["notes"]["standard_attack_gpt_4o_mini_suite_means_figure_1a"] = "Four mini suites; SPILLWAY 0.1.4, other points paper; ROPE uses its authors' router."
-        result["notes"]["stress"] = "SPILLWAY actual 0.1.4 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
+        result["notes"]["grid_means"] = "SPILLWAY 1.0.0 / comparison methods: paper; equal-weight twelve-cell means."
+        result["notes"]["standard_attack_gpt_4o_mini_suite_means_figure_1a"] = "Four mini suites; SPILLWAY 1.0.0, other points paper; ROPE uses its authors' router."
+        result["notes"]["stress"] = "SPILLWAY 1.0.0 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
         result["additional_actual_stress"] = actual["stress_macro_and_pooled_separate"]
         return json.dumps(result, indent=1)
     module.results_json = rendered_json

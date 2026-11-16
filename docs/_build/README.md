@@ -16,7 +16,7 @@ updates a private display copy. Comparison methods, the seven-suite routing stud
 ablations and cost measurements retain their paper records. To build the original
 paper view separately, run `build_page.py --out /tmp/spillway-paper/index.html`.
 
-The SDK suite checks the 1.0.0 implementation, which promotes the validated 0.1.4 runtime with release metadata changes. The display builder keeps the measurement version, original wheel identity and actual-report SHA as 0.1.4 and records library/display version separately. The final capture command, `spillway_guard.agentdojo.runner --legacy-v1 --self-test`, checks the pinned historical reference's original decision and reason strings. It is a parity check rather than a model measurement. The bare historical `--self-test` expects legacy reason strings and is incompatible with the enhanced wrapper.
+The SDK suite checks the 1.0.0 implementation, which preserves the runtime measured in 0.1.4 with release metadata changes and unchanged experimental identities. The display builder labels current results as 1.0.0 and records the original measurement version, wheel identity and actual-report SHA separately. The final capture command, `spillway_guard.agentdojo.runner --legacy-v1 --self-test`, checks the pinned historical reference's original decision and reason strings. It is a parity check rather than a model measurement. The bare historical `--self-test` expects legacy reason strings and is incompatible with the enhanced wrapper.
 
 `publication.json` contains publication facts used for the install controls.
 While `pypi_version` is `null`, the page selects the source command and disables

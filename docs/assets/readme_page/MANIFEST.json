@@ -1,7 +1,7 @@
 {
   "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
   "inputs": {
-    "docs/index.html": "fa16c378efa64b48f6b021fb964f249ee84dfabdfe187c4a4e201af67d116b31"
+    "docs/index.html": "8ee8b76b0a82d63ba3ed01fab688b08a8278fe6212765f76863b65c0da697709"
   },
   "theme": "dark",
   "css_width": {
@@ -13,14 +13,14 @@
   "radius": 16,
   "files": {
     "hero.png": {
-      "sha256": "d2fd129101b54d7cdf67bc197faf135ce91fcb2370feb4fbc253e6494087ef20",
-      "bytes": 381860,
+      "sha256": "b8e345af5114d6cc83a285cf911832d472efbd352816d6df25b988bea3ff9c2c",
+      "bytes": 381982,
       "pixels": "2200x1196",
       "window": 1100
     },
     "hero_phone.png": {
-      "sha256": "1f70cbafed44c94fd47ff607c7c3b290c33adc9720a7bae383795bef786fbc71",
-      "bytes": 209690,
+      "sha256": "3cb72de4d9a60e63279156d67a44eac2695b9c6b10159273a1cca1de2426206e",
+      "bytes": 209539,
       "pixels": "648x1696",
       "window": 324
     },
@@ -49,38 +49,38 @@
       "window": 324
     },
     "score.png": {
-      "sha256": "bee24ee4bdb0d1b1464f26f71e2f57fb5aa2c8be67e82e597db653d4b57ce051",
-      "bytes": 338640,
+      "sha256": "dfcc394b6de51d2a51740b9f4d0d817ff91bbf49e777d98918b08ac1f4810f39",
+      "bytes": 338583,
       "pixels": "2184x1118",
       "window": 1100
     },
     "score_phone.png": {
-      "sha256": "c20338b0a6827c20b7f6e66426895a6ba4ef668b56be36bf003a8a504f82de36",
-      "bytes": 275305,
+      "sha256": "97abea25b3da51ebf585432e562f3087f868ae1def21ecd152180a0b13eee381",
+      "bytes": 275764,
       "pixels": "648x2212",
       "window": 324
     },
     "cost.png": {
-      "sha256": "b92cbdfd740d6d6531b6b68ccfc2290bae41509cbffc8d713401efcfc3cff0cd",
-      "bytes": 281758,
+      "sha256": "9f1d09d301380819a3bbd70b529164b3225f4878389d2038a13bedcc5c4a4ae8",
+      "bytes": 283523,
       "pixels": "2184x1016",
       "window": 1100
     },
     "cost_phone.png": {
-      "sha256": "c3c8081c4daa61c9ab7db99c178108fa5fb161de95df3afe13c72e83c5277885",
-      "bytes": 288181,
+      "sha256": "3c80dc48e95637b693e9719f541661127756c5a9733ae7ac9a05d514b9a29ea8",
+      "bytes": 289788,
       "pixels": "648x2404",
       "window": 324
     },
     "means.png": {
-      "sha256": "4aa9705ad06b5c63c4d83073985fabbcf19374d60be965ad5a54c8fd80266a96",
-      "bytes": 146009,
+      "sha256": "6290cff26d1a24061a67a535609857f76c78eb720003e3ab211dfba8d439d535",
+      "bytes": 146016,
       "pixels": "2184x440",
       "window": 1100
     },
     "means_phone.png": {
-      "sha256": "a35d4f7df8e2842967d2161bb923842e777e9af93d04e33d315f1a326d577820",
-      "bytes": 183430,
+      "sha256": "c7c445321a67bb7ba95ef7b98f4193dca37bbeff0b564a0c34330659d3b1f7b0",
+      "bytes": 183559,
       "pixels": "648x1200",
       "window": 324
     },
@@ -91,20 +91,20 @@
       "window": 838
     },
     "rope_phone.png": {
-      "sha256": "4909a65ce6cdcdade61269984cdaab8b26d20c9d5d1f2ffa289ac08cb58cd64b",
-      "bytes": 276060,
+      "sha256": "fa0f6e6adc052652ac0853a722df20923d68691fc6d54967dc1bc2a76e2129ea",
+      "bytes": 276076,
       "pixels": "648x1954",
       "window": 324
     },
     "attacks.png": {
-      "sha256": "fdbd340a54f48a7dbead3a7f9d36bea5887e449d7cc964e16340e1d9f6f7b6bd",
-      "bytes": 218822,
+      "sha256": "751c4d412cc51d032acf0137d09a31c997d3eadf5c6dd7196352cd76006ea41c",
+      "bytes": 218942,
       "pixels": "1660x1320",
       "window": 838
     },
     "attacks_phone.png": {
-      "sha256": "02fccfc53d8048b157da0aa6daaf04cc51a4bf89869ef896976343a9d2de030a",
-      "bytes": 236617,
+      "sha256": "ddde33cf9cb00dc3ae6688d21d9abc7bc902d7c66c3a984df1a47fa62f7b58be",
+      "bytes": 236764,
       "pixels": "648x2582",
       "window": 324
     },

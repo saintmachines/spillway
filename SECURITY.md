@@ -32,7 +32,7 @@ beyond those benchmarks and that scope.
 
 ## In scope
 
-Report an injection that defeats the documented 0.1.4 default or a specified paper configuration. Include the exact artifact and settings. In particular, attacker-controlled free text that makes the agent execute a call to a target that neither the user authorized nor an application-declared trusted identity source supplied is in scope. The recorded paper configuration and its switches are in [reproduce/README.md](reproduce/README.md).
+Report an injection that defeats the documented 1.0.0 default or a specified paper configuration. Include the exact artifact and settings. In particular, attacker-controlled free text that makes the agent execute a call to a target that neither the user authorized nor an application-declared trusted identity source supplied is in scope. The recorded paper configuration and its switches are in [reproduce/README.md](reproduce/README.md).
 Examples:
 
 - an email, message, transfer, share, calendar invite, or booking sent to an
@@ -69,7 +69,9 @@ look like bugs, but they are not bypasses:
 - Attacks that change the tools, their declared return types, the user's task,
   or the scorer.
 
-## The 0.1.4 default and host boundary
+## The 1.0.0 default and host boundary
+
+The 1.0.0 release preserves the runtime measured under version 0.1.4.
 
 `Guard(task)` uses `Policy.enhanced_014()`. Identity-target recovery through the judge is off in the SDK. The enhanced AgentDojo command `--paper --guarded` explicitly enables the paper's recovery settings; the recorded paper numbers remain results of their original configurations.
 
@@ -85,7 +87,7 @@ These checks do not authenticate a dishonest provider or replace the tool's own 
 
 ## Historical 0.1.3 controls and limits
 
-The following describes the original target/delegation rules, selectable with `Policy.legacy_013()` or the explicitly historical reference mode `--legacy-v1`. It does not describe the enhanced 0.1.4 default. Compatibility controls are research settings, not alternative deployment recommendations. The paper's original target property also excluded a target never appearing verbatim in tool output, such as an address assembled from fragments or a URL with an added query. Such a target is not excluded from a 0.1.4 implementation-bug report merely because it was unseen.
+The following describes the original target/delegation rules, selectable with `Policy.legacy_013()` or the explicitly historical reference mode `--legacy-v1`. It does not describe the enhanced 1.0.0 default. Compatibility controls are research settings, not alternative deployment recommendations. The paper's original target property also excluded a target never appearing verbatim in tool output, such as an address assembled from fragments or a URL with an added query. Such a target is not excluded from a 1.0.0 implementation-bug report merely because it was unseen.
 
 - **Length.** The lookup compares values of 4 to 120 characters. A shorter or
   longer plain identifier is not compared, and a value that is a substring of

@@ -88,7 +88,7 @@ In `.claude/settings.json`, with the full path to this folder:
 
 The hook keeps one Guard per session and checks each call before it runs. The user's prompts are the task. The model reads each tool's own output here, and the hook records it for the checks that follow. For the shell tool it checks the URLs and addresses written in the command, and it works alongside your usual permission settings. If the hook cannot load or cannot check a call, it blocks that call. If Claude Code does not see your virtual environment, write that environment's full Python path in place of `python`.
 
-The hook receives JSON, without an application-declared response model. Under the 0.1.4 default, those returns do not establish typed sender identities. A reply can therefore be refused unless the user names the recipient. Use a validated typed adapter when the application needs that delegation.
+The hook receives JSON, without an application-declared response model. Under the 1.0.0 default, those returns do not establish typed sender identities. A reply can therefore be refused unless the user names the recipient. Use a validated typed adapter when the application needs that delegation.
 
 ## Your own loop
 
@@ -182,9 +182,9 @@ judge = Judge("http://127.0.0.1:11434/v1", "gemma4:31b", extra_body={"reasoning_
 guard = Guard("Pay the bill in bill.txt.", judge=judge)
 ```
 
-## Tested with
+## SDK compatibility baseline
 
-Python 3.12, spillway-guard 0.1.0, langchain 1.4.9, langgraph 1.2.20, openai 3.46.0, anthropic 2.5.0, openai-agents 0.24.0, mcp 2.3.0 and Claude Code 2.1.296.
+The recipes target spillway-guard 1.0.0, which preserves the validated 0.1.4 runtime. The SDK compatibility baseline is Python 3.12, langchain 1.4.9, langgraph 1.2.20, openai 3.46.0, anthropic 2.5.0, openai-agents 0.24.0, mcp 2.3.0 and Claude Code 2.1.296.
 
 ## Run the tests
 

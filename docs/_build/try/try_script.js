@@ -1,7 +1,9 @@
 (function () {
   'use strict';
   var PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
-  var WHEEL = 'assets/try/spillway_guard-0.1.0-py3-none-any.whl';
+  var WHEEL = 'wheels/spillway_guard-1.0.0-py3-none-any.whl';
+  var SDK_VERSION = '1.0.0';
+  var WHEEL_SHA256 = '38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76';
   var EVIL = 'attacker@evil.example';
   var FROM_ALICE = "Reply to Alice's latest mail.";
   var EXAMPLES = [
@@ -118,9 +120,17 @@
       if (!r.ok) throw new Error('wheel ' + r.status);
       return r.arrayBuffer();
     }).then(function (buf) {
-      runtime.unpackArchive(buf, 'wheel');
-      runtime.runPython(PY);
-      return runtime;
+      return crypto.subtle.digest('SHA-256', buf).then(function (digest) {
+        var actual = Array.from(new Uint8Array(digest), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+        if (actual !== WHEEL_SHA256) throw new Error('wheel integrity');
+        runtime.unpackArchive(buf, 'wheel');
+        var version = runtime.runPython('import spillway_guard; spillway_guard.__version__');
+        if (version !== SDK_VERSION) throw new Error('package version');
+        runtime.runPython(PY);
+        statusEl.setAttribute('data-sdk-version', version);
+        statusEl.setAttribute('data-wheel-sha256', actual);
+        return runtime;
+      });
     }).catch(function (e) {
       statusEl.textContent = 'Python could not load in this browser, so this is the saved result. pip install spillway-guard runs the same check.';
       loading = null;
@@ -135,7 +145,7 @@
       var out = py.globals.get('try_check')(t, s, b);
       render(JSON.parse(out), t, b);
       code();
-      statusEl.textContent = 'Live: spillway-guard 0.1.0 is running in your browser.';
+      statusEl.textContent = 'Live: spillway-guard 1.0.0 is running in your browser.';
       statusEl.setAttribute('data-live', 'true');
     }).catch(function (e) {
       if (runtime && mine === serial && String(e).indexOf('PythonError') >= 0) statusEl.textContent = 'The check stopped on this input.';

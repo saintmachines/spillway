@@ -5,7 +5,7 @@
 
 <p align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
-    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .489, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. Separate-session mean episode-time differences are within 0.5 s; other recorded means add 1.6 to 10.5 s. This is not a per-episode bound. The Figure 1a chart format with SPILLWAY 0.1.4 at utility .608 and ASR .000, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
+    <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .489, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. Separate-session mean episode-time differences are within 0.5 s; other recorded means add 1.6 to 10.5 s. This is not a per-episode bound. The Figure 1a chart format with SPILLWAY 1.0.0 at utility .608 and ASR .000, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
   </picture></a></p>
 <p align="center">Default: <a href="docs/release-1.0.0.html">spillway-guard 1.0.0</a> · <a href="RELEASE_014_RESULTS.md">Measurements</a></p>
 <p align="center"><sub>1.0.0 preserves the runtime measured in 0.1.4, with release metadata changes. <a href="docs/release-1.0.0.html#runtime-equivalence">Code equivalence and measurement provenance</a>.</sub></p>
@@ -45,7 +45,7 @@ pip install spillway-guard==1.0.0
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/#results"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/score_phone.png">
-    <img src="docs/assets/readme_page/score.png" alt="0 of 12 cells leak for SPILLWAY. A matrix of the 12 cells, four suites (Banking, Slack, Travel, Workspace) by three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b), marks each cell with an in-scope leak: undefended 12 of 12, SPILLWAY 0, MELON 10, Progent 11, DRIFT 7, ROPE 3, Spotlighting 12, PI detector 10. An in-scope leak sends an action to a target the user never named. SPILLWAY 0.1.4 lets no injected effect execute in 2,847 attacked pairs. The paper also reports no in-scope leak in 27 reruns over three seeds. The most utility under attack, 12-cell means: SPILLWAY .489, DRIFT .453, Spotlighting .403, Progent .371, ROPE .345, MELON .314, PI detector .230, undefended .417.">
+    <img src="docs/assets/readme_page/score.png" alt="0 of 12 cells leak for SPILLWAY. A matrix of the 12 cells, four suites (Banking, Slack, Travel, Workspace) by three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b), marks each cell with an in-scope leak: undefended 12 of 12, SPILLWAY 0, MELON 10, Progent 11, DRIFT 7, ROPE 3, Spotlighting 12, PI detector 10. An in-scope leak sends an action to a target the user never named. SPILLWAY 1.0.0 lets no injected effect execute in 2,847 attacked pairs. The paper also reports no in-scope leak in 27 reruns over three seeds. The most utility under attack, 12-cell means: SPILLWAY .489, DRIFT .453, Spotlighting .403, Progent .371, ROPE .345, MELON .314, PI detector .230, undefended .417.">
   </picture></a>
 </p>
 
@@ -95,7 +95,7 @@ A backbone is the agent's model. An in-scope leak sends an action to a target th
 | Spotlighting | .528 | .403 | .283 | .379 | .289 | .608 | 12 |
 | PI detector | .332 | .230 | .060 | .312 | .216 | .491 | 10 |
 
-SPILLWAY's rows are spillway-guard 0.1.4. The other defenses, the router comparison and the cost study are the paper's runs.
+SPILLWAY's rows are spillway-guard 1.0.0. The other defenses, the router comparison and the cost study are the paper's runs.
 
 Three backbones (gpt-4o-mini, qwen3-coder:30b, qwen3:8b) by four suites, 949 attacked pairs per backbone (144 Banking, 105 Slack, 140 Travel, 560 Workspace). ROPE's router is the cell's own backbone. With no leak observed, the one-sided 95% Clopper-Pearson bound on SPILLWAY's attack success is 2.8% at the smallest cell (105 pairs) and 0.1% pooled over all 2,847 attacked pairs, treating pairs as independent. Composite scores use the printed three-decimal means, as in Table 2 of the paper.
 
@@ -322,7 +322,7 @@ ChatInject runs on qwen3:8b with 560 Workspace and 105 Slack pairs, and ROPE's r
 | Spotlighting | .151 | .489 |
 | PI detector | .155 | .025 |
 
-gpt-4o-mini, full grid, the first of the ten pair-conditioned variants the released attacker writes per injection (ASR@1), replayed open-loop, macro over the four suites, with the agent's own model as ROPE's router. SPILLWAY has more utility than every other defense except DRIFT, which leaks .064. SPILLWAY has the lowest attack success, .005 against ROPE's .007, with more utility (.257 against .173). The separate 0.1.4 qwen3:8b run records .173 utility and .002 in-scope attack success (1/949). The mini run has 4/949 in-scope effects.
+gpt-4o-mini, full grid, the first of the ten pair-conditioned variants the released attacker writes per injection (ASR@1), replayed open-loop, macro over the four suites, with the agent's own model as ROPE's router. SPILLWAY has more utility than every other defense except DRIFT, which leaks .064. SPILLWAY has the lowest attack success, .005 against ROPE's .007, with more utility (.257 against .173). The separate 1.0.0 qwen3:8b run records .173 utility and .002 in-scope attack success (1/949). The mini run has 4/949 in-scope effects.
 
 </details>
 
@@ -358,7 +358,7 @@ from spillway_guard import Policy
 policy = Policy.enhanced_014().replace(escalate_mv=False)
 ```
 
-Pass this policy to your `Guard`. Set `Policy.enhanced_014().replace(escalate_mv=True)` to restore the identity-target recovery used for the paper's reference results. For the 0.1.4 reference runner, `--paper --guarded` selects the recorded recovery-ON settings with the enhanced guard in a clean environment. An explicit `SPW_ESCALATE_MV` value can override the default; use a clean environment for exact paper reproduction. Version 0.1.2 adds `--no-identity-target-recovery` to force this path off, including historical aliases. `--no-escalate` controls a different path.
+Pass this policy to your `Guard`. Set `Policy.enhanced_014().replace(escalate_mv=True)` to restore the identity-target recovery used for the paper's reference results. For the 1.0.0 reference runner, `--paper --guarded` selects the recorded recovery-ON settings with the enhanced guard in a clean environment. An explicit `SPW_ESCALATE_MV` value can override the default; use a clean environment for exact paper reproduction. Version 0.1.2 adds `--no-identity-target-recovery` to force this path off, including historical aliases. `--no-escalate` controls a different path.
 
 ```bash
 spillway-agentdojo --paper --guarded --no-identity-target-recovery --help

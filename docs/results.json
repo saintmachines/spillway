@@ -1,11 +1,11 @@
 {
- "source": "SPILLWAY 0.1.4 / comparison methods: paper",
+ "source": "SPILLWAY 1.0.0 / comparison methods: paper",
  "notes": {
-  "grid_means": "SPILLWAY 0.1.4 / comparison methods: paper; equal-weight twelve-cell means.",
-  "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Four mini suites; SPILLWAY 0.1.4, other points paper; ROPE uses its authors' router.",
+  "grid_means": "SPILLWAY 1.0.0 / comparison methods: paper; equal-weight twelve-cell means.",
+  "standard_attack_gpt_4o_mini_suite_means_figure_1a": "Four mini suites; SPILLWAY 1.0.0, other points paper; ROPE uses its authors' router.",
   "delegated_routing_vs_rope": "Table 8: gpt-4o-mini, standard attack, one run per suite (seed 42); rope_uau and rope_asr use its authors' Claude Opus 4.8 router, the rope_gpt_4o_mini_router columns the agent's own model",
   "pismith_gpt_4o_mini_by_suite": "the run records behind Table 7 (benchmarks/results/pismith_a4); the preprint prints only each method's mean over these four suites",
-  "stress": "SPILLWAY actual 0.1.4 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
+  "stress": "SPILLWAY 1.0.0 / comparison methods: paper. ChatInject: qwen3:8b; AutoDojo/PISmith: mini; first PISmith variant, ASR@1."
  },
  "grid_means": {
   "Undefended": {
@@ -1145,7 +1145,7 @@
   }
  ],
  "display_view": {
-  "version": "0.1.4",
+  "version": "1.0.0",
   "measurement_version": "0.1.4",
   "display_version": "1.0.0",
   "library_version": "1.0.0",
