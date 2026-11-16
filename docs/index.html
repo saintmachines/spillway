@@ -1162,7 +1162,7 @@ details.m.fold[open] > summary.ph::after { content: "\2212"; }
 <section id="overview" aria-label="SPILLWAY 1.0.0 films">
   <div class="wrap">
     <p class="eyebrow"><span class="nw">Watch SPILLWAY 1.0.0</span> · <span class="nw">28-second overview</span></p>
-    <video controls playsinline preload="metadata" poster="assets/release100-cover.png" style="display:block;width:100%;height:auto;border-radius:16px" aria-label="SPILLWAY checks what AI agents read and do">
+    <video controls muted loop playsinline preload="metadata" poster="assets/release100-cover.png" style="display:block;width:100%;height:auto;border-radius:16px" aria-label="SPILLWAY checks what AI agents read and do">
       <source src="assets/SPILLWAY_100_Final_28s_1080p.mp4" type="video/mp4">
       <a href="assets/SPILLWAY_100_Final_28s_1080p.mp4">Watch the 28-second overview</a>.
     </video>
@@ -1572,6 +1572,36 @@ body: Has anyone seen my coffee mug?</pre></details>
 </footer>
 
 <script>
+(function () {
+  var video = document.querySelector('#overview video');
+  if (!video || !('IntersectionObserver' in window)) return;
+  var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var visible = false, userPaused = false, expectedPause = false;
+  video.muted = true;
+  function pause() {
+    if (!video.paused) { expectedPause = true; video.pause(); }
+  }
+  function update() {
+    if (!visible || document.hidden || motion.matches) { pause(); return; }
+    if (!userPaused) {
+      var playing = video.play();
+      if (playing && playing.catch) playing.catch(function () {});
+    }
+  }
+  video.addEventListener('pause', function () {
+    if (expectedPause) { expectedPause = false; return; }
+    userPaused = true;
+  });
+  video.addEventListener('play', function () { userPaused = false; });
+  var observer = new IntersectionObserver(function (entries) {
+    visible = entries[0].isIntersecting && entries[0].intersectionRatio >= .35;
+    update();
+  }, { threshold: [0, .35] });
+  observer.observe(video);
+  document.addEventListener('visibilitychange', update);
+  if (motion.addEventListener) motion.addEventListener('change', update);
+  else if (motion.addListener) motion.addListener(update);
+})();
 (function () {
   var root = document.documentElement;
   document.getElementById('themeBtn').addEventListener('click', function () {

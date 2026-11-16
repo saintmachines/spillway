@@ -39,7 +39,7 @@ pip install spillway-guard==1.0.0
 <p align="center"><sub>An earlier version was accepted at a NeurIPS 2026 workshop.</sub></p>
 
 <p align="center">
-  <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/release100-cover.png" width="560" alt="Watch SPILLWAY 1.0.0: a 28-second overview of the real-time safety guard for AI agents."></a><br>
+  <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/SPILLWAY_100_Overview_Autoplay.gif" width="560" alt="SPILLWAY 1.0.0 animated preview: the real-time safety guard for AI agents."></a><br>
   <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 28-second overview</b></a> ·
   <a href="https://saintmachines.github.io/spillway/assets/SPILLWAY_100_Full_89s_1080p.mp4"><b>Watch the 89-second full film</b></a>
 </p>
