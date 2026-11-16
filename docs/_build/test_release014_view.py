@@ -138,6 +138,16 @@ class ActualDisplayView(unittest.TestCase):
             self.assertEqual(publication["pypi_version"], "1.0.0")
             self.assertIn('id="cmd-install">pip install spillway-guard==1.0.0', page)
 
+    def test_browser_demo_wheel_is_present_and_matches_its_loader(self):
+        filename = "spillway_guard-1.0.0-py3-none-any.whl"
+        expected = "38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76"
+        wheel = ROOT / "docs" / "wheels" / filename
+        self.assertTrue(wheel.is_file(), "The deployed browser demo needs its frozen wheel")
+        self.assertEqual(view.sha(wheel), expected)
+        loader = (ROOT / "docs" / "try.html").read_text()
+        self.assertIn("wheels/" + filename, loader)
+        self.assertIn(expected, loader)
+
     def test_historical_files_and_source_data_objects_remain_unchanged(self):
         paths = [view.SOURCE, HERE/"cells_table1.json", view.ACTUAL]
         before = {str(p):view.sha(p) for p in paths}
