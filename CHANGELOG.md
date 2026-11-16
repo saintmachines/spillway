@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0
+
+- Promote the validated 0.1.4 runtime to the 1.0.0 distribution without changing guard logic, defaults, dependencies or tool contracts.
+- Preserve the measured 0.1.4 artifacts and link their results through an exact package-source equivalence check.
+- Refresh the release metadata and documentation. Existing `Policy.enhanced_014()` callers remain compatible.
+
 ## 0.1.4
 
 - Use one enhanced SDK and AgentDojo default: whole-target checks, source/domain binding, application-declared typed identities and resource-kind evidence. Keep source-value research rules off.

@@ -31,7 +31,7 @@ from .lexicon import Lexicon
 from .sanitizer import sanitize
 from .short_lineage import CreationContracts
 
-__version__ = "0.1.4"
+__version__ = "1.0.0"
 
 __all__ = ["CreationContracts", "PasteBoundaryError", "split_pasted", "Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
            "JudgeRequest", "admit", "taint_novel", "index_identity_leaves",

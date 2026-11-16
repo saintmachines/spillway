@@ -1,17 +1,18 @@
 <p align="center"><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
 
-<h1 align="center">SPILLWAY 0.1.4<br>Real-time safety guard for AI agents.</h1>
+<h1 align="center">SPILLWAY 1.0.0<br>Real-time safety guard for AI agents.</h1>
 <p align="center"><b>Check before they act.</b></p>
 
 <p align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
     <img src="docs/assets/readme_page/hero.png" alt="SPILLWAY, a prompt-injection defense for tool-using agents: structure decides where agents act, an optional local judge checks selected calls. Text in an email or a web page can steer an agent to an attacker's address. SPILLWAY checks recipients against the user's task and the typed fields of tool returns. The optional judge is off by default and on in these results. 0 of 12 cells leak in-scope, others leak in 3 to 12. Utility under attack .489, next best .453, DRIFT. On benign qwen3:8b Workspace and Slack episodes, 13 to 50 times fewer added calls than MELON, Progent and DRIFT. Separate-session mean episode-time differences are within 0.5 s; other recorded means add 1.6 to 10.5 s. This is not a per-episode bound. The Figure 1a chart format with SPILLWAY 0.1.4 at utility .608 and ASR .000, AgentDojo's standard attack, mean of the four suites on gpt-4o-mini: only SPILLWAY reaches zero in-scope attack success, with the most utility. ROPE uses its authors' Claude Opus 4.8 router.">
   </picture></a></p>
-<p align="center">Default: <a href="CANDIDATE_014.md">spillway-guard 0.1.4</a> · <a href="RELEASE_014_RESULTS.md">Measurements</a></p>
+<p align="center">Default: <a href="docs/release-1.0.0.html">spillway-guard 1.0.0</a> · <a href="RELEASE_014_RESULTS.md">Measurements</a></p>
+<p align="center"><sub>1.0.0 preserves the runtime measured in 0.1.4, with release metadata changes. <a href="docs/release-1.0.0.html#runtime-equivalence">Code equivalence and measurement provenance</a>.</sub></p>
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/"><b>Project page</b></a> ·
-  <a href="https://saintmachines.github.io/spillway/assets/SPILLWAY_014_Final_28s_1080p.mp4"><b>Watch the 28-second overview</b></a> ·
+  <a href="https://saintmachines.github.io/spillway/assets/SPILLWAY_100_Final_28s_1080p.mp4"><b>Watch the 28-second overview</b></a> ·
   <a href="https://arxiv.org/abs/2611.07222"><b>Paper (arXiv)</b></a> ·
   <a href="https://huggingface.co/papers/2611.07222"><b>Hugging Face</b></a> ·
   <a href="#try-it-in-60-seconds"><b>Try it</b></a> ·
@@ -32,7 +33,7 @@
 </p>
 
 ```bash
-pip install spillway-guard
+pip install spillway-guard==1.0.0
 ```
 
 <p align="center"><sub>An earlier version was accepted at a NeurIPS 2026 workshop.</sub></p>

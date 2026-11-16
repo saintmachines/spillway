@@ -2,7 +2,7 @@
 
 The release target is one 0.1.4 configuration. The benchmark entry point `--paper --guarded` selects the enhanced policy, verified benchmark host contracts and the scoped fetch rule described below. Earlier candidate columns are diagnostic configurations, not parallel release choices. Measured performance and public release status are recorded separately and bound to the exact artifact hash; this configuration contract does not establish either result.
 
-Original paper caches under `benchmarks/` remain historical. The additive [0.1.4 report](RELEASE_014_RESULTS.md) and `benchmarks/results/release_014_actual.json` describe the completed 54-condition/10,012-target-episode scope for wheel SHA `3f055d6336268ba260b1ae62cad54111ed280738e023253f8ad14e68d8f4f928`. Source-alignment review passed and publication is approved; registry installation is verified separately after upload. The new report is not inferred from deterministic replay or executor probes, and the tested wheel is not rebuilt. PISmith retains its nonzero reported effects.
+Model results under `benchmarks/` belong to their original paper configurations. Deterministic call replay and executor probes do not measure live model utility or ASR. Updated model results require their own complete, artifact-bound execution records.
 
 ## One release configuration
 
