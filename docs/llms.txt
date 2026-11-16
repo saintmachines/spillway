@@ -1,6 +1,6 @@
 # SPILLWAY 1.0.0
 
-> Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, an optional judge checks selected calls. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), used in the paper's results and off by default in the package, checks selected calls, including refused-target recovery and object checks. Two-view recovery does not restore a target that lies in removed text.
+> Prompt-injection defense for tool-using LLM agents: structure decides where an agent acts, an optional judge checks selected calls. SPILLWAY checks the recipients, accounts and channels of side-effecting tool calls against the user's task and the typed identity fields that read-only tools returned. Fixed delegation rules admit some targets the user named indirectly. A rule-based sanitizer removes instruction-like text before the model reads it. A local 4-bit judge (gemma4:31b), enabled with identity-target recovery in the displayed full-system results and off by default in the package, checks selected calls, including refused-target recovery and object checks. Two-view recovery does not restore a target that lies in removed text.
 
 - Install: `pip install spillway-guard==1.0.0` (Python 3.10+, pydantic and PyYAML). Import name: `spillway_guard`.
 - Runtime provenance: 1.0.0 preserves the runtime measured in 0.1.4, with release metadata changes and unchanged experimental records. [Runtime equivalence](release-1.0.0.html#runtime-equivalence).
@@ -12,8 +12,8 @@
 
 ## Headline results (AgentDojo v1.2.2, 3 backbones x 4 suites, in-scope attack success)
 - SPILLWAY: 0 of 12 cells leak, utility under attack .489, benign utility .539 (undefended .540). These are SPILLWAY 1.0.0 results; comparison methods retain the paper results. Mini's four-suite scatter point is .608 utility and .000 ASR, separately from the twelve-cell .489 mean.
-- MELON, Progent, DRIFT leak on 10, 11 and 7 of 12 cells. On benign qwen3:8b Workspace and Slack episodes they add 3.25 to 9.91 model calls per episode. SPILLWAY adds 0.19 to 0.39, judge included.
-- Paper seven-suite comparison: against ROPE with its authors' Claude Opus 4.8 router, gpt-4o-mini, AgentDyn's three suites and AgentDojo's four, SPILLWAY's in-scope attack success is .000 on every suite and its utility is higher on each (mean .553 against .468). ROPE leaks on three suites. This comparison is retained from the paper.
+- MELON, Progent, DRIFT leak on 10, 11 and 7 of 12 cells. In the historical paper cost study on benign qwen3:8b Workspace and Slack episodes they add 3.25 to 9.91 model calls per episode. SPILLWAY adds 0.19 to 0.39, judge included.
+- Seven-suite comparison: four current SPILLWAY AgentDojo rows (Banking .444, Slack .562, Travel .579, Workspace .848) combine with three historical AgentDyn rows (.600, .435, .383), all with .000 ASR. The mixed seven-suite utility mean is .550. All ROPE measurements are historical: its authors' Claude Opus 4.8 router has mean utility .468 and leaks on three suites. AgentDyn was not rerun.
 - SPILLWAY 1.0.0 stress tests: ChatInject 0/665 effects, AutoDojo 0/389 (descriptive), sender 0/126. PISmith ASR@1 retains mini 4/949 effects (macro ASR .005, utility .257) and qwen3:8b 1/949 (macro ASR .002, utility .173). Historical held-out and latency studies remain paper measurements.
 
 ## Scope

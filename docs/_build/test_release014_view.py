@@ -39,7 +39,7 @@ class ActualDisplayView(unittest.TestCase):
         self.apply()
         self.assertEqual(self.m.DATA["grid"]["SPILLWAY"], (.539, .489, 0, .539, .700, 0))
         self.assertEqual(self.m.DATA["nrp_uau"]["SPILLWAY"], .489)
-        self.assertEqual(self.m.DATA["fig4a"]["SPILLWAY"], (.608, 0))
+        self.assertEqual(self.m.DATA["fig4a"]["SPILLWAY"], (12263/20160, 0))
         self.assertNotEqual(self.m.DATA["grid"]["SPILLWAY"][1], 1533 / 2847)
 
     def test_actual_cell_joins_use_model_suite_not_storage_order(self):
@@ -72,7 +72,8 @@ class ActualDisplayView(unittest.TestCase):
 
     def test_pis_nonzero_and_exact_per_suite_fraction_preserved(self):
         self.apply()
-        self.assertEqual(self.m.DATA["stress"]["SPILLWAY"][-1], (.257,.005))
+        self.assertAlmostEqual(self.m.DATA["stress"]["SPILLWAY"][-1][0], 5177/20160)
+        self.assertAlmostEqual(self.m.DATA["stress"]["SPILLWAY"][-1][1], 17/3360)
         rows = [r for r in ACTUAL["conditions"] if r["group"] == "pismith_mini"]
         self.assertEqual(sum(r["original_reported_asr_numerator"] for r in rows), 4)
         for r in rows:
@@ -81,11 +82,11 @@ class ActualDisplayView(unittest.TestCase):
     def test_geometry_and_tooltips_follow_actual_points(self):
         self.apply()
         hero = self.m.fig_hero()
-        self.assertIn('data-v="0.6080,0.0000"', hero)
+        self.assertIn('data-v="0.6083,0.0000"', hero)
         self.assertNotIn('data-v="0.6140,0.0000"', hero)
         self.assertIn("Banking utility .444", hero)
         self.assertIn("Workspace utility .848", hero)
-        x = self.m.f4_x(.608, self.m.FIG1_X)
+        x = self.m.f4_x(12263/20160, self.m.FIG1_X)
         self.assertIn(f'--x: {x:.4f}', hero)
         bars = self.m.why_charts()[0]
         self.assertIn('style="--f: 0.9780"', bars)
@@ -96,7 +97,7 @@ class ActualDisplayView(unittest.TestCase):
         results = self.m.build_results_page(page)
         integration = self.m.build_integration_page(page)
         data = json.loads(self.m.results_json())
-        self.assertIn('data-v="0.2570,0.0050"', page)
+        self.assertIn('data-v="0.2568,0.0051"', page)
         self.assertIn("1/949 effects", page)
         self.assertNotIn("SPILLWAY ties ROPE at", page)
         self.assertNotIn("SPILLWAY 0.1.4", page)
@@ -107,15 +108,76 @@ class ActualDisplayView(unittest.TestCase):
         self.assertIn("SPILLWAY 1.0.0, four mini suites", results)
         self.assertIn("<html", integration)
         self.assertEqual(data["grid_means"]["SPILLWAY"]["uau"], .489)
-        self.assertEqual(data["standard_attack_gpt_4o_mini_suite_means_figure_1a"]["SPILLWAY"]["uau"], .608)
+        self.assertEqual(data["standard_attack_gpt_4o_mini_suite_means_figure_1a"]["SPILLWAY"]["uau"], 12263/20160)
 
-    def test_paper_cost_ablation_seven_suite_values_remain_paper(self):
+    def test_paper_cost_ablation_agentdyn_and_all_rope_values_remain_paper(self):
         old_nojudge, old_judge = self.m.NO_JUDGE[:], self.m.WITH_JUDGE[:]
         self.apply()
-        for key in ("calls", "seconds", "rope", "rope_mean", "judge_calls"):
+        for key in ("calls", "seconds", "judge_calls"):
             self.assertEqual(self.m.DATA[key], self.old_data[key])
         self.assertEqual((self.m.NO_JUDGE, self.m.WITH_JUDGE), (old_nojudge, old_judge))
-        self.assertIn("Paper comparison:", self.m.TEMPLATE)
+        self.assertEqual(self.m.DATA["rope"][4:], self.old_data["rope"][4:])
+        self.assertEqual([r[3:] for r in self.m.DATA["rope"]], [r[3:] for r in self.old_data["rope"]])
+        self.assertIn("three AgentDyn rows and ROPE retain the paper measurements", self.m.TEMPLATE)
+
+    def test_four_scatter_points_are_exact_macros_and_peers_are_unchanged(self):
+        before = {key: copy.deepcopy(self.m.fig4_points(cols)) for key, _, cols, *_ in self.m.FIG4}
+        self.apply()
+        expected = {"a": (12263/20160, 0), "b": (191/560, 0),
+                    "c": (297/560, 0), "d": (5177/20160, 17/3360)}
+        for key, _, cols, *_ in self.m.FIG4:
+            after = self.m.fig4_points(cols)
+            for method in after:
+                if method == "SPILLWAY":
+                    for i in (0, 1):
+                        self.assertAlmostEqual(after[method][i], expected[key][i], places=15)
+                else:
+                    self.assertEqual(after[method], before[key][method])
+
+    def test_routing_agentdojo_rows_and_mixed_mean_follow_current_counts(self):
+        report = self.apply()
+        self.assertEqual([r[1] for r in self.m.DATA["rope"][:4]], [64/144, 59/105, 81/140, 475/560])
+        self.assertEqual(report["routing_mixed_mean"], 97057/176400)
+        self.assertEqual(f'{report["routing_mixed_ers_uau"]:.3f}', '0.699')
+        table = self.m.table_rope()
+        for value in (".444", ".562", ".579", ".848", ".550"):
+            self.assertIn(value, table)
+        data = json.loads(self.m.results_json())
+        self.assertEqual([r["spillway_measurement"] for r in data["delegated_routing_vs_rope"]],
+                         ["current"]*4 + ["historical_agentdyn_not_rerun"]*3)
+
+    def test_all_54_conditions_have_distinct_profile_bound_rows(self):
+        self.apply()
+        data = json.loads(self.m.results_json())
+        self.assertEqual(len(data["current_conditions"]), 54)
+        self.assertEqual(sum(r["denominator"] for r in data["current_conditions"]), 10012)
+        self.assertEqual(len({(r["group"], r["model"], r["suite"], r["profile"]) for r in data["current_conditions"]}), 54)
+        results = self.m.build_results_page(self.m.build())
+        self.assertIn("All 54 SPILLWAY conditions", results)
+        self.assertIn("Default library use enables neither", results)
+
+    def test_pis_value_labels_do_not_move_points(self):
+        self.apply()
+        panel = self.m.fig4_mini(*self.m.FIG4[-1])
+        self.assertEqual(panel.count('class="pis-value '), 2)
+        self.assertIn("ASR .005", panel)
+        self.assertIn("ASR .007", panel)
+        self.assertIn('data-v="0.2568,0.0051"', panel)
+        self.assertIn('data-v="0.1730,0.0070"', panel)
+        self.assertNotIn("A tied defense", self.m.FIG4_GRID_TITLE)
+        for args in self.m.FIG4[:3]:
+            standard = self.m.fig4_mini(*args)
+            self.assertEqual(standard.count('class="pis-value '), 1)
+            self.assertIn("ASR .000", standard)
+
+    def test_current_recompute_link_and_historical_cost_link_are_distinct(self):
+        self.apply()
+        page = self.m.build()
+        standard = page.split('id="c-util"', 1)[1].split('</figure>', 1)[0]
+        cost = page.split('id="c-time"', 1)[1].split('</figure>', 1)[0]
+        self.assertIn('/docs/_build/build_release014_view.py', standard)
+        self.assertNotIn('/benchmarks/scripts/make_tables.py', standard)
+        self.assertIn('/benchmarks/scripts/make_tables.py', cost)
 
     def test_display_version_does_not_rename_measurement_identity(self):
         self.apply()

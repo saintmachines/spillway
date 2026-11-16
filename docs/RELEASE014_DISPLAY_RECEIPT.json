@@ -3,7 +3,7 @@
   "conditions": 54,
   "standard_cells": 12,
   "mini_scatter": [
-    0.608,
+    0.6082837301587302,
     0.0
   ],
   "main_macro12": {
@@ -16,7 +16,21 @@
     "ERS_BU": ".700"
   },
   "cache_files_modified": false,
-  "paper_cost_ablation_seven_suite_preserved": true,
+  "paper_cost_ablation_agentdyn_peers_preserved": true,
+  "routing_current_suites": [
+    "Banking",
+    "Slack",
+    "Travel",
+    "Workspace"
+  ],
+  "routing_historical_suites": [
+    "GitHub",
+    "DailyLife",
+    "Shopping"
+  ],
+  "routing_mixed_mean": 0.5502097505668935,
+  "routing_mixed_ers_uau": 0.6994702179033344,
+  "historical_agentdyn_source_sha256": "fe153d4097afc7116e7ead9d865792cef219de6d36f11706bc7e06b6c510c0fa",
   "chatinject_hits": [
     222,
     30
@@ -47,10 +61,10 @@
     "benchmarks/results/pismith_a4/drift_a25f.md": "584b61c939638394a0407fb43fe9301f65a6e979d1bdd9bc9dd01e22fe60d872"
   },
   "output_sha256": {
-    "index.html": "85fe65d9014c70e6e136d461657cc9469a9bbba172bf29897094d497f62ef17b",
-    "results.html": "8e5d8bcd7c64cd5078c099beac3dd5531026f3c670014a5708b9844c9792c3a5",
-    "integrate.html": "2c114bd654376280e663d5aa543c3260f5a1cae83e2711524573707a1cbe9887",
-    "results.json": "df6c33b365ba82c96b62a03d1402cd89ca25ab5591d8f04cbb423c47408c86d2"
+    "index.html": "560f6a74ebf53e53db6302ff2a5c9246771818c154ad330cee0e1a92a8433fb8",
+    "results.html": "dadf4f1e6b025c122fe6fb1ac6258eddbf1b1153399265541d814eeff19d1d3c",
+    "integrate.html": "d2856e0371a8b89da45a989f0aa5af5977d2f2b37dd1ba7604d718b4afcb984c",
+    "results.json": "de753a70d9e0f9ac273845062d2ec58ea988adf46d05724ecfb90832867f6ce5"
   },
   "display_version": "1.0.0",
   "library_version": "1.0.0",
