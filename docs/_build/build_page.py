@@ -1275,7 +1275,7 @@ def build():
     assert menu, "the header menu panel"
     _ids = set(re.findall(r'\sid="([^"]+)"', page))
     _hrefs = re.findall(r'href="([^"]*)"', menu.group(1))
-    menu_destinations = {"integrate.html", "SPILLWAY_preprint.pdf", REPO, "https://saintmachines.ai", "https://saintmachines.github.io/MUSTER/"}
+    menu_destinations = {"integrate.html", "SPILLWAY_preprint.pdf", REPO, "https://saintmachines.ai"}
     assert _hrefs and all((h.startswith("#") and h[1:] in _ids) or h in menu_destinations for h in _hrefs), [
         h for h in _hrefs if not ((h.startswith("#") and h[1:] in _ids) or h in menu_destinations)]
     check_marks(page)

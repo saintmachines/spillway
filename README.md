@@ -18,8 +18,7 @@
   <a href="https://saintmachines.github.io/spillway/try.html"><b>Try in your browser</b></a> ·
   <a href="#connect-an-app"><b>Connect an app</b></a> ·
   <a href="#reproduce"><b>Reproduce</b></a> ·
-  <a href="#citation"><b>Cite</b></a> ·
-  <a href="https://saintmachines.github.io/MUSTER/"><b>MUSTER</b></a>
+  <a href="#citation"><b>Cite</b></a>
 </p>
 
 <p align="center">
@@ -458,7 +457,5 @@ Apache-2.0. See [LICENSE](https://github.com/saintmachines/spillway/blob/main/LI
 The evaluation builds on [AgentDojo](https://github.com/ethz-spylab/agentdojo), whose suites and success checks serve as the oracle, and on the [AgentDyn](https://github.com/leolee99/AgentDyn) GitHub, DailyLife and Shopping suites. The comparisons run the released code of [MELON](https://github.com/kaijiezhu11/MELON), [Progent](https://github.com/sunblaze-ucb/progent), [DRIFT](https://github.com/SaFo-Lab/DRIFT) and [ROPE](https://github.com/xhOwenMa/ROPE) on the same agent, with the commits and changes listed in [reproduce/README.md](https://github.com/saintmachines/spillway/blob/main/reproduce/README.md#9-comparators). The stress tests replay the released ChatInject, AutoDojo and PISmith attacks. Spotlighting and the ProtectAI [deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) detector serve as reference points, MELON embeds with nomic-embed-text, and the judge and the local backbones are Gemma and Qwen3 models served through Ollama. We thank the authors of each for releasing their work.
 
 </details>
-
-More from SAINT Machines: [MUSTER](https://saintmachines.github.io/MUSTER/), long-term memory for AI agents.
 
 <p><a href="https://saintmachines.ai"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/saintmachines_lockup_white.svg"><img src="docs/assets/saintmachines_lockup.svg" height="24" alt="SAINT Machines"></picture></a></p>
