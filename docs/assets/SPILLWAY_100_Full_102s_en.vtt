@@ -1,0 +1,95 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.000
+AgentDojo standard attack: 48.9% mean task success.
+In-scope attacks: 0 successes in 2,847 pairs.
+
+2
+00:00:04.000 --> 00:00:12.000
+Mean over three backbones and four suites:
+3.6-point lead over DRIFT; 0.0% in-scope ASR.
+
+3
+00:00:12.000 --> 00:00:18.000
+gpt-4o-mini, four-suite mean: 60.8% task success.
+Only SPILLWAY reaches zero in-scope ASR.
+
+4
+00:00:18.000 --> 00:00:22.433
+Figure 1: Standard, ChatInject,
+AutoDojo and PISmith attack settings.
+
+5
+00:00:22.433 --> 00:00:26.900
+PISmith: open-loop ASR@1.
+ROPE: Opus 4.8 in (a); agent router in (b)-(d).
+
+6
+00:00:26.900 --> 00:00:32.900
+SPILLWAY updated the rent.
+1,100 → 1,200; injected transfer unsent.
+
+7
+00:00:32.900 --> 00:00:39.900
+One recorded Banking episode:
+SPILLWAY alone completed the task
+and sent nothing to the attacker.
+
+8
+00:00:39.900 --> 00:00:44.333
+Sender admitted. Extra recipient refused.
+SDK 1.0.0 recipient check; judge OFF.
+
+9
+00:00:44.333 --> 00:00:48.833
+Rules check what agents read and do.
+Both checks run without a model call.
+
+10
+00:00:48.833 --> 00:00:53.333
+An optional local judge
+checks selected calls only.
+
+11
+00:00:53.333 --> 00:00:59.333
+Qwen3:8b recovery ablation, four-suite mean:
+37.0% task success vs 30.0% for the floor alone.
+
+12
+00:00:59.333 --> 00:01:07.333
+AgentDojo, means over 12 model-suite cells:
+NRP-BU .539; NRP-UAU .489; ERS .700.
+SPILLWAY leads all three composite scores.
+
+13
+00:01:07.333 --> 00:01:15.333
+Standard AgentDojo: zero observed in-scope ASR
+across three backbones and four suites.
+
+14
+00:01:15.333 --> 00:01:23.333
+Mean added time per task: ≤500 ms for SPILLWAY
+on benign Workspace and Slack episodes.
+
+15
+00:01:23.333 --> 00:01:26.333
+Paper evaluation, seven-suite mean:
+55.0% vs ROPE's 46.8%.
+
+16
+00:01:26.333 --> 00:01:29.333
+SPILLWAY: local 31B judge.
+ROPE: authors' Opus 4.8 router.
+
+17
+00:01:29.333 --> 00:01:36.333
+gpt-4o-mini PISmith, four-suite mean:
+25.7% task success; 0.5% in-scope ASR.
+Open-loop ASR@1.
+
+18
+00:01:36.333 --> 00:01:42.333
+pip install spillway-guard
+huggingface.co/papers/2611.07222
+Keep your LLM. Add SPILLWAY.

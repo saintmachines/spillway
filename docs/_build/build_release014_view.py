@@ -261,6 +261,21 @@ def activate(module, actual):
         "is on in these runs (<a href=\"#q-model\">without it</a>).",
         "is on with identity-target recovery in these runs; both are off in a default <code>Guard(task)</code> (<a href=\"#q-model\">without it</a>).",
     )
+    for old, new in (("28-second overview", "32.4-second overview"),
+                     ("assets/SPILLWAY_100_Final_28s_1080p.mp4", "assets/SPILLWAY_100_Final_32s_1080p.mp4?v=96474e64"),
+                     ("assets/SPILLWAY_100_Full_89s_1080p.mp4", "assets/SPILLWAY_100_Full_102s_1080p.mp4?v=9105a08b"),
+                     ("89-second full film", "102.3-second full film")):
+        assert old in module.TEMPLATE, old
+        module.TEMPLATE = module.TEMPLATE.replace(old, new)
+    # Keep published film links and subtitles reproducible; old release files remain available.
+    assert '      <source src="assets/SPILLWAY_100_Final_32s_1080p.mp4?v=96474e64" type="video/mp4">\n' in module.TEMPLATE
+    module.TEMPLATE = module.TEMPLATE.replace('      <source src="assets/SPILLWAY_100_Final_32s_1080p.mp4?v=96474e64" type="video/mp4">\n', '      <source src="assets/SPILLWAY_100_Final_32s_1080p.mp4?v=96474e64" type="video/mp4">\n      <track kind="subtitles" src="assets/SPILLWAY_100_Final_32s_en.vtt?v=de20f889" srclang="en" label="English">\n')
+    assert '      <a class="textlink" href="https://github.com/saintmachines/spillway/releases/download/v1.0.0/SPILLWAY_V18_R3be_Main_89s_4K_v1.0.0.mp4">Download 4K</a>\n' in module.TEMPLATE
+    module.TEMPLATE = module.TEMPLATE.replace('      <a class="textlink" href="https://github.com/saintmachines/spillway/releases/download/v1.0.0/SPILLWAY_V18_R3be_Main_89s_4K_v1.0.0.mp4">Download 4K</a>\n', '')
+    assert '      <a class="textlink" href="https://github.com/saintmachines/spillway/releases/download/v1.0.0/SPILLWAY_V18_R3be_Phone_28s_1080x1350_v1.0.0.mp4">Portrait version</a>\n' in module.TEMPLATE
+    module.TEMPLATE = module.TEMPLATE.replace('      <a class="textlink" href="https://github.com/saintmachines/spillway/releases/download/v1.0.0/SPILLWAY_V18_R3be_Phone_28s_1080x1350_v1.0.0.mp4">Portrait version</a>\n', '')
+    assert '      <a class="btn" href="assets/SPILLWAY_100_Full_102s_1080p.mp4?v=9105a08b">Watch the 102.3-second full film</a>\n' in module.TEMPLATE
+    module.TEMPLATE = module.TEMPLATE.replace('      <a class="btn" href="assets/SPILLWAY_100_Full_102s_1080p.mp4?v=9105a08b">Watch the 102.3-second full film</a>\n', '      <a class="btn" href="assets/SPILLWAY_100_Full_102s_1080p.mp4?v=9105a08b">Watch the 102.3-second full film</a>\n      <a class="textlink" href="assets/SPILLWAY_100_Final_32s_en.srt">Overview captions (SRT)</a>\n      <a class="textlink" href="assets/SPILLWAY_100_Full_102s_en.srt">Full film captions (SRT)</a>\n')
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("Full results · from the preprint", CAPTION)
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("Preprint Table 2", CAPTION).replace("Preprint Table 1", CAPTION)
     module.RESULTS_TEMPLATE = module.RESULTS_TEMPLATE.replace("Preprint Figure 1a, values", "Mini standard attack · " + CAPTION)

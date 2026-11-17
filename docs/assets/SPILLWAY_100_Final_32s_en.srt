@@ -1,0 +1,41 @@
+1
+00:00:00,000 --> 00:00:03,200
+AgentDojo standard attack: 48.9% mean task success.
+In-scope attacks: 0 successes in 2,847 pairs.
+
+2
+00:00:03,200 --> 00:00:07,600
+Mean over three backbones and four suites:
+3.6-point lead over DRIFT; 0.0% in-scope ASR.
+
+3
+00:00:07,600 --> 00:00:11,200
+Sender admitted. Extra recipient refused.
+SDK 1.0.0 recipient check; judge OFF.
+
+4
+00:00:11,200 --> 00:00:16,800
+Rules check what agents read and do.
+An optional local judge checks selected calls.
+
+5
+00:00:16,800 --> 00:00:21,233
+PISmith: open-loop ASR@1.
+ROPE: Opus 4.8 in (a); agent router in (b)-(d).
+
+6
+00:00:21,233 --> 00:00:24,833
+AgentDojo, 12-cell composite means:
+NRP-BU .539; NRP-UAU .489; ERS .700.
+
+7
+00:00:24,833 --> 00:00:29,033
+Benign Workspace/Slack, mean added time/task:
+SPILLWAY ≤500 ms.
+MELON/Progent/DRIFT: 1,600-10,500 ms.
+
+8
+00:00:29,033 --> 00:00:32,433
+pip install spillway-guard
+huggingface.co/papers/2611.07222
+Keep your LLM. Add SPILLWAY.

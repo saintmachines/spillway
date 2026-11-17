@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://saintmachines.github.io/spillway/"><b>Project page</b></a> ·
-  <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 28-second overview</b></a> ·
+  <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 32.4-second overview</b></a> ·
   <a href="https://arxiv.org/abs/2611.07222"><b>Paper (arXiv)</b></a> ·
   <a href="https://huggingface.co/papers/2611.07222"><b>Hugging Face</b></a> ·
   <a href="#try-it-in-60-seconds"><b>Try it</b></a> ·
@@ -35,9 +35,10 @@ pip install spillway-guard==1.0.0
 ```
 
 <p align="center">
-  <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/SPILLWAY_100_Overview_Autoplay.gif" width="560" alt="SPILLWAY 1.0.0 animated preview: the real-time safety guard for AI agents."></a><br>
-  <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 28-second overview</b></a> ·
-  <a href="https://saintmachines.github.io/spillway/assets/SPILLWAY_100_Full_89s_1080p.mp4"><b>Watch the 89-second full film</b></a>
+  <a href="https://saintmachines.github.io/spillway/#overview"><img src="docs/assets/SPILLWAY_100_Overview_Autoplay.gif?v=56567155" width="560" alt="SPILLWAY 1.0.0 animated preview: the real-time safety guard for AI agents."></a><br>
+  <a href="https://saintmachines.github.io/spillway/#overview"><b>Watch the 32.4-second overview</b></a> ·
+  <a href="https://saintmachines.github.io/spillway/assets/SPILLWAY_100_Full_102s_1080p.mp4?v=9105a08b"><b>Watch the 102.3-second full film</b></a>
+  <br><sub>English captions: <a href="docs/assets/SPILLWAY_100_Final_32s_en.srt">Overview (SRT)</a> · <a href="docs/assets/SPILLWAY_100_Full_102s_en.srt">Full film (SRT)</a></sub>
 </p>
 
 ## <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/h2_01_dark.svg"><img src="docs/assets/readme/h2_01_light.svg" alt="" height="18"></picture>Results
