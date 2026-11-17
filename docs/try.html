@@ -1222,11 +1222,15 @@ sender: alice@example.com</pre>
   var rowsEl = $('tryRows'), textEl = $('tryText'), removedEl = $('tryRemoved'), codeEl = $('tryCode');
   var runtime = null, loading = null, timer = 0, serial = 0;
 
-  function plain(row, taskText) {
+  function plain(row, taskText, bodyText) {
     if (row.allowed && taskText.toLowerCase().indexOf(row.address.toLowerCase()) >= 0) return "The user's request names this address.";
-    if (row.label === 'allow_schema_identity_target') return 'This address came from a typed field of the mail.';
-    if (row.label === 'block_taint_target' || row.label === 'block_unverified_delegated_domain') return "This address is in the mail body, but the user's request does not name it.";
-    return row.reason;
+    if (row.allowed && row.label === 'allow_schema_identity_target') return 'This address came from a typed field of the mail.';
+    if (row.allowed && row.label === 'allow_user_task_referent_binding') return "The user's request identifies this person.";
+    if (!row.allowed && (row.label === 'block_taint_target' || row.label === 'block_unverified_delegated_domain')) {
+      if (bodyText.toLowerCase().indexOf(row.address.toLowerCase()) >= 0) return "This address is in the mail body, but the user's request does not name it.";
+      return 'SPILLWAY could not verify this address for this call. The From field should contain an email address only.';
+    }
+    return row.allowed ? 'SPILLWAY admits this address for this call.' : 'SPILLWAY refuses this address for this call.';
   }
   function render(result, taskText, bodyText) {
     rowsEl.textContent = '';
@@ -1246,7 +1250,7 @@ sender: alice@example.com</pre>
       addr.textContent = row.address;
       tag.className = 'try-tag';
       tag.textContent = row.allowed ? 'Admitted' : 'Refused';
-      why.textContent = plain(row, taskText);
+      why.textContent = plain(row, taskText, bodyText);
       head.appendChild(addr);
       head.appendChild(tag);
       li.appendChild(head);
