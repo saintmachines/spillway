@@ -1,0 +1,29 @@
+{
+  "status": "CURRENT_EVALUATION_DISPLAY_BUILD_PASS",
+  "snapshot_sha256": "079a7d33af8ccb324cc12d516fd5a7e5f4c6f5b29a02486b3a33db9c504d5415",
+  "historical_checks": 590,
+  "standard_cells": 12,
+  "grid_spillway": {
+    "bu": 0.522,
+    "uau": 0.474,
+    "asr_in_scope": 0.0,
+    "nrp_bu": 0.522,
+    "nrp_uau": 0.474,
+    "ers": 0.686,
+    "cells_leaking_of_12": 0
+  },
+  "routing_mean": [
+    0.542,
+    0.0,
+    0.468,
+    0.015
+  ],
+  "benchmark_runs": 0,
+  "runtime_changes": false,
+  "output_sha256": {
+    "index.html": "9fe6f1a50f888d8a4af17b20944dc4769e673fb332ed5f4508464a9e89d42660",
+    "results.html": "d89c537027d3c8d7dabc907d7231fda8cdd10d353604e928db54ddc3e11b86c4",
+    "integrate.html": "3024b72da18fa1f3246cb639d5d7606270a5904c3150afa84aab501eaf60f8b5",
+    "results.json": "2d5533c9fc81aaaa742fafeb0339c629e1080684e9d4f8120bcb7ef8494b3b2a"
+  }
+}

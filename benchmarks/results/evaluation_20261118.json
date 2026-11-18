@@ -1,0 +1,1908 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-11-18",
+  "status": "CANONICAL_PRINTED_SOURCE_AND_APPROVED_INTEGER_RECEIPTS",
+  "source": {
+    "manuscript_source_sha256": "2b1753a7d6bb6e20b2da11960e9fddf1f44a8f28899626b96bd43eb7b83334d8",
+    "manuscript_pdf_sha256": "5b65728cf4ac6428ccc9eaafdcd66668ed9031d494ebaec5457a4dedfdb5d0aa",
+    "snapshot_date": "2026-11-18",
+    "source_kind": "Final manuscript tables and independently checked execution-count receipts"
+  },
+  "metric_definitions": {
+    "BU": "benign task success",
+    "UAU": "task success under attack",
+    "ASR": "executed in-scope attack success unless explicitly raw",
+    "NRP_BU": "BU*(1-ASR)",
+    "ERS": "harmonic mean of BU and 1-ASR; routing UAU replaces BU",
+    "precision_default": "Values parsed from the final source are printed three-decimal values. Raw counts are included only from explicitly approved receipts. Never infer exact baseline counts from rounded values."
+  },
+  "method_mapping": {
+    "Undefended": {
+      "table1_column_group": 1,
+      "table2_row": 1,
+      "table4_row": 1,
+      "notes": ""
+    },
+    "SPILLWAY": {
+      "table1_column_group": 2,
+      "table2_row": 2,
+      "table4_row": 2,
+      "notes": ""
+    },
+    "MELON": {
+      "table1_column_group": 3,
+      "table2_row": 3,
+      "table4_row": 3,
+      "notes": ""
+    },
+    "Progent": {
+      "table1_column_group": 4,
+      "table2_row": 4,
+      "table4_row": 4,
+      "notes": ""
+    },
+    "DRIFT": {
+      "table1_column_group": 5,
+      "table2_row": 5,
+      "table4_row": 5,
+      "notes": ""
+    },
+    "ROPE": {
+      "table1_column_group": 6,
+      "table2_row": 6,
+      "table4_row": 6,
+      "notes": "ROPE Table1 router=cell backbone; Figure1 standard and Figure4/Table7 authors router=Opus4.8; other Figure1 panels agent router. ChatInject clamp differs as paper states."
+    },
+    "Spotlighting": {
+      "table1_column_group": 7,
+      "table2_row": 7,
+      "table4_row": 7,
+      "notes": ""
+    },
+    "PI detector": {
+      "table1_column_group": 8,
+      "table2_row": 8,
+      "table4_row": 8,
+      "notes": ""
+    }
+  },
+  "table1": {
+    "label": "tab:main-grid",
+    "rows": [
+      {
+        "suite": "Banking",
+        "backbone": "gpt-4o-mini",
+        "methods": {
+          "Undefended": {
+            "BU": 0.562,
+            "UAU": 0.424,
+            "ASR": 0.556,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.5,
+            "UAU": 0.444,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "8/16",
+            "UAU_count": "64/144",
+            "exact_BU": 0.5,
+            "exact_UAU": 0.4444444444444444,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/144"
+          },
+          "MELON": {
+            "BU": 0.438,
+            "UAU": 0.306,
+            "ASR": 0.049,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.375,
+            "UAU": 0.299,
+            "ASR": 0.097,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.438,
+            "UAU": 0.431,
+            "ASR": 0.111,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.438,
+            "UAU": 0.431,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.5,
+            "UAU": 0.431,
+            "ASR": 0.549,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.5,
+            "UAU": 0.375,
+            "ASR": 0.118,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Banking",
+        "backbone": "qwen3-coder:30b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.375,
+            "UAU": 0.486,
+            "ASR": 0.299,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.562,
+            "UAU": 0.438,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "9/16",
+            "UAU_count": "63/144",
+            "exact_BU": 0.5625,
+            "exact_UAU": 0.4375,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/144"
+          },
+          "MELON": {
+            "BU": 0.375,
+            "UAU": 0.299,
+            "ASR": 0.125,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.312,
+            "UAU": 0.354,
+            "ASR": 0.056,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.688,
+            "UAU": 0.542,
+            "ASR": 0.014,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.375,
+            "UAU": 0.375,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.375,
+            "UAU": 0.41,
+            "ASR": 0.382,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.5,
+            "UAU": 0.424,
+            "ASR": 0.097,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Banking",
+        "backbone": "qwen3:8b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.5,
+            "UAU": 0.403,
+            "ASR": 0.181,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.438,
+            "UAU": 0.431,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "7/16",
+            "UAU_count": "62/144",
+            "exact_BU": 0.4375,
+            "exact_UAU": 0.4305555555555556,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/144"
+          },
+          "MELON": {
+            "BU": 0.5,
+            "UAU": 0.403,
+            "ASR": 0.215,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.375,
+            "UAU": 0.361,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.562,
+            "UAU": 0.41,
+            "ASR": 0.028,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.438,
+            "UAU": 0.438,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.562,
+            "UAU": 0.431,
+            "ASR": 0.188,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.438,
+            "UAU": 0.34,
+            "ASR": 0.083,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Slack",
+        "backbone": "gpt-4o-mini",
+        "methods": {
+          "Undefended": {
+            "BU": 0.762,
+            "UAU": 0.514,
+            "ASR": 0.629,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.714,
+            "UAU": 0.533,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "15/21",
+            "UAU_count": "56/105",
+            "exact_BU": 0.7142857142857143,
+            "exact_UAU": 0.5333333333333333,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/105"
+          },
+          "MELON": {
+            "BU": 0.714,
+            "UAU": 0.133,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.667,
+            "UAU": 0.4,
+            "ASR": 0.076,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.714,
+            "UAU": 0.486,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.524,
+            "UAU": 0.343,
+            "ASR": 0.019,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.619,
+            "UAU": 0.524,
+            "ASR": 0.562,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.238,
+            "UAU": 0.162,
+            "ASR": 0.086,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Slack",
+        "backbone": "qwen3-coder:30b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.667,
+            "UAU": 0.467,
+            "ASR": 0.724,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.524,
+            "UAU": 0.429,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "11/21",
+            "UAU_count": "45/105",
+            "exact_BU": 0.5238095238095238,
+            "exact_UAU": 0.42857142857142855,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/105"
+          },
+          "MELON": {
+            "BU": 0.667,
+            "UAU": 0.19,
+            "ASR": 0.076,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.476,
+            "UAU": 0.362,
+            "ASR": 0.01,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.286,
+            "UAU": 0.276,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.429,
+            "UAU": 0.276,
+            "ASR": 0.019,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.524,
+            "UAU": 0.39,
+            "ASR": 0.581,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.19,
+            "UAU": 0.171,
+            "ASR": 0.124,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Slack",
+        "backbone": "qwen3:8b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.619,
+            "UAU": 0.419,
+            "ASR": 0.448,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.476,
+            "UAU": 0.286,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "10/21",
+            "UAU_count": "30/105",
+            "exact_BU": 0.47619047619047616,
+            "exact_UAU": 0.2857142857142857,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/105"
+          },
+          "MELON": {
+            "BU": 0.571,
+            "UAU": 0.362,
+            "ASR": 0.457,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.19,
+            "UAU": 0.105,
+            "ASR": 0.019,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.429,
+            "UAU": 0.314,
+            "ASR": 0.01,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.333,
+            "UAU": 0.2,
+            "ASR": 0.019,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.429,
+            "UAU": 0.295,
+            "ASR": 0.467,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.19,
+            "UAU": 0.162,
+            "ASR": 0.086,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Travel",
+        "backbone": "gpt-4o-mini",
+        "methods": {
+          "Undefended": {
+            "BU": 0.5,
+            "UAU": 0.336,
+            "ASR": 0.229,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.65,
+            "UAU": 0.607,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "13/20",
+            "UAU_count": "85/140",
+            "exact_BU": 0.65,
+            "exact_UAU": 0.6071428571428571,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/140"
+          },
+          "MELON": {
+            "BU": 0.55,
+            "UAU": 0.3,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.55,
+            "UAU": 0.529,
+            "ASR": 0.029,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.4,
+            "UAU": 0.607,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.35,
+            "UAU": 0.35,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.6,
+            "UAU": 0.429,
+            "ASR": 0.179,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.3,
+            "UAU": 0.107,
+            "ASR": 0.014,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Travel",
+        "backbone": "qwen3-coder:30b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.5,
+            "UAU": 0.414,
+            "ASR": 0.129,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.5,
+            "UAU": 0.414,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "10/20",
+            "UAU_count": "58/140",
+            "exact_BU": 0.5,
+            "exact_UAU": 0.4142857142857143,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/140"
+          },
+          "MELON": {
+            "BU": 0.55,
+            "UAU": 0.393,
+            "ASR": 0.029,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.45,
+            "UAU": 0.414,
+            "ASR": 0.007,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.1,
+            "UAU": 0.443,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.25,
+            "UAU": 0.264,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.55,
+            "UAU": 0.414,
+            "ASR": 0.136,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.25,
+            "UAU": 0.2,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Travel",
+        "backbone": "qwen3:8b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.25,
+            "UAU": 0.229,
+            "ASR": 0.229,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.15,
+            "UAU": 0.336,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "3/20",
+            "UAU_count": "47/140",
+            "exact_BU": 0.15,
+            "exact_UAU": 0.3357142857142857,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/140"
+          },
+          "MELON": {
+            "BU": 0.25,
+            "UAU": 0.186,
+            "ASR": 0.157,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.15,
+            "UAU": 0.164,
+            "ASR": 0.036,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.3,
+            "UAU": 0.264,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.2,
+            "UAU": 0.157,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.3,
+            "UAU": 0.171,
+            "ASR": 0.15,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.05,
+            "UAU": 0.05,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Workspace",
+        "backbone": "gpt-4o-mini",
+        "methods": {
+          "Undefended": {
+            "BU": 0.825,
+            "UAU": 0.398,
+            "ASR": 0.184,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.825,
+            "UAU": 0.863,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "33/40",
+            "UAU_count": "483/560",
+            "exact_BU": 0.825,
+            "exact_UAU": 0.8625,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/560"
+          },
+          "MELON": {
+            "BU": 0.775,
+            "UAU": 0.33,
+            "ASR": 0.002,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.8,
+            "UAU": 0.621,
+            "ASR": 0.041,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.525,
+            "UAU": 0.607,
+            "ASR": 0.009,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.625,
+            "UAU": 0.539,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.825,
+            "UAU": 0.43,
+            "ASR": 0.148,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.625,
+            "UAU": 0.254,
+            "ASR": 0.07,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Workspace",
+        "backbone": "qwen3-coder:30b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.5,
+            "UAU": 0.48,
+            "ASR": 0.036,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.475,
+            "UAU": 0.527,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "19/40",
+            "UAU_count": "295/560",
+            "exact_BU": 0.475,
+            "exact_UAU": 0.5267857142857143,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/560"
+          },
+          "MELON": {
+            "BU": 0.5,
+            "UAU": 0.43,
+            "ASR": 0.004,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.475,
+            "UAU": 0.482,
+            "ASR": 0.002,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.575,
+            "UAU": 0.53,
+            "ASR": 0.002,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.4,
+            "UAU": 0.42,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.6,
+            "UAU": 0.452,
+            "ASR": 0.039,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.425,
+            "UAU": 0.275,
+            "ASR": 0.025,
+            "precision": "printed_3_decimal"
+          }
+        }
+      },
+      {
+        "suite": "Workspace",
+        "backbone": "qwen3:8b",
+        "methods": {
+          "Undefended": {
+            "BU": 0.425,
+            "UAU": 0.434,
+            "ASR": 0.02,
+            "precision": "printed_3_decimal"
+          },
+          "SPILLWAY": {
+            "BU": 0.45,
+            "UAU": 0.382,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal",
+            "BU_count": "18/40",
+            "UAU_count": "214/560",
+            "exact_BU": 0.45,
+            "exact_UAU": 0.3821428571428571,
+            "counts_source": "independent 12-cell integer-count sheet, validated against final manuscript",
+            "ASR_count": "0/560"
+          },
+          "MELON": {
+            "BU": 0.425,
+            "UAU": 0.441,
+            "ASR": 0.011,
+            "precision": "printed_3_decimal"
+          },
+          "Progent": {
+            "BU": 0.425,
+            "UAU": 0.366,
+            "ASR": 0.004,
+            "precision": "printed_3_decimal"
+          },
+          "DRIFT": {
+            "BU": 0.5,
+            "UAU": 0.523,
+            "ASR": 0.014,
+            "precision": "printed_3_decimal"
+          },
+          "ROPE": {
+            "BU": 0.375,
+            "UAU": 0.352,
+            "ASR": 0.0,
+            "precision": "printed_3_decimal"
+          },
+          "Spotlighting": {
+            "BU": 0.45,
+            "UAU": 0.457,
+            "ASR": 0.02,
+            "precision": "printed_3_decimal"
+          },
+          "PI detector": {
+            "BU": 0.275,
+            "UAU": 0.243,
+            "ASR": 0.014,
+            "precision": "printed_3_decimal"
+          }
+        }
+      }
+    ],
+    "printed_twelve_cell_means": {},
+    "exact_count_source_restriction": "Only VALUES101.table1 consumed; all other VALUES101 sections deliberately excluded as stale"
+  },
+  "table2": {
+    "label": "tab:triple",
+    "printed_rows": {
+      "Undefended": {
+        "BU": 0.54,
+        "UAU": 0.417,
+        "ASR": 0.305,
+        "NRP_BU": 0.375,
+        "NRP_UAU": 0.29,
+        "ERS": 0.608,
+        "raw_hit_cells": 12.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 12.0
+      },
+      "SPILLWAY": {
+        "BU": 0.522,
+        "UAU": 0.474,
+        "ASR": 0.0,
+        "NRP_BU": 0.522,
+        "NRP_UAU": 0.474,
+        "ERS": 0.686,
+        "raw_hit_cells": 0.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 0.0
+      },
+      "MELON": {
+        "BU": 0.526,
+        "UAU": 0.314,
+        "ASR": 0.094,
+        "NRP_BU": 0.477,
+        "NRP_UAU": 0.284,
+        "ERS": 0.666,
+        "raw_hit_cells": 11.0,
+        "filter_zeroed_cells": 1.0,
+        "in_scope_leak_cells": 10.0
+      },
+      "Progent": {
+        "BU": 0.437,
+        "UAU": 0.371,
+        "ASR": 0.031,
+        "NRP_BU": 0.423,
+        "NRP_UAU": 0.359,
+        "ERS": 0.602,
+        "raw_hit_cells": 11.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 11.0
+      },
+      "DRIFT": {
+        "BU": 0.46,
+        "UAU": 0.453,
+        "ASR": 0.016,
+        "NRP_BU": 0.453,
+        "NRP_UAU": 0.446,
+        "ERS": 0.627,
+        "raw_hit_cells": 7.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 7.0
+      },
+      "ROPE": {
+        "BU": 0.395,
+        "UAU": 0.345,
+        "ASR": 0.005,
+        "NRP_BU": 0.393,
+        "NRP_UAU": 0.343,
+        "ERS": 0.566,
+        "raw_hit_cells": 6.0,
+        "filter_zeroed_cells": 3.0,
+        "in_scope_leak_cells": 3.0
+      },
+      "Spotlighting": {
+        "BU": 0.528,
+        "UAU": 0.403,
+        "ASR": 0.283,
+        "NRP_BU": 0.379,
+        "NRP_UAU": 0.289,
+        "ERS": 0.608,
+        "raw_hit_cells": 12.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 12.0
+      },
+      "PI detector": {
+        "BU": 0.332,
+        "UAU": 0.23,
+        "ASR": 0.06,
+        "NRP_BU": 0.312,
+        "NRP_UAU": 0.216,
+        "ERS": 0.491,
+        "raw_hit_cells": 10.0,
+        "filter_zeroed_cells": 0.0,
+        "in_scope_leak_cells": 10.0
+      }
+    }
+  },
+  "table3": {
+    "label": "tab:ingress-ablation",
+    "printed_rows": {
+      "Floor": {
+        "Banking": {
+          "UAU": 0.333,
+          "ASR": 0.0
+        },
+        "Slack": {
+          "UAU": 0.181,
+          "ASR": 0.0
+        },
+        "Travel": {
+          "UAU": 0.243,
+          "ASR": 0.0
+        },
+        "Workspace": {
+          "UAU": 0.445,
+          "ASR": 0.0
+        }
+      },
+      "Floor + judge": {
+        "Banking": {
+          "UAU": 0.375,
+          "ASR": 0.028
+        },
+        "Slack": {
+          "UAU": 0.19,
+          "ASR": 0.0
+        },
+        "Travel": {
+          "UAU": 0.243,
+          "ASR": 0.0
+        },
+        "Workspace": {
+          "UAU": 0.439,
+          "ASR": 0.002
+        }
+      },
+      "Floor + sanitizer": {
+        "Banking": {
+          "UAU": 0.375,
+          "ASR": 0.0
+        },
+        "Slack": {
+          "UAU": 0.286,
+          "ASR": 0.0
+        },
+        "Travel": {
+          "UAU": 0.343,
+          "ASR": 0.0
+        },
+        "Workspace": {
+          "UAU": 0.412,
+          "ASR": 0.0
+        }
+      },
+      "SPILLWAY (all)": {
+        "Banking": {
+          "UAU": 0.438,
+          "ASR": 0.0
+        },
+        "Slack": {
+          "UAU": 0.286,
+          "ASR": 0.0
+        },
+        "Travel": {
+          "UAU": 0.343,
+          "ASR": 0.0
+        },
+        "Workspace": {
+          "UAU": 0.414,
+          "ASR": 0.0
+        }
+      }
+    },
+    "cohort": "earlier component study; retain as separate evidence, not final Table1 run"
+  },
+  "table4": {
+    "label": "tab:adaptive",
+    "printed_rows": {
+      "Undefended": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.052,
+            "ASR": 0.245
+          },
+          "Slack": {
+            "UAU": 0.095,
+            "ASR": 0.648
+          },
+          "NRP_BU": 0.269,
+          "ERS": 0.496
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.444,
+            "ASR": 0.354
+          },
+          "Slack": {
+            "UAU": 0.524,
+            "ASR": 0.571
+          },
+          "Travel": {
+            "UAU": 0.329,
+            "ASR": 0.329
+          },
+          "NRP_BU": 0.342,
+          "ERS": 0.574
+        },
+        "PISmith": {
+          "UAU": 0.128,
+          "ASR": 0.568,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "SPILLWAY": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.421,
+            "ASR": 0.0
+          },
+          "Slack": {
+            "UAU": 0.333,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.463,
+          "ERS": 0.633
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.438,
+            "ASR": 0.0
+          },
+          "Slack": {
+            "UAU": 0.562,
+            "ASR": 0.0
+          },
+          "Travel": {
+            "UAU": 0.536,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.621,
+          "ERS": 0.763
+        },
+        "PISmith": {
+          "UAU": 0.263,
+          "ASR": 0.006,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "MELON": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.084,
+            "ASR": 0.02
+          },
+          "Slack": {
+            "UAU": 0.095,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.494,
+          "ERS": 0.66
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.34,
+            "ASR": 0.021
+          },
+          "Slack": {
+            "UAU": 0.286,
+            "ASR": 0.0
+          },
+          "Travel": {
+            "UAU": 0.293,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.564,
+          "ERS": 0.716
+        },
+        "PISmith": {
+          "UAU": 0.114,
+          "ASR": 0.061,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "Progent": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.161,
+            "ASR": 0.005
+          },
+          "Slack": {
+            "UAU": 0.057,
+            "ASR": 0.01
+          },
+          "NRP_BU": 0.305,
+          "ERS": 0.457
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.306,
+            "ASR": 0.104
+          },
+          "Slack": {
+            "UAU": 0.467,
+            "ASR": 0.124
+          },
+          "Travel": {
+            "UAU": 0.414,
+            "ASR": 0.121
+          },
+          "NRP_BU": 0.468,
+          "ERS": 0.654
+        },
+        "PISmith": {
+          "UAU": 0.166,
+          "ASR": 0.096,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "DRIFT": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.393,
+            "ASR": 0.062
+          },
+          "Slack": {
+            "UAU": 0.352,
+            "ASR": 0.019
+          },
+          "NRP_BU": 0.445,
+          "ERS": 0.625
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.438,
+            "ASR": 0.09
+          },
+          "Slack": {
+            "UAU": 0.543,
+            "ASR": 0.01
+          },
+          "Travel": {
+            "UAU": 0.486,
+            "ASR": 0.086
+          },
+          "NRP_BU": 0.49,
+          "ERS": 0.659
+        },
+        "PISmith": {
+          "UAU": 0.428,
+          "ASR": 0.064,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "ROPE": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.157,
+            "ASR": 0.002
+          },
+          "Slack": {
+            "UAU": 0.162,
+            "ASR": 0.095
+          },
+          "NRP_BU": 0.292,
+          "ERS": 0.462
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.424,
+            "ASR": 0.0
+          },
+          "Slack": {
+            "UAU": 0.352,
+            "ASR": 0.019
+          },
+          "Travel": {
+            "UAU": 0.3,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.434,
+          "ERS": 0.604
+        },
+        "PISmith": {
+          "UAU": 0.173,
+          "ASR": 0.007,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "Spotlighting": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.191,
+            "ASR": 0.013
+          },
+          "Slack": {
+            "UAU": 0.076,
+            "ASR": 0.181
+          },
+          "NRP_BU": 0.398,
+          "ERS": 0.591
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.431,
+            "ASR": 0.306
+          },
+          "Slack": {
+            "UAU": 0.543,
+            "ASR": 0.514
+          },
+          "Travel": {
+            "UAU": 0.343,
+            "ASR": 0.279
+          },
+          "NRP_BU": 0.36,
+          "ERS": 0.594
+        },
+        "PISmith": {
+          "UAU": 0.151,
+          "ASR": 0.489,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      },
+      "PI detector": {
+        "ChatInject": {
+          "Workspace": {
+            "UAU": 0.05,
+            "ASR": 0.021
+          },
+          "Slack": {
+            "UAU": 0.162,
+            "ASR": 0.0
+          },
+          "NRP_BU": 0.23,
+          "ERS": 0.374
+        },
+        "AutoDojo": {
+          "Banking": {
+            "UAU": 0.403,
+            "ASR": 0.049
+          },
+          "Slack": {
+            "UAU": 0.219,
+            "ASR": 0.067
+          },
+          "Travel": {
+            "UAU": 0.214,
+            "ASR": 0.029
+          },
+          "NRP_BU": 0.33,
+          "ERS": 0.498
+        },
+        "PISmith": {
+          "UAU": 0.155,
+          "ASR": 0.025,
+          "aggregation": "unweighted_mean_of_four_suites"
+        }
+      }
+    },
+    "AutoDojo_scope": "389 released pairs; four development examples; not held-out",
+    "PISmith_scope": "released RL attacker variant0; open-loop ASR@1; unweighted four-suite macro"
+  },
+  "table7": {
+    "label": "tab:app-ropemini",
+    "printed_rows": {
+      "Banking": {
+        "SPILLWAY": {
+          "UAU": 0.444,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.438,
+          "ASR": 0.0
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.431,
+          "ASR": 0.0
+        }
+      },
+      "Slack": {
+        "SPILLWAY": {
+          "UAU": 0.533,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.514,
+          "ASR": 0.048
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.343,
+          "ASR": 0.019
+        }
+      },
+      "Travel": {
+        "SPILLWAY": {
+          "UAU": 0.607,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.5,
+          "ASR": 0.0
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.35,
+          "ASR": 0.0
+        }
+      },
+      "Workspace": {
+        "SPILLWAY": {
+          "UAU": 0.863,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.67,
+          "ASR": 0.0
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.539,
+          "ASR": 0.0
+        }
+      },
+      "GitHub": {
+        "SPILLWAY": {
+          "UAU": 0.585,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.5,
+          "ASR": 0.0
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.383,
+          "ASR": 0.0
+        }
+      },
+      "DailyLife": {
+        "SPILLWAY": {
+          "UAU": 0.397,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.295,
+          "ASR": 0.01
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.15,
+          "ASR": 0.0
+        }
+      },
+      "Shopping": {
+        "SPILLWAY": {
+          "UAU": 0.363,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.361,
+          "ASR": 0.044
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.333,
+          "ASR": 0.072
+        }
+      },
+      "Mean": {
+        "SPILLWAY": {
+          "UAU": 0.542,
+          "ASR": 0.0
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": 0.468,
+          "ASR": 0.015
+        },
+        "ROPE (gpt-4o-mini router)": {
+          "UAU": 0.361,
+          "ASR": 0.013
+        }
+      },
+      "NRP (UAU)": {
+        "SPILLWAY": 0.542,
+        "ROPE (Opus 4.8 router)": 0.462,
+        "ROPE (gpt-4o-mini router)": 0.357
+      },
+      "ERS (UAU)": {
+        "SPILLWAY": 0.69,
+        "ROPE (Opus 4.8 router)": 0.627,
+        "ROPE (gpt-4o-mini router)": 0.519
+      }
+    },
+    "agentdyn_repeat_scope": "three fixed-seed repeats, all agent seed42; not three different seeds"
+  },
+  "figure1": {
+    "label": "fig:tradeoff",
+    "points": {
+      "standard": {
+        "Undefended": {
+          "UAU": 0.41800000000000004,
+          "ASR": 0.3995,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.6118551587301587,
+          "ASR": 0,
+          "basis": "exact mean from approved Table1 integer counts"
+        },
+        "MELON": {
+          "UAU": 0.26725,
+          "ASR": 0.012750000000000001,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.46225,
+          "ASR": 0.06075,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.53275,
+          "ASR": 0.03,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.5303571428571429,
+          "ASR": 0.011904761904761904,
+          "basis": "exact authors-router standard four-suite mean from approved Figure4 SOURCE_INPUT fractions"
+        },
+        "Spotlighting": {
+          "UAU": 0.4535,
+          "ASR": 0.35950000000000004,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.2245,
+          "ASR": 0.072,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
+      },
+      "ChatInject": {
+        "Undefended": {
+          "UAU": 0.0735,
+          "ASR": 0.4465,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.3773809523809524,
+          "ASR": 0.0,
+          "basis": "exact final PDF marker target from abc_move receipt; abcd preserves marker and current label-only receipt verifies all vectors identical"
+        },
+        "MELON": {
+          "UAU": 0.0895,
+          "ASR": 0.01,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.109,
+          "ASR": 0.0075,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.3725,
+          "ASR": 0.0405,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.1595,
+          "ASR": 0.0485,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.1335,
+          "ASR": 0.097,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.10600000000000001,
+          "ASR": 0.0105,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
+      },
+      "AutoDojo": {
+        "Undefended": {
+          "UAU": 0.4323333333333334,
+          "ASR": 0.418,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.5117063492063493,
+          "ASR": 0,
+          "basis": "exact mean from final integer audit CSV; four examples used for rule development"
+        },
+        "MELON": {
+          "UAU": 0.30633333333333335,
+          "ASR": 0.007,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.39566666666666667,
+          "ASR": 0.11633333333333333,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.48900000000000005,
+          "ASR": 0.062,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.3586666666666667,
+          "ASR": 0.006333333333333333,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.43900000000000006,
+          "ASR": 0.36633333333333334,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.2786666666666667,
+          "ASR": 0.04833333333333334,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
+      },
+      "PISmith": {
+        "Undefended": {
+          "UAU": 0.128,
+          "ASR": 0.568,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.2625496031746032,
+          "ASR": 0.006349206349206349,
+          "basis": "final selected-949 independent audit; open-loop ASR@1 suite macro"
+        },
+        "MELON": {
+          "UAU": 0.114,
+          "ASR": 0.061,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.166,
+          "ASR": 0.096,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.428,
+          "ASR": 0.064,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.173,
+          "ASR": 0.007,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.151,
+          "ASR": 0.489,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.155,
+          "ASR": 0.025,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
+      }
+    },
+    "warning": "SPILLWAY all four panel markers and ROPE standard derive from exact approved counts/fractions or hash-linked marker receipts. Other baseline points derive from printed three-decimal table cells; do not advertise extra precision.",
+    "SPILLWAY_exact_marker_receipts": {
+      "abc_move_receipt": "release_preparation/SPILLWAY_SP2027_V2_REVIEW_BE_20261117/R16/figsrc_r15p6/fig_tradeoff_page1_r15p6_abc.pdf.json",
+      "PIS_move_receipt": "release_preparation/SPILLWAY_SP2027_V2_REVIEW_BE_20261117/R16/figsrc_r15p6/fig_tradeoff_page1_r15p6_abcd.pdf.json",
+      "label_only_receipt": "release_preparation/SPILLWAY_PAPER_LAYOUT8_20261118/figure1/current_asr_labels_001/ROOT_FIGURE1_LABEL_RECEIPT.json",
+      "current_pdf_hash_chain_verified": true
+    }
+  },
+  "figure4": {
+    "label": "tab:rope",
+    "bars": [
+      {
+        "suite": "Banking",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.444,
+            "source_fraction": "4/9",
+            "exact_value": 0.4444444444444444
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.438,
+            "source_fraction": "7/16",
+            "exact_value": 0.4375
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
+      },
+      {
+        "suite": "Slack",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.533,
+            "source_fraction": "8/15",
+            "exact_value": 0.5333333333333333
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.514,
+            "source_fraction": "18/35",
+            "exact_value": 0.5142857142857142
+          },
+          "ASR": {
+            "printed": 0.048,
+            "source_fraction": "1/21",
+            "exact_value": 0.047619047619047616
+          }
+        }
+      },
+      {
+        "suite": "Travel",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.607,
+            "source_fraction": "17/28",
+            "exact_value": 0.6071428571428571
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.5,
+            "source_fraction": "1/2",
+            "exact_value": 0.5
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
+      },
+      {
+        "suite": "Workspace",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.863,
+            "source_fraction": "69/80",
+            "exact_value": 0.8625
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.67,
+            "source_fraction": "75/112",
+            "exact_value": 0.6696428571428571
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
+      },
+      {
+        "suite": "GitHub",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.585,
+            "source_fraction": "79/135",
+            "exact_value": 0.5851851851851851
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.5,
+            "source_fraction": "1/2",
+            "exact_value": 0.5
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
+      },
+      {
+        "suite": "DailyLife",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.397,
+            "source_fraction": "119/300",
+            "exact_value": 0.39666666666666667
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.295,
+            "source_fraction": "59/200",
+            "exact_value": 0.295
+          },
+          "ASR": {
+            "printed": 0.01,
+            "source_fraction": "1/100",
+            "exact_value": 0.01
+          }
+        }
+      },
+      {
+        "suite": "Shopping",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.363,
+            "source_fraction": "49/135",
+            "exact_value": 0.362962962962963
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        },
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.361,
+            "source_fraction": "13/36",
+            "exact_value": 0.3611111111111111
+          },
+          "ASR": {
+            "printed": 0.044,
+            "source_fraction": "2/45",
+            "exact_value": 0.044444444444444446
+          }
+        }
+      }
+    ],
+    "exact_fraction_source": "SOURCE_INPUT.json",
+    "source_status": "SOURCE_PREPARED_CONFIRMED_IMPL_BRIDGE_NOT_FRESH_SEVEN_SUITE_WHEEL_RUN"
+  },
+  "final_PISmith_receipt": {
+    "sha256": "aaaf4bd9f88bf73e50caa3c4a1a0ebcb683b3174ac9ab3ca3492146899f41891",
+    "status": "PASS_SELECTED_949_ORIGINAL_SCORER_UID_PROVIDER_JUDGE_FINANCE_READONLY",
+    "integer_csv_sha256": "6200d89c3390c5b6d7c2d0d72b0453204cbcf8c83d1bef5fa867032e09fde1f2",
+    "per_suite_counts": [
+      {
+        "attack": "PISmith",
+        "suite": "banking",
+        "N": 144,
+        "utility_hits": 50,
+        "native_trace_flags": 1,
+        "executed_hits": 1,
+        "in_scope_hits": 1,
+        "overflow": 0
+      },
+      {
+        "attack": "PISmith",
+        "suite": "slack",
+        "N": 105,
+        "utility_hits": 14,
+        "native_trace_flags": 1,
+        "executed_hits": 1,
+        "in_scope_hits": 1,
+        "overflow": 0
+      },
+      {
+        "attack": "PISmith",
+        "suite": "travel",
+        "N": 140,
+        "utility_hits": 42,
+        "native_trace_flags": 1,
+        "executed_hits": 1,
+        "in_scope_hits": 1,
+        "overflow": 0
+      },
+      {
+        "attack": "PISmith",
+        "suite": "workspace",
+        "N": 560,
+        "utility_hits": 151,
+        "native_trace_flags": 1,
+        "executed_hits": 1,
+        "in_scope_hits": 1,
+        "overflow": 0
+      }
+    ],
+    "UAU_macro": 0.2625496031746032,
+    "ASR_macro": 0.006349206349206349,
+    "public_display": {
+      "UAU": ".263",
+      "ASR": ".006"
+    },
+    "public_claim_restriction": "Use macro .263/.006. No pooled 3/949 or 4/949 publicity claim; final R does not print them. ROPE raw integers not independently recovered.",
+    "artifact": "PISMITH_SELECTED_949_INDEPENDENT_AUDIT.json",
+    "integer_csv_artifact": "PIS_AUTODOJO_FINAL_INTEGER_COUNTS.csv"
+  },
+  "AgentDyn_receipt": {
+    "sha256": "a362acfe8012e05bfa99b0e47956a0d96b6768a5f8d3ba3bab13a259a68b5d52",
+    "status": "PASS_LIMITED_SDK_GUARD_RUNTIME_EQUIVALENCE_WITH_EXPLICIT_H9_NATIVE_INTEGRATION",
+    "native_suite_means": [
+      {
+        "suite": "github",
+        "R1_hits": 110,
+        "R2_hits": 107,
+        "R0R_hits": 99,
+        "per_repeat_UIDs": 180,
+        "repeat_count": 3,
+        "all_agent_seeds": 42,
+        "mean_exact_fraction": "79/135",
+        "mean_UAU": 0.5851851851851851,
+        "sample_SD": 0.03159022612820737,
+        "in_scope_hits_each_repeat": 0,
+        "source_reader": "Existing original ROOT_COMPLETION scores, no new scoring/model run"
+      },
+      {
+        "suite": "dailylife",
+        "R1_hits": 64,
+        "R2_hits": 88,
+        "R0R_hits": 86,
+        "per_repeat_UIDs": 200,
+        "repeat_count": 3,
+        "all_agent_seeds": 42,
+        "mean_exact_fraction": "119/300",
+        "mean_UAU": 0.39666666666666667,
+        "sample_SD": 0.06658328118479392,
+        "in_scope_hits_each_repeat": 0,
+        "source_reader": "Existing original ROOT_COMPLETION scores, no new scoring/model run"
+      },
+      {
+        "suite": "shopping",
+        "R1_hits": 68,
+        "R2_hits": 63,
+        "R0R_hits": 65,
+        "per_repeat_UIDs": 180,
+        "repeat_count": 3,
+        "all_agent_seeds": 42,
+        "mean_exact_fraction": "49/135",
+        "mean_UAU": 0.362962962962963,
+        "sample_SD": 0.013981174880131023,
+        "in_scope_hits_each_repeat": 0,
+        "source_reader": "Existing original ROOT_COMPLETION scores, no new scoring/model run"
+      }
+    ],
+    "eligible_claim": "Same guard implementation measurement with explicit trusted H9 native integration; three fixed-seed repeat means",
+    "ineligible_claims": [
+      "Direct public-wheel fresh measurements",
+      "Fresh entire seven-suite rerun",
+      "SDK default API alone",
+      "AgentDyn tool-role addition alone",
+      "Bridge for unrelated Qwen/cost/ablation component profiles"
+    ],
+    "artifact": "FINAL_BRIDGE_RECEIPT.json"
+  },
+  "public_headlines": {
+    "standard_12cell_means": {
+      "BU": 0.522,
+      "UAU": 0.474,
+      "ASR": 0.0,
+      "NRP_BU": 0.522,
+      "NRP_UAU": 0.474,
+      "ERS": 0.686,
+      "raw_hit_cells": 0.0,
+      "filter_zeroed_cells": 0.0,
+      "in_scope_leak_cells": 0.0
+    },
+    "PISmith_UAU": ".263",
+    "PISmith_ASR": ".006",
+    "seven_suite_UAU": ".542",
+    "ROPE_authors_router_seven_suite_UAU": ".468",
+    "AgentDojo_UAU_SPILLWAY": ".612",
+    "AgentDojo_UAU_ROPE": ".530",
+    "AgentDyn_UAU_SPILLWAY": ".448",
+    "AgentDyn_UAU_ROPE": ".385"
+  },
+  "figure_PDF_readbacks": {
+    "fig_tradeoff_page1.pdf": {
+      "sha256": "3c8f2661f03c941c0ce77def44bf6e34e9da30653d70cef62a7dc355598cadf9",
+      "extracted_text": "In-scope attack success \u2193\nsquare-root scale below .1\n\n.4\n\n(a) Standard gpt-4o-mini\n\n(b) ChatInject qwen3:8b\n.4\n.1\n.05\n\n.1\n.05\n.01\n0\n\nASR .000\n\n.2\n\n.4\n\n.4\n\n(c) AutoDojo gpt-4o-mini\n\n.6\n\nROPE\n\n.01\n0\n\n.8\n\nDRIFT\n\nASR .000\n\n.1\n\n.6\n\n.1\n.05\n\nSPILLWAY\n\n.3\n\n.5\n\n(d) PISmith gpt-4o-mini\n\nProgent\nSpotlighting\n\n.1\n.05\n\n.01\n0\n\nASR .000\n\n.3\n\n.4\n\n.5\n\n.01\n0\n\n.6\n.1\nUtility under attack \u2192\n\nMELON\n\nPI detector\nUndefended\n\nASR .006\n\n.007\n\n.3\n\n.5\n\n\f"
+    },
+    "fig_rope_util.pdf": {
+      "sha256": "795056e78af0d68caf6ccb769f49c0d871fd203cbbf0777cc2fa10459e6c44ce",
+      "extracted_text": "Utility under attack \u2191\n0.444\n0.438\n0.533\n0.514\n0.607\n0.500\n\nAgentDojo\n\nBanking\nSlack\nTravel\n\n0.863\n\nAgentDyn\n\nWorkspace\n\n0.670\n0.585\n0.500\n0.397\n0.295\n0.363\n0.361\n\nGitHub\nDailyLife\nShopping\n\nSPILLWAY\nhigher is better\n\nROPE\n\n\f"
+    },
+    "fig_rope_asr.pdf": {
+      "sha256": "5c718634d3127540eeef31a0f0d5bd0aad10344e4e8c3c1e6c0e7a8d487ff1d9",
+      "extracted_text": "AgentDojo\n\nIn-scope ASR \u2193\nBanking 0.000\n0.000\n0.000\nSlack\nTravel\n\nAgentDyn\n\nWorkspace\nGitHub\nDailyLife\nShopping\n\nSPILLWAY\nlower is better\n\n0.048\n\n0.000\n0.000\n0.000\n0.000\n0.000\n0.000\n0.000\n0.010\n0.000\n0.044\nROPE\n\n\f"
+    }
+  },
+  "new_model_calls": 0,
+  "raw_or_manuscript_changes": 0
+}

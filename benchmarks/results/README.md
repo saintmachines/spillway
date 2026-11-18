@@ -1,5 +1,15 @@
 # Per-cell results
 
+## Latest evaluation snapshot
+
+[`evaluation_20261118.json`](evaluation_20261118.json) contains the current
+standard-attack, stress-test and delegated-routing tables, with manuscript and
+count-receipt hashes. The project page uses this snapshot. Run
+`python benchmarks/scripts/check_current_results.py` to compare every displayed
+JSON value and HTML table cell with it and recompute the SPILLWAY means from
+integer counts. The older result files below retain their original records.
+
+
 These files hold the per-cell results behind Tables 1 to 3, Appendix Table 5 without its ROPE column, Appendix Table
 8, Figure 4, Figure 3's Slack and Workspace values, and six of the eight rows of Table 4's ChatInject panel.
 `benchmarks/scripts/make_tables.py` writes [`../TABLES.md`](../TABLES.md) from them and runs 590 checks against the

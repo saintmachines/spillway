@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "updated_date": "2026-11-18",
+  "basis": "Updated evaluation figures and suite means, matching the final paper",
+  "videos": {
+    "overview": {
+      "duration_s": 32.433333,
+      "frames": 973,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    },
+    "full": {
+      "duration_s": 102.333333,
+      "frames": 3070,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    }
+  },
+  "gif": {
+    "width": 560,
+    "height": 315,
+    "frames": 324,
+    "duration_s": 32.4,
+    "loop": true
+  },
+  "metrics": {
+    "standard_12cell_mean_UAU": 0.474,
+    "standard_12cell_mean_ASR": 0.0,
+    "standard_NRP_BU": 0.522,
+    "standard_NRP_UAU": 0.474,
+    "standard_ERS": 0.686,
+    "standard_mini_4suite_UAU_printed": 0.612,
+    "routing_7suite_UAU_printed": 0.542,
+    "PISmith_4suite_UAU_printed": 0.263,
+    "PISmith_4suite_ASR_printed": 0.006
+  },
+  "audio": "Original soundtrack retained unchanged",
+  "new_inference_or_TTS_calls": 0,
+  "files": [
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Final_32s_1080p.mp4",
+      "sha256": "36492799ab858aa5ded2517ac2cb81a4e903a7690c45f667855b9659e03222de",
+      "bytes": 4067254
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Full_102s_1080p.mp4",
+      "sha256": "a442301fc86e939f090b7eb2393bac9c1bb39f90c25a988c2611b7f922e9ffd3",
+      "bytes": 8365601
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Final_32s_en.srt",
+      "sha256": "60939fed16ad4ca13aefc2898fe0c75b25edc79bf3ba363fc7c983da10ef09fe",
+      "bytes": 954
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Final_32s_en.vtt",
+      "sha256": "e7597bcb91a6d382c28240d3da2c988ac7d4caebdc00a528910bdbbd648c9b1c",
+      "bytes": 962
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Full_102s_en.srt",
+      "sha256": "8901e6190ac7459e966a9448447db44bc6515a9331b2c851e7c8a9ef21869bb6",
+      "bytes": 2094
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Full_102s_en.vtt",
+      "sha256": "fd66f487062d57180d1df454102c6b6ccec61dcd901fa12e948dcb62ccd08e01",
+      "bytes": 2102
+    },
+    {
+      "public_path": "docs/assets/SPILLWAY_100_Overview_Autoplay.gif",
+      "sha256": "06eae3284837a245dbd9b80b0806218205b068f2eb3bc9445408f9574b44208e",
+      "bytes": 3296849
+    },
+    {
+      "public_path": "docs/assets/release100-cover.png",
+      "sha256": "722d6bb9483e26e2ffff299af2fb1e25ce7edb8ee612d806de75e61689676763",
+      "bytes": 1591061
+    }
+  ]
+}

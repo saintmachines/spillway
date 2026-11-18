@@ -2,7 +2,7 @@
 
 The 1.0.1 release ships the reviewed SDK fixes and the frozen wheel `f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21`. Its package README and CHANGELOG remain part of the immutable release source. [Release notes](https://github.com/saintmachines/spillway/releases/tag/v1.0.1) · [PyPI](https://pypi.org/project/spillway-guard/1.0.1/).
 
-The existing figures, videos, standard/stress tables and [1.0.0 measurement report](../RELEASE_014_RESULTS.md) keep their original provenance. The historical **.489** is a three-backbone × four-suite, twelve-cell mean. The new **.612** below is a four-suite mean for one mini backbone; it does not replace .489.
+The project page shows the [18 November evaluation snapshot](../benchmarks/results/evaluation_20261118.json): twelve-cell mean utility under attack **.474**, benign utility **.522**, and in-scope ASR **.000**. The **.612** below is the four-suite mean for one mini backbone. The [1.0.0 measurement report](../RELEASE_014_RESULTS.md) and the host-variant comparison below retain their original records.
 
 ## Matched mini configuration, different judge host
 
@@ -25,6 +25,6 @@ The new run covers 949 attacked and 97 benign user UIDs in 8 logical cells. Work
 | Travel | 81/140 | 85/140 |
 | Workspace | 475/560 | 483/560 |
 
-This is one new mini run. The historical nine 1.0.0 repeats are a separate record. The new Qwen, ChatInject, AutoDojo and PISmith results are pending and are not filled with zeros. H10 host-workflow changes belong to the separately planned 1.0.2 release.
+This host-variant comparison records one mini run; the historical nine 1.0.0 repeats are a separate record. The [latest evaluation snapshot](../benchmarks/results/evaluation_20261118.json) also includes the completed three-backbone grid, ChatInject, AutoDojo and PISmith. The AgentDyn evaluation uses the explicit trusted native integration and three fixed-seed repeats.
 
 Reference: [arXiv v2](https://arxiv.org/pdf/2611.07222v2), [original public counts](https://github.com/saintmachines/spillway/blob/main/benchmarks/results/release_014_actual.json), and the completed 1.0.1 raw/scorer/UID/ledger independent audit. [Count and audit bindings](release-1.0.1-mini-host-variant.json) retain the independent receipt and source hashes; no new comparison-method rerun or statistical significance claim is made here.

@@ -86,6 +86,11 @@ jobs:
         run: |
           python docs/_build/test_release014_view.py
           python docs/_build/build_release014_view.py --out "$RUNNER_TEMP/site014/index.html"
+      - name: Latest evaluation matches integer counts, JSON and visible tables
+        run: |
+          python docs/_build/build_current_view.py --out "$RUNNER_TEMP/site-current/index.html"
+          python benchmarks/scripts/check_current_results.py --output-dir "$RUNNER_TEMP/site-current"
+          python benchmarks/scripts/check_current_results.py
 
   package:
     name: build and check the distribution

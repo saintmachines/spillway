@@ -2,6 +2,26 @@
 
 The page is served from `main:/docs` at `/spillway/`.
 
+## Latest evaluation display (18 November 2026)
+
+Build the current project-page results and verify their visible table cells:
+
+```bash
+PYTHONPATH=src python docs/_build/build_current_view.py
+python benchmarks/scripts/check_current_results.py
+```
+
+The display reads `benchmarks/results/evaluation_20261118.json`, which binds the
+final manuscript tables to the checked standard-attack, PISmith and AgentDyn
+integer-count receipts. It retains the existing page design and the earlier
+component and cost cohorts. The AgentDyn rows use the trusted native integration
+and three repeats with agent seed 42. The optional local judge and identity-target
+recovery are enabled in the measured full-system profile; SDK defaults are unchanged.
+
+`build_release014_view.py` and its tests reproduce the archived 1.0.0 display.
+The instructions below describe that archived builder and its immutable inputs.
+
+
 Run the checks with Python 3.12 or newer and the dev and AgentDojo extras:
 
 ```bash

@@ -1,358 +1,384 @@
 {
-  "status": "CURRENT_FIGURE_DISPLAY_ASSETS",
-  "display_version": "1.0.0",
-  "actual_measurement_source": "benchmarks/results/release_014_actual.json",
-  "actual_measurement_sha256": "5b62ac9ca06495e5155df85122abf871cdfc3e8f12a8c3308951999ec3f70bfd",
+  "status": "CURRENT_EVALUATION_FIGURE_EXPORTS",
+  "date": "2026-11-18",
+  "source_snapshot": "benchmarks/results/evaluation_20261118.json",
+  "source_snapshot_sha256": "079a7d33af8ccb324cc12d516fd5a7e5f4c6f5b29a02486b3a33db9c504d5415",
+  "source_manuscript_pdf_sha256": "5b65728cf4ac6428ccc9eaafdcd66668ed9031d494ebaec5457a4dedfdb5d0aa",
   "figure1": {
-    "source": "Final manuscript Figure 1, annotation v3",
-    "pdf_sha256": "23d8fc886dfdfeeff25a0c4f64a84b5a51d3222f845941db3ed5000cefc7322b",
     "points": {
-      "a": {
-        "Undefended": [
-          0.418,
-          0.4
-        ],
-        "Spotlighting": [
-          0.454,
-          0.36
-        ],
-        "PI detector": [
-          0.225,
-          0.072
-        ],
-        "MELON": [
-          0.267,
-          0.013
-        ],
-        "Progent": [
-          0.462,
-          0.061
-        ],
-        "DRIFT": [
-          0.533,
-          0.03
-        ],
-        "ROPE": [
-          0.531,
-          0.012
-        ],
-        "SPILLWAY": [
-          0.6082837301587302,
-          0.0
-        ]
+      "standard": {
+        "Undefended": {
+          "UAU": 0.41800000000000004,
+          "ASR": 0.3995,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.6118551587301587,
+          "ASR": 0,
+          "basis": "exact mean from approved Table1 integer counts"
+        },
+        "MELON": {
+          "UAU": 0.26725,
+          "ASR": 0.012750000000000001,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.46225,
+          "ASR": 0.06075,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.53275,
+          "ASR": 0.03,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.5303571428571429,
+          "ASR": 0.011904761904761904,
+          "basis": "exact authors-router standard four-suite mean from approved Figure4 SOURCE_INPUT fractions"
+        },
+        "Spotlighting": {
+          "UAU": 0.4535,
+          "ASR": 0.35950000000000004,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.2245,
+          "ASR": 0.072,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
       },
-      "b": {
-        "Undefended": [
-          0.0735,
-          0.4465
-        ],
-        "Spotlighting": [
-          0.1335,
-          0.097
-        ],
-        "PI detector": [
-          0.10600000000000001,
-          0.0105
-        ],
-        "MELON": [
-          0.0895,
-          0.01
-        ],
-        "Progent": [
-          0.109,
-          0.0075
-        ],
-        "DRIFT": [
-          0.3725,
-          0.0405
-        ],
-        "ROPE": [
-          0.1595,
-          0.0485
-        ],
-        "SPILLWAY": [
-          0.3410714285714286,
-          0.0
-        ]
+      "ChatInject": {
+        "Undefended": {
+          "UAU": 0.0735,
+          "ASR": 0.4465,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.3773809523809524,
+          "ASR": 0.0,
+          "basis": "exact final PDF marker target from abc_move receipt; abcd preserves marker and current label-only receipt verifies all vectors identical"
+        },
+        "MELON": {
+          "UAU": 0.0895,
+          "ASR": 0.01,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.109,
+          "ASR": 0.0075,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.3725,
+          "ASR": 0.0405,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.1595,
+          "ASR": 0.0485,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.1335,
+          "ASR": 0.097,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.10600000000000001,
+          "ASR": 0.0105,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
       },
-      "c": {
-        "Undefended": [
-          0.4323333333333334,
-          0.418
-        ],
-        "Spotlighting": [
-          0.43900000000000006,
-          0.36633333333333334
-        ],
-        "PI detector": [
-          0.2786666666666667,
-          0.04833333333333334
-        ],
-        "MELON": [
-          0.30633333333333335,
-          0.007
-        ],
-        "Progent": [
-          0.39566666666666667,
-          0.11633333333333333
-        ],
-        "DRIFT": [
-          0.48900000000000005,
-          0.062
-        ],
-        "ROPE": [
-          0.3586666666666667,
-          0.006333333333333333
-        ],
-        "SPILLWAY": [
-          0.5303571428571429,
-          0.0
-        ]
+      "AutoDojo": {
+        "Undefended": {
+          "UAU": 0.4323333333333334,
+          "ASR": 0.418,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.5117063492063493,
+          "ASR": 0,
+          "basis": "exact mean from final integer audit CSV; four examples used for rule development"
+        },
+        "MELON": {
+          "UAU": 0.30633333333333335,
+          "ASR": 0.007,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.39566666666666667,
+          "ASR": 0.11633333333333333,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.48900000000000005,
+          "ASR": 0.062,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.3586666666666667,
+          "ASR": 0.006333333333333333,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.43900000000000006,
+          "ASR": 0.36633333333333334,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.2786666666666667,
+          "ASR": 0.04833333333333334,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
       },
-      "d": {
-        "Undefended": [
-          0.128,
-          0.568
-        ],
-        "Spotlighting": [
-          0.151,
-          0.489
-        ],
-        "PI detector": [
-          0.155,
-          0.025
-        ],
-        "MELON": [
-          0.114,
-          0.061
-        ],
-        "Progent": [
-          0.166,
-          0.096
-        ],
-        "DRIFT": [
-          0.428,
-          0.064
-        ],
-        "ROPE": [
-          0.173,
-          0.007
-        ],
-        "SPILLWAY": [
-          0.2567956349206349,
-          0.00505952380952381
-        ]
+      "PISmith": {
+        "Undefended": {
+          "UAU": 0.128,
+          "ASR": 0.568,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "SPILLWAY": {
+          "UAU": 0.2625496031746032,
+          "ASR": 0.006349206349206349,
+          "basis": "final selected-949 independent audit; open-loop ASR@1 suite macro"
+        },
+        "MELON": {
+          "UAU": 0.114,
+          "ASR": 0.061,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Progent": {
+          "UAU": 0.166,
+          "ASR": 0.096,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "DRIFT": {
+          "UAU": 0.428,
+          "ASR": 0.064,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "ROPE": {
+          "UAU": 0.173,
+          "ASR": 0.007,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "Spotlighting": {
+          "UAU": 0.151,
+          "ASR": 0.489,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        },
+        "PI detector": {
+          "UAU": 0.155,
+          "ASR": 0.025,
+          "basis": "derived_from_printed_table_cells; not an exact recovery of PDF marker coordinates"
+        }
       }
     },
-    "peer_points_changed": 0,
-    "labels": {
-      "a": {
-        "SPILLWAY": "ASR .000"
-      },
-      "b": {
-        "SPILLWAY": "ASR .000"
-      },
-      "c": {
-        "SPILLWAY": "ASR .000"
-      },
-      "d": {
-        "SPILLWAY": "ASR .005",
-        "ROPE": "ASR .007"
-      }
-    },
-    "render_files": {
-      "fig_tradeoff_page1.pdf": "23d8fc886dfdfeeff25a0c4f64a84b5a51d3222f845941db3ed5000cefc7322b",
-      "fig_tradeoff_page1.png": "462c4479f5b2be97335e4cdcb0eef0558ec0a2a6013de9356d08f17b1f5f9d85",
-      "fig_attacks_4panel_named.svg": "f070d6faab0183c9a7d22e1786868538fe564be68b0b283a3b594dd17a9b6daf"
-    }
+    "source_pdf_sha256": "3c8f2661f03c941c0ce77def44bf6e34e9da30653d70cef62a7dc355598cadf9"
   },
   "figure4": {
-    "source": "Final manuscript Figure 4 / routing table",
-    "utility_pdf_sha256": "78153495c7af6bbda4e80349dc37ba511226caf02661bc2ec0605802bfaad7d0",
-    "spillway_rows": [
+    "bars": [
       {
-        "suite": "banking",
-        "UAU": {
-          "numerator": 64,
-          "denominator": 144,
-          "exact": "4/9",
-          "value": 0.4444444444444444,
-          "printed": ".444"
+        "suite": "Banking",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.444,
+            "source_fraction": "4/9",
+            "exact_value": 0.4444444444444444
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 144,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "CURRENT014",
-        "pointers": [
-          "/conditions/42",
-          "/conditions/30"
-        ]
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.438,
+            "source_fraction": "7/16",
+            "exact_value": 0.4375
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
       },
       {
-        "suite": "slack",
-        "UAU": {
-          "numerator": 59,
-          "denominator": 105,
-          "exact": "59/105",
-          "value": 0.5619047619047619,
-          "printed": ".562"
+        "suite": "Slack",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.533,
+            "source_fraction": "8/15",
+            "exact_value": 0.5333333333333333
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 105,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "CURRENT014",
-        "pointers": [
-          "/conditions/43",
-          "/conditions/31"
-        ]
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.514,
+            "source_fraction": "18/35",
+            "exact_value": 0.5142857142857142
+          },
+          "ASR": {
+            "printed": 0.048,
+            "source_fraction": "1/21",
+            "exact_value": 0.047619047619047616
+          }
+        }
       },
       {
-        "suite": "travel",
-        "UAU": {
-          "numerator": 81,
-          "denominator": 140,
-          "exact": "81/140",
-          "value": 0.5785714285714286,
-          "printed": ".579"
+        "suite": "Travel",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.607,
+            "source_fraction": "17/28",
+            "exact_value": 0.6071428571428571
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 140,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "CURRENT014",
-        "pointers": [
-          "/conditions/44",
-          "/conditions/32"
-        ]
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.5,
+            "source_fraction": "1/2",
+            "exact_value": 0.5
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
       },
       {
-        "suite": "workspace",
-        "UAU": {
-          "numerator": 475,
-          "denominator": 560,
-          "exact": "95/112",
-          "value": 0.8482142857142857,
-          "printed": ".848"
+        "suite": "Workspace",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.863,
+            "source_fraction": "69/80",
+            "exact_value": 0.8625
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 560,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "CURRENT014",
-        "pointers": [
-          "/conditions/45",
-          "/conditions/33"
-        ]
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.67,
+            "source_fraction": "75/112",
+            "exact_value": 0.6696428571428571
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
       },
       {
-        "suite": "github",
-        "UAU": {
-          "numerator": 108,
-          "denominator": 180,
-          "exact": "3/5",
-          "value": 0.6,
-          "printed": ".600"
+        "suite": "GitHub",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.585,
+            "source_fraction": "79/135",
+            "exact_value": 0.5851851851851851
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 180,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "HISTORICAL_AGENTDYN_NOT_RERUN",
-        "source_pointer": "/scores/spw_full_s42_github"
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.5,
+            "source_fraction": "1/2",
+            "exact_value": 0.5
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
+        }
       },
       {
-        "suite": "dailylife",
-        "UAU": {
-          "numerator": 87,
-          "denominator": 200,
-          "exact": "87/200",
-          "value": 0.435,
-          "printed": ".435"
+        "suite": "DailyLife",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.397,
+            "source_fraction": "119/300",
+            "exact_value": 0.39666666666666667
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 200,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "HISTORICAL_AGENTDYN_NOT_RERUN",
-        "source_pointer": "/scores/spw_full_s42_dailylife"
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.295,
+            "source_fraction": "59/200",
+            "exact_value": 0.295
+          },
+          "ASR": {
+            "printed": 0.01,
+            "source_fraction": "1/100",
+            "exact_value": 0.01
+          }
+        }
       },
       {
-        "suite": "shopping",
-        "UAU": {
-          "numerator": 69,
-          "denominator": 180,
-          "exact": "23/60",
-          "value": 0.38333333333333336,
-          "printed": ".383"
+        "suite": "Shopping",
+        "SPILLWAY": {
+          "UAU": {
+            "printed": 0.363,
+            "source_fraction": "49/135",
+            "exact_value": 0.362962962962963
+          },
+          "ASR": {
+            "printed": 0.0,
+            "source_fraction": "0",
+            "exact_value": 0.0
+          }
         },
-        "ASR": {
-          "numerator": 0,
-          "denominator": 180,
-          "exact": "0",
-          "value": 0.0,
-          "printed": ".000"
-        },
-        "measurement": "HISTORICAL_AGENTDYN_NOT_RERUN",
-        "source_pointer": "/scores/spw_full_s42_shopping"
+        "ROPE (Opus 4.8 router)": {
+          "UAU": {
+            "printed": 0.361,
+            "source_fraction": "13/36",
+            "exact_value": 0.3611111111111111
+          },
+          "ASR": {
+            "printed": 0.044,
+            "source_fraction": "2/45",
+            "exact_value": 0.044444444444444446
+          }
+        }
       }
     ],
-    "mixed_seven_suite_aggregate": {
-      "measurement": "MIXED_NEW_AGENTDOJO4_AND_HISTORICAL_AGENTDYN3_NOT_NEW_SEVEN_SUITE_EXECUTION",
-      "UAU": {
-        "exact": "97057/176400",
-        "value": 0.5502097505668935,
-        "printed": ".550"
-      },
-      "ASR": {
-        "exact": "0",
-        "value": 0.0,
-        "printed": ".000"
-      },
-      "NRP_UAU": {
-        "exact": "97057/176400",
-        "value": 0.5502097505668935,
-        "printed": ".550"
-      },
-      "ERS_UAU_macro_of_per_suite": {
-        "exact": "21342724943/30512700036",
-        "value": 0.6994702179033344,
-        "printed": ".699"
-      },
-      "if_rows_updated_aggregate_must_update": true,
-      "if_pure_current7suite_required": "NOT_AVAILABLE"
-    },
-    "other_methods": "Historical paper measurements unchanged",
-    "AgentDyn": "Historical paper measurements, not rerun",
-    "render_files": {
-      "fig_rope_util.pdf": "78153495c7af6bbda4e80349dc37ba511226caf02661bc2ec0605802bfaad7d0",
-      "fig_rope_util.svg": "da5d4b5c532f071c32b9a67c90490d61b7eabdfb4701291a92b7d44c4e6a6559",
-      "fig_rope_asr.svg": "25b41c132b9c5ea710300cd025f19fcf128e11f1a7e8307c644e81abbf748df0"
-    }
+    "AgentDyn_scope": "trusted native integration, three fixed-seed repeats"
   },
-  "historical_assets": [
-    "fig_cost_4panel",
-    "fig_rope_asr",
-    "fig_architecture_v40"
-  ],
-  "cost_ablation_AgentDyn_rerun": false
+  "assets": {
+    "fig_tradeoff_page1.pdf": "3c8f2661f03c941c0ce77def44bf6e34e9da30653d70cef62a7dc355598cadf9",
+    "fig_tradeoff_page1.png": "98ad7ab5ca97ab326ad9721e77f1bbbfaa0affd9d906c6985185c29f2384820b",
+    "fig_attacks_4panel_named.svg": "1b180e35f0026540e708a37dcccc9a873d90d296a9cf6d0213744a1d6bde3f41",
+    "fig_rope_util.pdf": "795056e78af0d68caf6ccb769f49c0d871fd203cbbf0777cc2fa10459e6c44ce",
+    "fig_rope_util.svg": "df1fa74a8cc680384682814cbc1d2e7dc7410c2fd60400878b973d67fedcf6d0",
+    "fig_rope_asr.pdf": "5c718634d3127540eeef31a0f0d5bd0aad10344e4e8c3c1e6c0e7a8d487ff1d9",
+    "fig_rope_asr.svg": "43e35a8ed86e802598177b73ae6fe0119b4a9d1733109e59c95b0201ebd3e54a",
+    "fig_cost_4panel.png": "543efa1dae3c9dda15572eea7cf1e84782dc9a7f6ce514e65c9d4777fe613de3"
+  }
 }

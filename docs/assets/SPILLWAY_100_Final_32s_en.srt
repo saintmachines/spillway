@@ -1,12 +1,12 @@
 1
 00:00:00,000 --> 00:00:03,200
-AgentDojo standard attack: 48.9% mean task success.
+AgentDojo standard attack: 47.4% mean task success.
 In-scope attacks: 0 successes in 2,847 pairs.
 
 2
 00:00:03,200 --> 00:00:07,600
 Mean over three backbones and four suites:
-3.6-point lead over DRIFT; 0.0% in-scope ASR.
+2.1-point lead over DRIFT; 0.0% in-scope ASR.
 
 3
 00:00:07,600 --> 00:00:11,200
@@ -26,7 +26,7 @@ ROPE: Opus 4.8 in (a); agent router in (b)-(d).
 6
 00:00:21,233 --> 00:00:24,833
 AgentDojo, 12-cell composite means:
-NRP-BU .539; NRP-UAU .489; ERS .700.
+NRP-BU .522; NRP-UAU .474; ERS .686.
 
 7
 00:00:24,833 --> 00:00:29,033
