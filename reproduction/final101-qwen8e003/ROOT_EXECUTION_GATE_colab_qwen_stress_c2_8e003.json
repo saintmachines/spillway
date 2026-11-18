@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "owner": "root",
+  "root_reviewed": true,
+  "blockers": [],
+  "model_execution_allowed": true,
+  "old_GO_reused": false,
+  "wheel_sha256": "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21",
+  "source_manifest_sha256": "5fa7174374766f74c56556597ee5f7e739a535270d9d6c5e2f79191e3ce1f4aa",
+  "reference_manifest_sha256": "7d2efdc191ca31de46b2b956119b02043851106545a46ce84e7eb01fe156b193",
+  "protocol_sha256": "17a5457541f88740b7f690b3f628a49080645505ced6a52d2133a1ce417f0713",
+  "profile_adopted_before_models": true,
+  "profiles": {
+    "target_recovery_on": {
+      "identity_recovery": true,
+      "flags": [
+        "--paper",
+        "--guarded"
+      ]
+    },
+    "target_recovery_off": {
+      "identity_recovery": false,
+      "flags": [
+        "--paper",
+        "--guarded",
+        "--no-identity-target-recovery"
+      ]
+    }
+  },
+  "packet_protocol_sha256": "cad9691e38f34521bcf8ab71a6d6a3d128d9abc92381e77ef340e090975e92e5",
+  "packet_files_sha256": "a6891bb07bc04faaaec58f91be8611577eaff993bdfc9d4389cad3d199ca4c57",
+  "authorization_sha256": "cba42da260b196550439c16287546996f0aea1c1d3ee63fadb99c17f174c8a74",
+  "actual_Colab_GPU_verified": false,
+  "runtime_repair_revision": "8e003",
+  "packet_archive_sha256": "64eec51e8db40b5ee9d265dd6fb01bb2dff508343322a88a95e3777bfa75a871",
+  "dispatch": "colab_qwen_stress_c2",
+  "run_id": "final101_chatinject665_colab_qwen_20261117_8e003",
+  "fresh_owner_nonce": "85b368d14edc4c00b4b0a159ae900b58",
+  "root_reviewed_UTC": "2026-11-18T06:21:46.873387+00:00",
+  "reviewer": "Root delegated source criteria + mini_execution_review actual CPU and byte verification",
+  "Root_delegated_source_review_criteria": {
+    "approved_by": "Root message 2026-11-17: exact positive non-bool int eval_count patch, source byte checks, actual CPU, issue conditional new gates and publish two notebooks",
+    "positive_eval_count_each_nonempty_generation": true,
+    "verdict_JSON_is_observation_only": true,
+    "source002_preserved": true,
+    "scope": "standard1046 plus separate ChatInject665 only; exclude PISmith Qwen",
+    "models_context_prompt_decode_scoring_payload_timeout_unchanged": true
+  },
+  "conditional_GPU_validation": "Controller checks actual Colab Linux Python3.13, exact RTX PRO6000 Blackwell >=90000MiB, all source/wheel/model hashes and full CUDA judge residency before worker. This gate does not claim those checks have run.",
+  "actual_CPU_evidence_manifest_sha256": "35b13ffe9994493ce9173a8fe30bf7b3b0c04eeb578cc9269e53ec8c130a19b2",
+  "source_byte_evidence_sha256": "8580c90714915a8908bc1f35a41e8b2ad0c491fd128634548e6b62e0a9f40064",
+  "authorized_scope": "Exactly one 665 original user UID run; native standalone 19 separate; paid API0",
+  "published_distribution_binding": "Root verified public PyPI1.0.1 wheel f93d56ec and sdist77a, CI44227076991 success; packet exact f93d wheel retained",
+  "archive_sha256": "64eec51e8db40b5ee9d265dd6fb01bb2dff508343322a88a95e3777bfa75a871",
+  "no_automatic_failed_relaunch": true,
+  "Drive_ROOT": "/content/drive/MyDrive/SPILLWAY_101_QWEN_CHATINJECT665_20261117_8E003",
+  "original002_results": "Preserved; new RUN_ID and new Drive folder, no partial overwrite or automatic resume",
+  "changed_operational_files_vs_8e002": {
+    "model_server.py": {
+      "source_sha256": "1830e30baaf8ea8cfb8fc900fc7d3ccb50e39bf7a5d822ae19e544f07b78b25e",
+      "patch": "require(type(answer.get(\"eval_count\")) is int and answer[\"eval_count\"] > 0) immediately after completion/model check for each of three nonempty generations"
+    }
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "status": "PASS_ROOT_DELEGATED_8E003_ACTUAL_STUDIO_CLOSED_CPU",
+  "actual_Python": "3.13.11 (main, Dec 17 2025, 20:55:16) [Clang 21.1.4 ]",
+  "roles": [
+    {
+      "role": "A_QWEN_8E003",
+      "inspection": {
+        "status": "BYTES_VERIFIED_NOT_EXECUTED",
+        "wheel_sha256": "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21",
+        "source_manifest_sha256": "5fa7174374766f74c56556597ee5f7e739a535270d9d6c5e2f79191e3ce1f4aa",
+        "inventory_protocol_sha256": "17a5457541f88740b7f690b3f628a49080645505ced6a52d2133a1ce417f0713",
+        "scope": "AGENTDOJO101_STANDARD_A_QWEN_20261117_004",
+        "planned_records": 1046,
+        "cells": 8,
+        "dispatches": {
+          "colab_qwen": {
+            "0": 1046
+          }
+        },
+        "semantic_gate": "NO_GO_REQUIRES_NEW_ROOT_EXTERNAL_GATE",
+        "models_started": 0,
+        "paid_API_calls": 0,
+        "historical_metrics_replaced": false
+      },
+      "manifest_file_count": 64,
+      "all_file_hashes_verified": true,
+      "actual_installed_SDK27_bytes_verified": true,
+      "cases": [
+        {
+          "name": "positive",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": true,
+          "error": null,
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "verdict_observation_only",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": true,
+          "error": null,
+          "response_verdict_is_observation_only": true
+        },
+        {
+          "name": "zero_eval_generation_1",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "zero_eval_generation_2",
+          "PASS": true,
+          "fake_generate_requests": 3,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "zero_eval_generation_3",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "bool_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "float_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "string_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "negative_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "missing_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        }
+      ],
+      "scored_UIDs": 1046,
+      "auxiliary_UIDs": 35,
+      "model_server_sha256": "1830e30baaf8ea8cfb8fc900fc7d3ccb50e39bf7a5d822ae19e544f07b78b25e"
+    },
+    {
+      "role": "STRESS_C2_8E003",
+      "inspection": {
+        "status": "BYTES_VERIFIED_NOT_EXECUTED",
+        "wheel_sha256": "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21",
+        "source_manifest_sha256": "5fa7174374766f74c56556597ee5f7e739a535270d9d6c5e2f79191e3ce1f4aa",
+        "inventory_protocol_sha256": "17a5457541f88740b7f690b3f628a49080645505ced6a52d2133a1ce417f0713",
+        "scope": "AGENTDOJO101_QWEN_CHATINJECT665_20261117_8E003",
+        "planned_records": 665,
+        "cells": 2,
+        "dispatches": {
+          "colab_qwen_stress_c2": {
+            "0": 665
+          }
+        },
+        "semantic_gate": "NO_GO_REQUIRES_NEW_ROOT_EXTERNAL_GATE",
+        "models_started": 0,
+        "paid_API_calls": 0,
+        "historical_metrics_replaced": false
+      },
+      "manifest_file_count": 66,
+      "all_file_hashes_verified": true,
+      "actual_installed_SDK27_bytes_verified": true,
+      "cases": [
+        {
+          "name": "positive",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": true,
+          "error": null,
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "verdict_observation_only",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": true,
+          "error": null,
+          "response_verdict_is_observation_only": true
+        },
+        {
+          "name": "zero_eval_generation_1",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "zero_eval_generation_2",
+          "PASS": true,
+          "fake_generate_requests": 3,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "zero_eval_generation_3",
+          "PASS": true,
+          "fake_generate_requests": 4,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "bool_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "float_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "string_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "negative_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        },
+        {
+          "name": "missing_eval",
+          "PASS": true,
+          "fake_generate_requests": 2,
+          "ready": false,
+          "error": "Warmup generation produced no positive integer eval_count; stop before worker",
+          "response_verdict_is_observation_only": false
+        }
+      ],
+      "scored_UIDs": 665,
+      "auxiliary_UIDs": 19,
+      "model_server_sha256": "1830e30baaf8ea8cfb8fc900fc7d3ccb50e39bf7a5d822ae19e544f07b78b25e"
+    }
+  ],
+  "model_API_GPU_key_network_calls": 0,
+  "fake_transport_only": true,
+  "actual_Colab_residency_or_performance_validated": false
+}

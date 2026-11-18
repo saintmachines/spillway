@@ -1,0 +1,37 @@
+{
+  "status": "CONDITIONAL_RUNTIME_GPU_CHECKS_REQUIRED",
+  "roles": [
+    {
+      "role": "A_QWEN_8E003",
+      "dispatch": "colab_qwen",
+      "scored_UIDs": 1046,
+      "auxiliary_UIDs": 35,
+      "RUN_ID": "final101_standard_colab_qwen_20261117_8e003",
+      "Drive_ROOT": "/content/drive/MyDrive/SPILLWAY_101_QWEN_STANDARD_20261117_8E003",
+      "archive": "SPILLWAY_101_A_QWEN_STANDARD_PACKET_8E003.zip",
+      "archive_sha256": "bb5aa0d783b9d8f3bb4ccdd3723df702150cfe9fa7d4972a5c30d53103e8f965",
+      "gate": "ROOT_EXECUTION_GATE_colab_qwen_8e003.json",
+      "gate_sha256": "9f6f12a742bdf1255409af6cb2a2b327ca3644594ee1960ecef9925a9ecc261c",
+      "protocol_sha256": "32380bfd644f5d5ef0814fa61b1643a2e84737cf92c6d92def48afafa310b6fd",
+      "FILES_sha256": "73ba45340e7d4d2f7295a3dc5b445fa6e3384f2fa087ff31e91fbde6997a84e7"
+    },
+    {
+      "role": "STRESS_C2_8E003",
+      "dispatch": "colab_qwen_stress_c2",
+      "scored_UIDs": 665,
+      "auxiliary_UIDs": 19,
+      "RUN_ID": "final101_chatinject665_colab_qwen_20261117_8e003",
+      "Drive_ROOT": "/content/drive/MyDrive/SPILLWAY_101_QWEN_CHATINJECT665_20261117_8E003",
+      "archive": "SPILLWAY_101_QWEN_CHATINJECT665_PACKET_8E003.zip",
+      "archive_sha256": "64eec51e8db40b5ee9d265dd6fb01bb2dff508343322a88a95e3777bfa75a871",
+      "gate": "ROOT_EXECUTION_GATE_colab_qwen_stress_c2_8e003.json",
+      "gate_sha256": "81d43fe812bbd5b9d424b618639ad36b01bf9da5ea9f01fb2db45bd0de49c273",
+      "protocol_sha256": "cad9691e38f34521bcf8ab71a6d6a3d128d9abc92381e77ef340e090975e92e5",
+      "FILES_sha256": "a6891bb07bc04faaaec58f91be8611577eaff993bdfc9d4389cad3d199ca4c57"
+    }
+  ],
+  "Root_delegated_review": true,
+  "actual_GPU_residency_or_performance_claimed": false,
+  "actual_CPU_receipt_sha256": "35b13ffe9994493ce9173a8fe30bf7b3b0c04eeb578cc9269e53ec8c130a19b2",
+  "source_byte_report_sha256": "8580c90714915a8908bc1f35a41e8b2ad0c491fd128634548e6b62e0a9f40064"
+}
