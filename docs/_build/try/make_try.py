@@ -13,10 +13,10 @@ from pathlib import Path
 
 here = Path(__file__).resolve().parent
 tree, wheel = Path(sys.argv[1]), Path(sys.argv[2])
-expected_name = "spillway_guard-1.0.0-py3-none-any.whl"
-expected_sha256 = "38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76"
+expected_name = "spillway_guard-1.0.1-py3-none-any.whl"
+expected_sha256 = "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21"
 if wheel.name != expected_name or hashlib.sha256(wheel.read_bytes()).hexdigest() != expected_sha256:
-    raise SystemExit("expected the verified 1.0.0 wheel, nothing written")
+    raise SystemExit("expected the verified 1.0.1 wheel, nothing written")
 page = (tree / "docs/integrate.html").read_text()
 
 

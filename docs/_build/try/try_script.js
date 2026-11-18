@@ -1,9 +1,9 @@
 (function () {
   'use strict';
   var PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
-  var WHEEL = 'wheels/spillway_guard-1.0.0-py3-none-any.whl';
-  var SDK_VERSION = '1.0.0';
-  var WHEEL_SHA256 = '38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76';
+  var WHEEL = 'wheels/spillway_guard-1.0.1-py3-none-any.whl';
+  var SDK_VERSION = '1.0.1';
+  var WHEEL_SHA256 = 'f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21';
   var EVIL = 'attacker@evil.example';
   var FROM_ALICE = "Reply to Alice's latest mail.";
   var EXAMPLES = [
@@ -45,11 +45,15 @@
   var rowsEl = $('tryRows'), textEl = $('tryText'), removedEl = $('tryRemoved'), codeEl = $('tryCode');
   var runtime = null, loading = null, timer = 0, serial = 0;
 
-  function plain(row, taskText) {
+  function plain(row, taskText, bodyText) {
     if (row.allowed && taskText.toLowerCase().indexOf(row.address.toLowerCase()) >= 0) return "The user's request names this address.";
-    if (row.label === 'allow_schema_identity_target') return 'This address came from a typed field of the mail.';
-    if (row.label === 'block_taint_target') return 'This address came from free text in the mail, and the request does not name it.';
-    return row.reason;
+    if (row.allowed && row.label === 'allow_schema_identity_target') return 'This address came from a typed field of the mail.';
+    if (row.allowed && row.label === 'allow_user_task_referent_binding') return "The user's request identifies this person.";
+    if (!row.allowed && (row.label === 'block_taint_target' || row.label === 'block_unverified_delegated_domain')) {
+      if (bodyText.toLowerCase().indexOf(row.address.toLowerCase()) >= 0) return "This address is in the mail body, but the user's request does not name it.";
+      return 'SPILLWAY could not verify this address for this call. The From field should contain an email address only.';
+    }
+    return row.allowed ? 'SPILLWAY admits this address for this call.' : 'SPILLWAY refuses this address for this call.';
   }
   function render(result, taskText, bodyText) {
     rowsEl.textContent = '';
@@ -69,7 +73,7 @@
       addr.textContent = row.address;
       tag.className = 'try-tag';
       tag.textContent = row.allowed ? 'Admitted' : 'Refused';
-      why.textContent = plain(row, taskText);
+      why.textContent = plain(row, taskText, bodyText);
       head.appendChild(addr);
       head.appendChild(tag);
       li.appendChild(head);
@@ -95,12 +99,11 @@
       'mail = Email(sender=' + JSON.stringify(sender.value) + ',',
       '             body=' + JSON.stringify(body.value) + ')',
       'print(guard.observe_tool_return("get_latest_email", {}, mail))',
-      'print(guard.check_call("send_email", {"recipients": ["' + (rowsEl.querySelector('[data-allowed="false"] .try-addr') || rowsEl.querySelector('.try-addr') || {textContent: 'someone@example.com'}).textContent + '"], "body": "Hello."}).label)'
+      'print(guard.check_call("send_email", {"recipients": ["' + (rowsEl.querySelector('[data-allowed="false"] .try-addr') || rowsEl.querySelector('.try-addr') || {textContent: sender.value}).textContent + '"], "body": "Hello."}).label)'
     ].join('\n');
   }
   function load() {
     if (loading) return loading;
-    statusEl.textContent = 'Loading the package, about 8 MB the first time.';
     loading = new Promise(function (resolve, reject) {
       var s = document.createElement('script');
       s.src = PYODIDE + 'pyodide.js';
@@ -127,31 +130,49 @@
         var version = runtime.runPython('import spillway_guard; spillway_guard.__version__');
         if (version !== SDK_VERSION) throw new Error('package version');
         runtime.runPython(PY);
-        statusEl.setAttribute('data-sdk-version', version);
-        statusEl.setAttribute('data-wheel-sha256', actual);
         return runtime;
       });
     }).catch(function (e) {
-      statusEl.textContent = 'Python could not load in this browser, so this is the saved result. pip install spillway-guard runs the same check.';
       loading = null;
       throw e;
     });
     return loading;
   }
+  function pending() {
+    clearTimeout(timer);
+    ++serial;
+    rowsEl.textContent = '';
+    rowsEl.setAttribute('aria-busy', 'true');
+    textEl.textContent = '';
+    removedEl.textContent = '';
+    statusEl.removeAttribute('data-live');
+    statusEl.removeAttribute('data-sdk-version');
+    statusEl.removeAttribute('data-wheel-sha256');
+    statusEl.textContent = 'Checking this input. The package loads about 8 MB the first time.';
+    code();
+    return serial;
+  }
   function run() {
-    var mine = ++serial, t = task.value, s = sender.value, b = body.value;
+    var mine = pending(), t = task.value, s = sender.value, b = body.value;
     load().then(function (py) {
       if (mine !== serial) return;
       var out = py.globals.get('try_check')(t, s, b);
       render(JSON.parse(out), t, b);
+      rowsEl.setAttribute('aria-busy', 'false');
       code();
-      statusEl.textContent = 'Live: spillway-guard 1.0.0 is running in your browser.';
+      statusEl.textContent = 'Live: spillway-guard 1.0.1 is running in your browser.';
       statusEl.setAttribute('data-live', 'true');
+      statusEl.setAttribute('data-sdk-version', SDK_VERSION);
+      statusEl.setAttribute('data-wheel-sha256', WHEEL_SHA256);
     }).catch(function (e) {
-      if (runtime && mine === serial && String(e).indexOf('PythonError') >= 0) statusEl.textContent = 'The check stopped on this input.';
+      if (mine !== serial) return;
+      rowsEl.setAttribute('aria-busy', 'false');
+      statusEl.textContent = String(e).indexOf('PythonError') >= 0
+        ? 'The check stopped on this input. No result is shown.'
+        : 'The package could not load. No result is shown for this input. Select an example to retry.';
     });
   }
-  function soon() { clearTimeout(timer); timer = setTimeout(run, 150); }
+  function soon() { pending(); timer = setTimeout(run, 150); }
   [task, sender, body].forEach(function (el) {
     el.addEventListener('input', function () {
       document.querySelectorAll('.try-ex').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
@@ -159,13 +180,25 @@
     });
     el.addEventListener('focus', function () { load().catch(function () {}); }, {once: true});
   });
-  document.querySelectorAll('.try-ex').forEach(function (button) {
-    button.addEventListener('click', function () {
-      var ex = EXAMPLES[+button.getAttribute('data-ex')];
-      task.value = ex.task; sender.value = ex.sender; body.value = ex.body;
-      document.querySelectorAll('.try-ex').forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
-      run();
+  function revealSelectedExample() {
+    var selected = document.querySelector('.try-ex[aria-pressed="true"]');
+    if (!selected) return;
+    var group = selected.parentElement;
+    if (group.scrollWidth > group.clientWidth) {
+      group.scrollLeft += selected.getBoundingClientRect().left - group.getBoundingClientRect().left - (group.clientWidth - selected.offsetWidth) / 2;
+    }
+  }
+  function selectExample(index) {
+    var ex = EXAMPLES[index];
+    task.value = ex.task; sender.value = ex.sender; body.value = ex.body;
+    document.querySelectorAll('.try-ex').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(+button.getAttribute('data-ex') === index));
     });
+    revealSelectedExample();
+    run();
+  }
+  document.querySelectorAll('.try-ex').forEach(function (button) {
+    button.addEventListener('click', function () { selectExample(+button.getAttribute('data-ex')); });
   });
   $('tryCopy').addEventListener('click', function () {
     var done = function () { $('tryCopy').textContent = 'Copied'; setTimeout(function () { $('tryCopy').textContent = 'Copy'; }, 1500); };
@@ -174,4 +207,8 @@
   $('tryForm').addEventListener('submit', function (e) { e.preventDefault(); });
   code();
   window.__tryState = function () { return {live: statusEl.getAttribute('data-live') === 'true', text: textEl.textContent, rows: Array.prototype.map.call(rowsEl.querySelectorAll('.try-row'), function (li) { return {address: (li.querySelector('.try-addr') || {}).textContent, allowed: li.getAttribute('data-allowed'), label: li.getAttribute('data-label')}; })}; };
+  var example = new URLSearchParams(window.location.search).get('example');
+  if (example !== null && /^[0-4]$/.test(example)) selectExample(+example);
+  else revealSelectedExample();
+  window.addEventListener('resize', revealSelectedExample);
 })();

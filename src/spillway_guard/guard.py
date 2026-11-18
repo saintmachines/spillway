@@ -37,6 +37,7 @@ from .floor import (
 )
 from .ingress import pasted_texts, request_fields, split_pasted
 from .lexicon import DEFAULT_LEXICON, Lexicon
+from .resource_contracts import ResourceContracts
 from .sanitizer import sanitize, span_payload
 from .short_lineage import CreatedObjectReceipts, CreationContracts
 from .source_known import ReadSourceProof, SourceContracts
@@ -107,7 +108,8 @@ class Guard:
                  judge: Optional[Callable[[JudgeRequest], Tuple[bool, float]]] = None,
                  sanitize_returns: bool = True, pasted: Optional[Sequence[str]] = None,
                  source_contracts: Optional[SourceContracts] = None,
-                 creation_contracts: Optional[CreationContracts] = None):
+                 creation_contracts: Optional[CreationContracts] = None,
+                 resource_contracts: Optional[ResourceContracts] = None):
         self.user_task = str(user_task or "")
         self.policy = policy
         self.lexicon = lexicon
@@ -116,6 +118,9 @@ class Guard:
         if source_contracts is not None and not isinstance(source_contracts, SourceContracts):
             raise TypeError("source_contracts must be trusted app configuration")
         self.source_contracts = source_contracts if source_contracts is not None else SourceContracts()
+        if resource_contracts is not None and type(resource_contracts) is not ResourceContracts:
+            raise TypeError("resource_contracts must be trusted app configuration")
+        self.resource_contracts = resource_contracts or ResourceContracts()
         self.index = IdentityIndex(lexicon=lexicon)
         if policy.payload_secret_guard:
             self.index.sensitive_index.reset(complete=True)
@@ -136,7 +141,8 @@ class Guard:
                      lexicon: Lexicon = DEFAULT_LEXICON,
                      judge: Optional[Callable[[JudgeRequest], Tuple[bool, float]]] = None,
                      sanitize_returns: bool = True, source_contracts: Optional[SourceContracts] = None,
-                     creation_contracts: Optional[CreationContracts] = None):
+                     creation_contracts: Optional[CreationContracts] = None,
+                     resource_contracts: Optional[ResourceContracts] = None):
         """Use fields the app supplied, never an envelope extracted from pasted text.
 
         The model reads ``user_task`` and the sanitized ``pasted_views`` in
@@ -146,7 +152,7 @@ class Guard:
         instruction, material = request_fields(request)
         return cls(instruction, policy=policy, lexicon=lexicon, judge=judge,
                    sanitize_returns=sanitize_returns, pasted=material, source_contracts=source_contracts,
-                   creation_contracts=creation_contracts)
+                   creation_contracts=creation_contracts, resource_contracts=resource_contracts)
 
     # ---- state ---------------------------------------------------------------------------------
     @property
@@ -211,7 +217,7 @@ class Guard:
             self.index.index_read_return(name, args, typed_return, tainted=tainted,
                                          trusted=self.trusted,
                                          roster=(roster and self.policy.signal_c),
-                                         policy=self.policy)
+                                         policy=self.policy, resource_contracts=self.resource_contracts)
         elif self.policy.short_target_guard:
             self._created_resources.observe(name, args or {}, typed_return, self.index.identity_set)
         if self.sanitize_returns:

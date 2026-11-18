@@ -63,41 +63,51 @@ def _index_declared_value(value: Any, schema: dict, identities: set, *, role: bo
             identities.add(text)
 
 
-def _walk_annotation(value: Any, annotation: Any, identities: set, lexicon, *, resource_markers: bool = False) -> None:
+def _walk_annotation(value: Any, annotation: Any, identities: set, lexicon, *, resource_markers: bool = False,
+                     resource_contracts=None) -> None:
     origin, arguments = get_origin(annotation), get_args(annotation)
     if origin is Annotated:
         if arguments:
-            _walk_annotation(value, arguments[0], identities, lexicon, resource_markers=resource_markers)
+            _walk_annotation(value, arguments[0], identities, lexicon, resource_markers=resource_markers,
+                             resource_contracts=resource_contracts)
         return
     if origin in (Union, types.UnionType):
         for branch in arguments:
-            _walk_annotation(value, branch, identities, lexicon, resource_markers=resource_markers)
+            _walk_annotation(value, branch, identities, lexicon, resource_markers=resource_markers,
+                             resource_contracts=resource_contracts)
         return
     if isinstance(annotation, type) and issubclass(annotation, BaseModel):
         if isinstance(value, annotation):
-            _walk_model(value, identities, lexicon, resource_markers=resource_markers)
+            _walk_model(value, identities, lexicon, resource_markers=resource_markers,
+                        resource_contracts=resource_contracts)
         return
     if origin in (list, tuple, set, frozenset) and isinstance(value, origin):
         if not arguments:
             return
         if origin is tuple and len(arguments) > 1 and arguments[-1] is not Ellipsis:
             for item, item_annotation in zip(value, arguments):
-                _walk_annotation(item, item_annotation, identities, lexicon, resource_markers=resource_markers)
+                _walk_annotation(item, item_annotation, identities, lexicon, resource_markers=resource_markers,
+                                 resource_contracts=resource_contracts)
         else:
             for item in value:
-                _walk_annotation(item, arguments[0], identities, lexicon, resource_markers=resource_markers)
+                _walk_annotation(item, arguments[0], identities, lexicon, resource_markers=resource_markers,
+                                 resource_contracts=resource_contracts)
         return
     if origin in (dict, Mapping) and isinstance(value, Mapping) and len(arguments) == 2:
         for item in value.values():
-            _walk_annotation(item, arguments[1], identities, lexicon, resource_markers=resource_markers)
+            _walk_annotation(item, arguments[1], identities, lexicon, resource_markers=resource_markers,
+                             resource_contracts=resource_contracts)
 
 
-def _walk_model(obj: BaseModel, identities: set, lexicon, *, resource_markers: bool = False) -> None:
+def _walk_model(obj: BaseModel, identities: set, lexicon, *, resource_markers: bool = False,
+                resource_contracts=None) -> None:
     from .floor import schema_props
 
     if resource_markers:
         from .short_targets import _kind, _tokens, resource_identity
 
+        if resource_contracts is not None:
+            resource_contracts.index_model(obj, identities)
         current = _kind(type(obj).__name__)
         for name in type(obj).model_fields:
             words, explicit = _tokens(name), _kind(name)
@@ -119,7 +129,8 @@ def _walk_model(obj: BaseModel, identities: set, lexicon, *, resource_markers: b
         _index_declared_value(value, schema, identities, role=role)
         # A declared nested model is authoritative; a body:dict or Any value is
         # not recursively reinterpreted by the runtime names inside it.
-        _walk_annotation(value, field.annotation, identities, lexicon, resource_markers=resource_markers)
+        _walk_annotation(value, field.annotation, identities, lexicon, resource_markers=resource_markers,
+                         resource_contracts=resource_contracts)
 
 
 def index_typed_identity_leaves(obj: Any, identity_set: set, *, field_is_id_role: bool = False,
@@ -143,11 +154,12 @@ def index_typed_identity_leaves(obj: Any, identity_set: set, *, field_is_id_role
         _index_declared_value(obj, {}, identity_set, role=True)
 
 
-def index_typed_resource_identities(obj: Any, identity_set: set, *, lexicon=DEFAULT_LEXICON) -> None:
+def index_typed_resource_identities(obj: Any, identity_set: set, *, lexicon=DEFAULT_LEXICON,
+                                    resource_contracts=None) -> None:
     """The short-marker counterpart, walking only declared model paths too."""
     if isinstance(obj, BaseModel):
-        _walk_model(obj, identity_set, lexicon, resource_markers=True)
+        _walk_model(obj, identity_set, lexicon, resource_markers=True, resource_contracts=resource_contracts)
     elif isinstance(obj, (list, tuple, set, frozenset)):
         for item in obj:
             if isinstance(item, BaseModel):
-                _walk_model(item, identity_set, lexicon, resource_markers=True)
+                _walk_model(item, identity_set, lexicon, resource_markers=True, resource_contracts=resource_contracts)

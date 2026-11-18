@@ -24,6 +24,7 @@ ROOT = HERE.parents[1]
 SOURCE = HERE / "build_page.py"
 ACTUAL = ROOT / "benchmarks/results/release_014_actual.json"
 CAPTION = "SPILLWAY 1.0.0 / comparison methods: paper"
+DISPLAY_VERSION = "1.0.0"
 EXPECTED_ACTUAL_SHA256 = "5b62ac9ca06495e5155df85122abf871cdfc3e8f12a8c3308951999ec3f70bfd"
 HISTORICAL_ROUTING = ROOT / "benchmarks/results/delegated_routing_opus_router.json"
 HISTORICAL_ROUTING_SHA256 = "fe153d4097afc7116e7ead9d865792cef219de6d36f11706bc7e06b6c510c0fa"
@@ -89,7 +90,7 @@ def activate(module, actual):
     index = {(r["group"], r["model"], r["profile"], r["suite"]): r for r in rows}
     assert len(index) == 54, "Duplicate actual condition"
     assert module.DATA["grid"]["SPILLWAY"][1] == .484, "View must start from validated historical data"
-    display_version = module.project_version()
+    display_version = DISPLAY_VERSION
     original_data, original_cells = module.DATA, module.CELLS
     module.DATA, module.CELLS = copy.deepcopy(original_data), copy.deepcopy(original_cells)
     module.PIS_SUITES = copy.deepcopy(module.PIS_SUITES)
@@ -384,7 +385,7 @@ def main():
     assert before == {str(p.relative_to(ROOT)): sha(p) for p in protected}, "Historical source/cache changed"
     report.update(status="ACTUAL014_DISPLAY_ONLY_BUILD_PASS", actual_json_sha256=sha(args.actual_json), historical_inputs_sha256=before,
                   output_sha256={name: sha(out if name == "index.html" else out.parent / name) for name in outputs},
-                  display_version=module.project_version(), library_version=module.project_version(), measurement_version="0.1.4")
+                  display_version=DISPLAY_VERSION, library_version=module.project_version(), measurement_version="0.1.4")
     (out.parent / "RELEASE014_DISPLAY_RECEIPT.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k not in ("historical_inputs_sha256", "output_sha256")}))
 

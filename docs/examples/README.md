@@ -7,14 +7,14 @@ Run the examples from a current repository checkout:
 ```bash
 git clone https://github.com/saintmachines/spillway.git
 cd spillway
-python -m pip install spillway-guard==1.0.0
+python -m pip install spillway-guard==1.0.1
 python docs/examples/local_app_demo.py --report app-check.json
 python docs/examples/collection_demo.py --report collection-check.json
 ```
 
 The examples start a temporary HTTP server on `127.0.0.1`, run fixed proposed
 calls against synthetic messages and notes, and close the server. They use the
-installed 1.0.0 library, Pydantic and the standard library, with no model or
+installed 1.0.1 library, Pydantic and the standard library, with no model or
 external account. Example files come from the checkout, outside the wheel and
 source distribution.
 

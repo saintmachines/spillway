@@ -194,15 +194,15 @@ class ActualDisplayView(unittest.TestCase):
         page = self.m.build()
         publication = json.loads(self.m.PUBLICATION_PATH.read_text())
         if publication["pypi_version"] is None:
-            self.assertIn("pip install git+https://github.com/saintmachines/spillway.git@release/1.0.0", page)
+            self.assertIn("pip install git+https://github.com/saintmachines/spillway.git@" + publication["source_ref"], page)
             self.assertIn("Available after the PyPI release", page)
         else:
-            self.assertEqual(publication["pypi_version"], "1.0.0")
-            self.assertIn('id="cmd-install">pip install spillway-guard==1.0.0', page)
+            self.assertEqual(publication["pypi_version"], self.m.project_version())
+            self.assertIn('id="cmd-install">pip install spillway-guard==' + self.m.project_version(), page)
 
     def test_browser_demo_wheel_is_present_and_matches_its_loader(self):
-        filename = "spillway_guard-1.0.0-py3-none-any.whl"
-        expected = "38ab16762fa4ba7d1f943265a10da28619e94afa2ca3fddd46c11be7535b5a76"
+        filename = "spillway_guard-1.0.1-py3-none-any.whl"
+        expected = "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21"
         wheel = ROOT / "docs" / "wheels" / filename
         self.assertTrue(wheel.is_file(), "The deployed browser demo needs its frozen wheel")
         self.assertEqual(view.sha(wheel), expected)

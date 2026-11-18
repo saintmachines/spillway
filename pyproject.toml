@@ -4,9 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "spillway-guard"
-version = "1.0.0"
+version = "1.0.1"
 description = "Prompt-injection defense for tool-using LLM agents: a typed-identity egress floor, a rule-based ingress sanitizer, and an optional local judge"
-readme = "PYPI_README_100.md"
+readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
@@ -60,13 +60,10 @@ spillway-agentdojo = "spillway_guard.agentdojo.runner:main"
 packages = ["src/spillway_guard"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"CANDIDATE_014.md" = "spillway_guard/CANDIDATE_014.md"
+
 
 [tool.hatch.build.targets.sdist]
-# Scratch, CI config and the project page are not part of the source distribution;
-# benchmarks/ and reference/ stay in so the sdist carries the paper's artifacts.
-exclude = ["/_work", "/.github", "/docs", "/source_history"]
-skip-excluded-dirs = true
+only-include = ["src", "README.md", "CHANGELOG.md", "pyproject.toml", "LICENSE", "NOTICE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

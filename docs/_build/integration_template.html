@@ -23,11 +23,11 @@
   <p>The MCP proxy validates a supported subset of the operator's declared output schemas, including nested objects referenced in local <code>$defs</code>, before recording identities. Unsupported constraints, recursive or external references, and invalid returns stay untyped. Supply the task from the authenticated user request, never from the model. The Claude Code hook receives untyped JSON, so a reply may require the user to name its recipient. <a href="@@REPO@@/blob/main/docs/examples/frameworks/README.md">Adapter details and supported schemas</a>.</p>
   <div class="head stack" id="run" style="margin-top:32px">
     <h2>Run it without model credentials.</h2>
-    <p>The example starts a temporary server on <code>127.0.0.1</code>, runs a fixed sequence of proposed calls with synthetic data, records the HTTP requests and effects, and shuts the server down. It uses the SPILLWAY 1.0.0 API, Pydantic and the standard library.</p>
+    <p>The example starts a temporary server on <code>127.0.0.1</code>, runs a fixed sequence of proposed calls with synthetic data, records the HTTP requests and effects, and shuts the server down. It uses the SPILLWAY 1.0.1 API, Pydantic and the standard library.</p>
   </div>
   <div class="code app-commands"><button class="copy" type="button" data-copy="#app-command" aria-label="Copy the app example commands">Copy</button><pre id="app-command">git clone https://github.com/saintmachines/spillway.git
 cd spillway
-python -m pip install spillway-guard==1.0.0
+python -m pip install spillway-guard==1.0.1
 python docs/examples/local_app_demo.py --report app-check.json</pre></div>
   <p class="note" style="margin-top:16px">Use the current repository checkout for these examples. They are separate from the wheel and source distribution. The test app stores messages and notes in memory and sends no email. <a href="@@REPO@@/blob/main/docs/examples/README.md">Read the example guide</a> · <a href="examples/boundary.py" download>Boundary source</a> · <a href="examples/local_app_demo.py" download>Runnable example</a>.</p>
 </div></section>

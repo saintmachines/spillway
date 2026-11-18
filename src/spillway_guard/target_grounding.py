@@ -211,7 +211,7 @@ def is_external_target_arg(name: str, key: str, *, policy, lexicon) -> bool:
 
 
 def ungrounded_targets(name: str, args: dict, trusted: str, tainted: str, *, policy, lexicon,
-                       user_task=None) -> list[str]:
+                       user_task=None, original_tool_texts=()) -> list[str]:
     """Return every target value absent from both T and U. No judge can clear this filter.
 
     U is not a trusted identity source: existing floor tiers still decide observed targets.
@@ -219,6 +219,9 @@ def ungrounded_targets(name: str, args: dict, trusted: str, tainted: str, *, pol
     An identifier that occurs in T only inside a longer identifier is refused even when U repeats it.
     With policy.ground_fetch_urls the URL of a fetch, read-only tools included, is checked as well, so a
     rebuilt or data-appended fetch URL cannot carry data out; a grounded one still meets the content tier.
+    ``original_tool_texts`` contains host-captured scalars from executed reads.
+    It repairs a renderer's escaped newline without decoding any user/channel
+    string. Original presence never supplies identity or action authority.
     """
     from .floor import iter_arg_values  # avoid a module-level cycle with the shared floor
 
@@ -227,6 +230,11 @@ def ungrounded_targets(name: str, args: dict, trusted: str, tainted: str, *, pol
     if read_only and not fetch_too:
         return []
     hay = grounding_text(trusted, user_task) if user_task is not None else trusted
+    # Renderer repair must not resurrect a value that the ingress sanitizer
+    # removed. Keep real whitespace/identifier bytes in the surviving scalar.
+    from .sanitizer import sanitize
+    original_clean = tuple(sanitize(text, forged_turns_in_spans=True)
+                           for text in original_tool_texts if isinstance(text, str))
     bad = []
     for key, value in iter_arg_values(args or {}):
         if value is None or not str(value).strip():
@@ -244,7 +252,9 @@ def ungrounded_targets(name: str, args: dict, trusted: str, tainted: str, *, pol
         forms = target_forms(value)
         if any(target_appears_in(f, hay, user_text=True) for f in forms):
             continue
-        if (any(inside_longer_identifier(f, hay, user_text=True) for f in forms)
-                or not any(target_appears_in(f, tainted) for f in forms)):
+        observed = (any(target_appears_in(f, tainted) for f in forms)
+                    or any(target_appears_in(f, text)
+                           for text in original_clean for f in forms))
+        if (any(inside_longer_identifier(f, hay, user_text=True) for f in forms) or not observed):
             bad.append(str(value))
     return bad
