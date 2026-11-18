@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "owner": "root",
+  "root_reviewed": true,
+  "blockers": [],
+  "model_execution_allowed": true,
+  "old_GO_reused": false,
+  "wheel_sha256": "f93d56ecb11890af5a8381bd6ef1de916803e61f94137992b7e435ad93ff5c21",
+  "source_manifest_sha256": "5fa7174374766f74c56556597ee5f7e739a535270d9d6c5e2f79191e3ce1f4aa",
+  "reference_manifest_sha256": "7d2efdc191ca31de46b2b956119b02043851106545a46ce84e7eb01fe156b193",
+  "protocol_sha256": "17a5457541f88740b7f690b3f628a49080645505ced6a52d2133a1ce417f0713",
+  "profile_adopted_before_models": true,
+  "profiles": {
+    "target_recovery_on": {
+      "identity_recovery": true,
+      "flags": [
+        "--paper",
+        "--guarded"
+      ]
+    },
+    "target_recovery_off": {
+      "identity_recovery": false,
+      "flags": [
+        "--paper",
+        "--guarded",
+        "--no-identity-target-recovery"
+      ]
+    }
+  },
+  "packet_protocol_sha256": "b9f53cf141a978fcd3a2526c28b11c87e841dabdd76b44e9ce34909445e48b09",
+  "packet_files_sha256": "6adc4c14b09906ac4f01cc553c982a79f155ed02e507a073cd891c7e6eaa4729",
+  "authorization_sha256": "f0df137d17a07dc9ca98bf3df0d1ca4b604c9cebcba1452c4c653a99a107eff1",
+  "actual_Colab_GPU_verified": false,
+  "runtime_repair_revision": "004",
+  "repair_verification_sha256": "e67a74eb4d00a23f99f5168ed5cd9943cecd0c4674a05d04674791f47c7d196c",
+  "fresh_owner_nonce": "a6c8efb8f25f417ba64cc6e6a5781077",
+  "root_reviewed_UTC": "2026-11-18T01:45:56.598246+00:00",
+  "conditional_GPU_validation": "Actual Colab Linux Python3.13 and RTX PRO6000 >=90000MiB are checked by controller before preparation; not claimed from CPU stubs",
+  "runtime_source_lock_sha256": "e1536ec8d995d54b9440e4b6df2f02a354dd1272c17675a1e57be0b038c9fc6a",
+  "actual_CPU_evidence_manifest_sha256": "e67a74eb4d00a23f99f5168ed5cd9943cecd0c4674a05d04674791f47c7d196c",
+  "authorized_scope": "Exactly one original standard1046userUID run for this backbone, native standalone35 separate, paidAPI0",
+  "original002_results": "Preserved unscored; no resume or overwrite",
+  "published_distribution_binding": "Final SDK1.0.1 wheel f93d56ec; public PyPI download checksum readback is a separate release step"
+}

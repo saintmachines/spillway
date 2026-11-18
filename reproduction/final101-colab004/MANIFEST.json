@@ -1,0 +1,32 @@
+{
+  "status": "ROOT_REVIEWED_SAME004_ARTIFACTS_GITHUB_TRANSPORT_ONLY",
+  "files": {
+    "SPILLWAY_101_B_CODER_STANDARD_004.ipynb": {
+      "sha256": "17a0764fd112df927081b2986f30868c8e33f397f6ab24b4b06039b53b112fd2",
+      "bytes": 5813
+    },
+    "SPILLWAY_101_B_CODER_STANDARD_PACKET_004.zip": {
+      "sha256": "01e7402cbf19265e948368c2e29d6eb01a3ec31fc487ea818136edd14dffed7d",
+      "bytes": 1990066
+    },
+    "SPILLWAY_101_A_QWEN_STANDARD_004.ipynb": {
+      "sha256": "99a92e34c3eafb653f709bb75b1a4835400a82c237b49ec4e7d41a4562a726fa",
+      "bytes": 5798
+    },
+    "ROOT_EXECUTION_GATE_colab_coder_004.json": {
+      "sha256": "61b6d32c5e757bde75dc095367cc7fdd2f43b13b820861588b2fe3944b6935f4",
+      "bytes": 2168
+    },
+    "SPILLWAY_101_A_QWEN_STANDARD_PACKET_004.zip": {
+      "sha256": "7c4f217cf0dde705c26726b864380afd51843de4ebb7c40634c135478b94e3c6",
+      "bytes": 1989990
+    },
+    "ROOT_EXECUTION_GATE_colab_qwen_004.json": {
+      "sha256": "fd85519b81231ded8a5c9f2bcd41de879d2a3acc0db1632b52dc93e387f4bddf",
+      "bytes": 2168
+    }
+  },
+  "source004_lock_sha256": "e1536ec8d995d54b9440e4b6df2f02a354dd1272c17675a1e57be0b038c9fc6a",
+  "evaluation_or_model_or_SDK_changes": 0,
+  "actual_GPU_run_claimed": false
+}
