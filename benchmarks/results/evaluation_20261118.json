@@ -3,8 +3,8 @@
   "created_date": "2026-11-18",
   "status": "CANONICAL_PRINTED_SOURCE_AND_APPROVED_INTEGER_RECEIPTS",
   "source": {
-    "manuscript_source_sha256": "2b1753a7d6bb6e20b2da11960e9fddf1f44a8f28899626b96bd43eb7b83334d8",
-    "manuscript_pdf_sha256": "5b65728cf4ac6428ccc9eaafdcd66668ed9031d494ebaec5457a4dedfdb5d0aa",
+    "manuscript_source_sha256": "a71f643afd5ad9337c6e4b0f613fdaf03128fd0ceed44ddca847dedf18d5715d",
+    "manuscript_pdf_sha256": "4aa86445fb7bdc939291bc14a23112e3daf2a5781b3e467591e713ec9fd6017b",
     "snapshot_date": "2026-11-18",
     "source_kind": "Final manuscript tables and independently checked execution-count receipts"
   },
@@ -945,7 +945,7 @@
       },
       "SPILLWAY (all)": {
         "Banking": {
-          "UAU": 0.438,
+          "UAU": 0.431,
           "ASR": 0.0
         },
         "Slack": {
@@ -953,16 +953,29 @@
           "ASR": 0.0
         },
         "Travel": {
-          "UAU": 0.343,
+          "UAU": 0.336,
           "ASR": 0.0
         },
         "Workspace": {
-          "UAU": 0.414,
+          "UAU": 0.382,
           "ASR": 0.0
         }
       }
     },
-    "cohort": "earlier component study; retain as separate evidence, not final Table1 run"
+    "cohort": "Full-system SPILLWAY row: final Table 1 qwen3:8b measurements. Component-only rows: recorded component-study configurations; delegation rules and the object judge enabled in every arm.",
+    "full_system_receipt": {
+      "source": "table1 qwen3:8b rows",
+      "utility_counts": {
+        "Banking": "62/144",
+        "Slack": "30/105",
+        "Travel": "47/140",
+        "Workspace": "214/560"
+      },
+      "UAU_macro_exact": 0.35853174603174603,
+      "ASR_macro": 0.0,
+      "all_pairs": 949,
+      "runs_added": 0
+    }
   },
   "table4": {
     "label": "tab:adaptive",

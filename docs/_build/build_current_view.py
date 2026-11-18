@@ -154,6 +154,9 @@ def refresh_copy(text):
         "SPILLWAY's AgentDojo rows are current; its three AgentDyn rows and all ROPE rows are historical. The mean combines current and historical rows.": "AgentDyn uses the trusted native integration and averages three fixed-seed repeats. The mean is unweighted over the seven suites.",
         "/blob/main/benchmarks/results/release_014_actual.json": "/blob/main/benchmarks/results/evaluation_20261118.json",
         "/blob/main/docs/_build/build_release014_view.py": "/blob/main/docs/_build/build_current_view.py",
+        'The historical paper ablation (Table 3) disables recovery of refused identity targets while keeping fixed delegation rules and the object judge enabled. The qwen3:8b cells have zero attack success, at mean utility .354 instead of .370.': 'In the recorded component study, disabling identity-target recovery while retaining delegation rules and the object judge gives zero attack success at mean utility .354 on qwen3:8b. The final full-system row in Table 3 uses Table 1 measurements and reaches .359 utility at zero attack success.',
+        'In the historical size ablation, a 4-bit gemma4:12b also kept zero attack success on the qwen3:8b cells and the ChatInject panel, at utility .348 instead of .370.': 'In the recorded size ablation, a 4-bit gemma4:12b also kept zero attack success on the qwen3:8b cells and the ChatInject panel, at utility .348.',
+        'Four current AgentDojo + three historical AgentDyn suites': 'Latest evaluation · four AgentDojo + three AgentDyn suites',
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -190,7 +193,8 @@ def main():
     results["notes"]["delegated_routing_vs_rope"] = "Latest recorded evaluation; AgentDyn uses the trusted native integration and three fixed-seed repeats."
     results["notes"]["pismith_gpt_4o_mini_by_suite"] = "SPILLWAY uses the final independently checked selected-949 records. Other methods retain their recorded comparison values."
     results["notes"]["stress"] = "ChatInject: qwen3:8b. AutoDojo and PISmith: gpt-4o-mini; PISmith open-loop ASR@1, mean over four suites. AutoDojo includes four rule-development examples; held-out Banking executed ASR .014 and .000."
-    results["notes"]["cost_and_ablation"] = "Earlier recorded component and timing configurations; separate-session episode-time means."
+    results["notes"]["cost_and_ablation"] = "Table 3 full-system row: final Table 1 qwen3:8b values; component-only rows: recorded component-study configurations. Timing values retain their earlier configurations and separate-session episode-time means."
+    results["component_study_qwen3_8b"] = copy.deepcopy(data["table3"])
     out = args.out.resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
     outputs = {"index.html": page, "results.html": refresh_copy(module.build_results_page(page)),

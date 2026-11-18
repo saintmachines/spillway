@@ -6,7 +6,7 @@
   "delegated_routing_vs_rope": "Latest recorded evaluation; AgentDyn uses the trusted native integration and three fixed-seed repeats.",
   "pismith_gpt_4o_mini_by_suite": "SPILLWAY uses the final independently checked selected-949 records. Other methods retain their recorded comparison values.",
   "stress": "ChatInject: qwen3:8b. AutoDojo and PISmith: gpt-4o-mini; PISmith open-loop ASR@1, mean over four suites. AutoDojo includes four rule-development examples; held-out Banking executed ASR .014 and .000.",
-  "cost_and_ablation": "Earlier recorded component and timing configurations; separate-session episode-time means."
+  "cost_and_ablation": "Table 3 full-system row: final Table 1 qwen3:8b values; component-only rows: recorded component-study configurations. Timing values retain their earlier configurations and separate-session episode-time means."
  },
  "grid_means": {
   "Undefended": {
@@ -1146,11 +1146,102 @@
   }
  ],
  "evaluation_snapshot": "benchmarks/results/evaluation_20261118.json",
- "evaluation_snapshot_sha256": "079a7d33af8ccb324cc12d516fd5a7e5f4c6f5b29a02486b3a33db9c504d5415",
+ "evaluation_snapshot_sha256": "4f6312057af8c7e521fdbb7788749bdb0505dfd1f3d38b6004da907d45577596",
  "display_view": {
   "date": "2026-11-18",
   "library_version": "1.0.1",
   "configuration": "local judge and identity-target recovery enabled",
   "agentdyn": "same core guard, explicit trusted native integration, three fixed-seed repeats"
+ },
+ "component_study_qwen3_8b": {
+  "label": "tab:ingress-ablation",
+  "printed_rows": {
+   "Floor": {
+    "Banking": {
+     "UAU": 0.333,
+     "ASR": 0.0
+    },
+    "Slack": {
+     "UAU": 0.181,
+     "ASR": 0.0
+    },
+    "Travel": {
+     "UAU": 0.243,
+     "ASR": 0.0
+    },
+    "Workspace": {
+     "UAU": 0.445,
+     "ASR": 0.0
+    }
+   },
+   "Floor + judge": {
+    "Banking": {
+     "UAU": 0.375,
+     "ASR": 0.028
+    },
+    "Slack": {
+     "UAU": 0.19,
+     "ASR": 0.0
+    },
+    "Travel": {
+     "UAU": 0.243,
+     "ASR": 0.0
+    },
+    "Workspace": {
+     "UAU": 0.439,
+     "ASR": 0.002
+    }
+   },
+   "Floor + sanitizer": {
+    "Banking": {
+     "UAU": 0.375,
+     "ASR": 0.0
+    },
+    "Slack": {
+     "UAU": 0.286,
+     "ASR": 0.0
+    },
+    "Travel": {
+     "UAU": 0.343,
+     "ASR": 0.0
+    },
+    "Workspace": {
+     "UAU": 0.412,
+     "ASR": 0.0
+    }
+   },
+   "SPILLWAY (all)": {
+    "Banking": {
+     "UAU": 0.431,
+     "ASR": 0.0
+    },
+    "Slack": {
+     "UAU": 0.286,
+     "ASR": 0.0
+    },
+    "Travel": {
+     "UAU": 0.336,
+     "ASR": 0.0
+    },
+    "Workspace": {
+     "UAU": 0.382,
+     "ASR": 0.0
+    }
+   }
+  },
+  "cohort": "Full-system SPILLWAY row: final Table 1 qwen3:8b measurements. Component-only rows: recorded component-study configurations; delegation rules and the object judge enabled in every arm.",
+  "full_system_receipt": {
+   "source": "table1 qwen3:8b rows",
+   "utility_counts": {
+    "Banking": "62/144",
+    "Slack": "30/105",
+    "Travel": "47/140",
+    "Workspace": "214/560"
+   },
+   "UAU_macro_exact": 0.35853174603174603,
+   "ASR_macro": 0.0,
+   "all_pairs": 949,
+   "runs_added": 0
+  }
  }
 }

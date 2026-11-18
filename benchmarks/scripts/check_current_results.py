@@ -85,6 +85,24 @@ def audit(baseline_path: Path, output: Path) -> dict:
                 compare(values[metric.lower()], target,
                         f"cells/{row['suite']}/{row['backbone']}/{method}/{metric}")
 
+    component = data["component_study_qwen3_8b"]
+    for method, suites in canonical["table3"]["printed_rows"].items():
+        for suite, values in suites.items():
+            for metric in ("UAU", "ASR"):
+                compare(component["printed_rows"][method][suite][metric], values[metric],
+                        f"component/{method}/{suite}/{metric}")
+    full_receipt = canonical["table3"]["full_system_receipt"]
+    for suite, count in full_receipt["utility_counts"].items():
+        row = next(r for r in canonical["table1"]["rows"]
+                   if r["suite"] == suite and r["backbone"] == "qwen3:8b")
+        require(Fraction(count) == Fraction(row["methods"]["SPILLWAY"]["UAU_count"]),
+                f"Component full-system/Table1 count mismatch: {suite}")
+        compare(component["printed_rows"]["SPILLWAY (all)"][suite]["UAU"],
+                float(f"{float(Fraction(count)):.3f}"), f"component/full-from-Table1/{suite}")
+    compare(component["full_system_receipt"]["UAU_macro_exact"],
+            float(sum(Fraction(c) for c in full_receipt["utility_counts"].values()) / 4),
+            "component/full-system macro")
+
     summary_mapping = {
         "bu": "BU", "uau": "UAU", "asr_in_scope": "ASR", "nrp_bu": "NRP_BU",
         "nrp_uau": "NRP_UAU", "ers": "ERS", "cells_leaking_of_12": "in_scope_leak_cells",

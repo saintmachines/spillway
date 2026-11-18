@@ -1,7 +1,7 @@
 {
   "about": "Pictures of the project page for the README, made by docs/_build/make_readme_media.mjs from the input below. Run it again after the page changes.",
   "inputs": {
-    "docs/index.html": "9fe6f1a50f888d8a4af17b20944dc4769e673fb332ed5f4508464a9e89d42660"
+    "docs/index.html": "c4a6bc073ce691d62f8b1558b0ec472bf78c0ffd92c07ef71d56790a0c672357"
   },
   "theme": "dark",
   "css_width": {
@@ -61,7 +61,7 @@
       "window": 324
     },
     "cost.png": {
-      "sha256": "18b8997f59420567e3f5ab484e35aeaf8801ade9f07ae786e39cf0bf907dd2ed",
+      "sha256": "e26e306a52e63ef0b4c99cb71bc5cc7b360041310f3ff08223afbc9edfe66796",
       "bytes": 288286,
       "pixels": "2184x1016",
       "window": 1100
@@ -85,8 +85,8 @@
       "window": 324
     },
     "rope.png": {
-      "sha256": "eba2184d6ca3d683effec20b196fc145b38ede7bc61d6e606564e12c8c2ad725",
-      "bytes": 325782,
+      "sha256": "37aab8a877f8aae495cf57e5444fc92fab876c880bd60173874f4b10445422c5",
+      "bytes": 325942,
       "pixels": "1660x1624",
       "window": 838
     },
