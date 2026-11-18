@@ -6,7 +6,11 @@ the SDK and the reference's live role predicates, including AgentDyn extensions.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import os
+from contextvars import ContextVar
+from dataclasses import dataclass
 from functools import wraps
 
 from ..floor import (
@@ -37,6 +41,38 @@ from ..short_targets import (
 from ..source_known import delegated_domain_problem, strict_known_domains
 from ..target_grounding import is_external_target_arg, ungrounded_targets, with_user_target_aliases
 from ..typed_identity import index_typed_identity_leaves, index_typed_resource_identities
+
+
+@dataclass(frozen=True, slots=True)
+class _HostGroundedCall:
+    operation: str
+    args_sha256: str
+    task_sha256: str
+    destination: str
+    destination_argument: str
+
+
+# Minted only after the app's FlowProof checks, consumed by one exact call.
+# This is presence evidence, never an addition to taint, trust or identities.
+_host_grounded_call = ContextVar("spillway_host_grounded_call", default=None)
+
+
+def _consume_host_grounded_target(name, args, user_task):
+    record = _host_grounded_call.get()
+    if (type(record) is not _HostGroundedCall or record.operation != name
+            or type(args) is not dict or type(user_task) is not str
+            or record.destination_argument != args.get("destination_path")):
+        return None
+    try:
+        args_sha = hashlib.sha256(json.dumps(args, sort_keys=True, separators=(",", ":"),
+                                            ensure_ascii=False).encode()).hexdigest()
+        task_sha = hashlib.sha256(json.dumps(user_task, ensure_ascii=False).encode()).hexdigest()
+    except (TypeError, ValueError):
+        return None
+    if record.args_sha256 != args_sha or record.task_sha256 != task_sha:
+        return None
+    _host_grounded_call.set(None)
+    return record.destination
 
 
 def candidate_policy() -> Policy:
@@ -104,7 +140,7 @@ _DELEGATION_LABELS = frozenset({
 })
 
 
-def _install_short_identity_indexer(gate, policy):
+def _install_short_identity_indexer(gate, policy, resource_contracts=None):
     from contextvars import ContextVar
 
     current = getattr(gate, "index_identity_leaves", None)
@@ -178,7 +214,8 @@ def _install_short_identity_indexer(gate, policy):
             indexing.reset(token)
         if policy.short_target_guard and allow_short:
             if policy.typed_identity_only:
-                index_typed_resource_identities(obj, identity_set, lexicon=_ReferenceRoles(gate))
+                index_typed_resource_identities(obj, identity_set, lexicon=_ReferenceRoles(gate),
+                                                resource_contracts=resource_contracts)
             else:
                 index_short_resource_identities(obj, identity_set)
             index_verified_query_identities(
@@ -188,7 +225,7 @@ def _install_short_identity_indexer(gate, policy):
     gate.index_identity_leaves = indexer
 
 def install_candidate_policy(gate, policy: Policy | None = None, *, source_contracts=None,
-                             creation_contracts=None) -> bool:
+                             creation_contracts=None, resource_contracts=None) -> bool:
     """Patch the actual decision callable only when a candidate flag is enabled.
 
     Grounding runs before the original callable (hence before its voters). The
@@ -196,6 +233,9 @@ def install_candidate_policy(gate, policy: Policy | None = None, *, source_contr
     identity recovery. It uses the same span/co-residence predicate as the SDK.
     """
     policy = candidate_policy() if policy is None else policy
+    from ..resource_contracts import ResourceContracts
+    if resource_contracts is not None and type(resource_contracts) is not ResourceContracts:
+        raise TypeError("resource_contracts must be trusted app configuration")
     # Both live reference modules historically inspect only the leading word.
     # Share the SDK's whole-value predicate before the ladder runs, so rejecting
     # this delegation still leaves the same subsequent recovery paths intact.
@@ -222,7 +262,7 @@ def install_candidate_policy(gate, policy: Policy | None = None, *, source_contr
     install_named_source_capture(gate, policy.refbind_source_known, source_contracts)
     from .sensitive_context import install_resource_capture
     install_resource_capture(gate, policy.short_target_guard, creation_contracts)
-    _install_short_identity_indexer(gate, policy)
+    _install_short_identity_indexer(gate, policy, resource_contracts)
     from .refusal_context import install_refusal_capture, prepare_decision
     install_refusal_capture(gate, policy.ground_targets)
     from .fetch_context import current_fetch_tool_texts, install_fetch_capture
@@ -254,7 +294,21 @@ def install_candidate_policy(gate, policy: Policy | None = None, *, source_contr
             source_problem = delegated_domain_problem(name, args, user_task, trusted, identity_set, source_state,
                                                       policy=active, lexicon=roles)
             if source_problem:
-                return ("block", source_problem[0], source_problem[1], 0.0)
+                # App-owned continuation may defer only this source-evidence
+                # check for an exact call. The underlying reference decision
+                # and all subsequent hard checks still have to succeed.
+                hooks = getattr(gate, "_spw_delegated_recovery_hooks", None)
+                deferred = False
+                if hooks is not None:
+                    try:
+                        deferred = hooks.defer_source_problem(
+                            name, args, tainted, trusted, user_task, identity_set,
+                            source_problem=source_problem, policy=active, lexicon=roles, flags=kw,
+                        ) is True
+                    except Exception:
+                        deferred = False
+                if not deferred:
+                    return ("block", source_problem[0], source_problem[1], 0.0)
         if active.strict_fetch_provenance:
             from ..fetch_boundary import tool_observed_fetch_targets, unrequested_fetch_targets
             fetch_texts = current_fetch_tool_texts()
@@ -272,8 +326,10 @@ def install_candidate_policy(gate, policy: Policy | None = None, *, source_contr
             if short_bad:
                 return ("block", "block_short_target", "; ".join(short_bad)[:200], 0.0)
         if active.ground_targets:
-            unknown = ungrounded_targets(name, args, trusted, tainted, policy=active, lexicon=roles,
-                                         user_task=user_task)
+            host_target = _consume_host_grounded_target(name, args, user_task)
+            presence_text = tainted + "\n" + host_target if host_target is not None else tainted
+            unknown = ungrounded_targets(name, args, trusted, presence_text, policy=active, lexicon=roles,
+                                         user_task=user_task, original_tool_texts=current_fetch_tool_texts())
             if unknown:
                 return ("block", "block_ungrounded_target",
                         "whole target value absent from the user's request and observed tool text; "
@@ -307,8 +363,18 @@ def install_candidate_policy(gate, policy: Policy | None = None, *, source_contr
                     whole_local=active.refbind_whole_local, domains=domains, source_addresses=source_addresses,
                 )
             if not valid:
-                return ("block", "block_refbind_policy",
-                        "reference delegation failed the configured whole-local or domain-evidence rule", 0.0)
+                hooks = getattr(gate, "_spw_delegated_recovery_hooks", None)
+                if hooks is not None:
+                    try:
+                        valid = hooks.validate_refbind_remainder(
+                            name, args, tainted, trusted, user_task, identity_set,
+                            underlying_result=result, policy=active, lexicon=roles, flags=kw,
+                        ) is True
+                    except Exception:
+                        valid = False
+                if not valid:
+                    return ("block", "block_refbind_policy",
+                            "reference delegation failed the configured whole-local or domain-evidence rule", 0.0)
         if active.delegation_span_veto and result[0] == "allow" and result[1] in _DELEGATION_LABELS:
             span = span_payload(kw.get("injection_span") or "")
             cores = kw.get("taint_coresident")

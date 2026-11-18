@@ -1463,7 +1463,7 @@ class IdentityIndex:
 
     def index_read_return(self, tool_name: str, args: Optional[dict], obj: Any, *,
                           tainted: str = "", trusted: str = "", roster: bool = False,
-                          policy: Policy = DEFAULT_POLICY) -> None:
+                          policy: Policy = DEFAULT_POLICY, resource_contracts=None) -> None:
         """Index one READ-ONLY typed return, exactly as the executor did after an allowed read:
         identity leaves (only when the read's own args were not taint-novel), shadow IBANs into
         the span text, free-text co-residence tokens, the sentinel roster and (RBRP) message
@@ -1493,7 +1493,8 @@ class IdentityIndex:
                     if short_entailed:
                         if policy.typed_identity_only:
                             from .typed_identity import index_typed_resource_identities
-                            index_typed_resource_identities(obj, ids, lexicon=lex)
+                            index_typed_resource_identities(obj, ids, lexicon=lex,
+                                                            resource_contracts=resource_contracts)
                         else:
                             index_short_resource_identities(obj, ids)
                         from .short_lineage import index_verified_query_identities
@@ -1669,7 +1670,8 @@ def _gate(name, args, tainted, trusted, user_task, identity_set, *, policy: Poli
             return ("block", "block_short_target", "; ".join(short_bad)[:200], 0.0)
     if P.ground_targets:
         from .target_grounding import ungrounded_targets
-        unknown = ungrounded_targets(name, args, trusted, tainted, policy=P, lexicon=lex, user_task=user_task)
+        unknown = ungrounded_targets(name, args, trusted, tainted, policy=P, lexicon=lex, user_task=user_task,
+                                     original_tool_texts=fetch_tool_texts)
         if unknown:
             return ("block", "block_ungrounded_target",
                     "whole target value absent from the user's request and observed tool text; "

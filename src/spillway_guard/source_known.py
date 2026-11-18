@@ -203,6 +203,13 @@ def delegated_domain_problem(name, args, user_task, trusted, identity_set, sourc
     for key, value in iter_arg_values(args or {}):
         if not isinstance(value, str) or not is_external_target_arg(name, key, policy=policy, lexicon=lexicon):
             continue
+        # A sender/email filter on a declared local read selects a record;
+        # it does not route an outgoing action. URL-like fetch arguments
+        # remain subject to this check and the separate fetch controls.
+        if (lexicon.tool_is_read_only(name) and not lexicon.is_fetch_arg(key)
+                and str(key).lower() in {"sender", "sender_email", "from", "from_email", "from_address", "email"}
+                and _EMAIL.fullmatch(value)):
+            continue
         for match in _EMAIL.finditer(value):
             address = norm(match.group(0))
             if target_appears_in(address, trusted) or address in {norm(v) for v in identity_set or ()}:
