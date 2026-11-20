@@ -2,7 +2,7 @@
 
 <h1 align="center">SPILLWAY 1.0.1<br>Real-time safety guard for AI agents.</h1>
 <p align="center"><b>Check before they act.</b></p>
-<p align="center">🎉 <b>SPILLWAY 1.0.1</b> keeps destination checks working when apps reformat tool output, supports exact sender filters on local reads, and adds app-defined resource contracts. It builds on defenses against disguised email, IBAN, and link targets as well as direct and system-message injection.</p>
+<p align="center">🎉 <b>SPILLWAY 1.0.1</b> builds on a guard that blocks more attacks while maintaining performance in our evaluations. Tested defenses cover disguised email, IBAN, and link targets plus direct and system-message injection. This release preserves destination evidence when apps reformat tool output, supports exact local sender filters, and adds app-defined resource contracts.</p>
 
 <p align="center"><a href="https://saintmachines.github.io/spillway/"><picture>
     <source media="(max-width: 1011px)" srcset="docs/assets/readme_page/hero_phone.png">
