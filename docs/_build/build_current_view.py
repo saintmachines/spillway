@@ -129,12 +129,14 @@ def refresh_copy(text):
         text = re.sub(re.escape(public_path) + r"(?:\?v=[0-9a-f]+)?",
                       public_path + "?v=" + item["sha256"][:8], text)
     replacements = {
+        '<a href="release-1.0.1-scope.md">1.0.1 SDK scope</a>': '<a href="https://github.com/saintmachines/spillway/blob/main/docs/release-1.0.1-scope.md">1.0.1 SDK scope</a>',
+        "SPILLWAY: Real-time safety guard for AI agents. 48.9% task success under standard attack and 0/2847 in-scope attack successes, judge on. At most 500 ms added per task on average in the paper timing study.": "SPILLWAY: Real-time safety guard for AI agents. 47.4% task success under standard attack and 0/2847 in-scope attack successes, judge on. At most 500 ms added per task on average in the paper timing study.",
         "SPILLWAY 1.0.0 / comparison methods: paper": SOURCE_LABEL,
         "Tables 4 and 7": "Table 4",
         "Table 8": "Table 7",
         "SPILLWAY: 1.0.0; comparison methods and reruns: the paper": "Latest standard-attack evaluation; repeat study: earlier paper configuration",
         "SPILLWAY: 1.0.0; comparison methods: the paper. Temperature 0, seed 42": "Latest standard-attack evaluation. Temperature 0, seed 42",
-        "SPILLWAY 1.0.0 has no executed attack effect": "SPILLWAY has no executed attack effect",
+        "SPILLWAY 1.0.0 has no executed attack effect": "SPILLWAY has no executed in-scope attack effect",
         "SPILLWAY 1.0.0 uses the matched backbone and task/scoring protocol; comparison methods retain the paper measurements.": "All methods use the matched backbone and scoring protocol.",
         "SPILLWAY 1.0.0, four mini suites": "Latest SPILLWAY evaluation, four mini suites",
         "Watch SPILLWAY 1.0.0": "Watch SPILLWAY",
@@ -170,6 +172,24 @@ def refresh_copy(text):
     return text
 
 
+def refresh_home_descriptions(page, data):
+    counts = [
+        tuple(map(int, row["methods"]["SPILLWAY"]["ASR_count"].split("/")))
+        for row in data["table1"]["rows"]
+    ]
+    hits = sum(hit_count for hit_count, _ in counts)
+    pairs = sum(pair_count for _, pair_count in counts)
+    utility = data["public_headlines"]["standard_12cell_means"]["UAU"]
+    result, replaced = re.subn(
+        r'<meta (?:name="description"|property="og:description") content="[^"]*48\.9%[^"]*0/2847[^"]*">',
+        lambda match: match[0].replace("48.9%", f"{utility:.1%}").replace("0/2847", f"{hits}/{pairs}"),
+        page,
+    )
+    if replaced != 2:
+        raise ValueError("Expected the project home page description and Open Graph description")
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=ROOT / "docs/index.html")
@@ -197,8 +217,12 @@ def main():
     results["component_study_qwen3_8b"] = copy.deepcopy(data["table3"])
     out = args.out.resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
-    outputs = {"index.html": page, "results.html": refresh_copy(module.build_results_page(page)),
-               "integrate.html": refresh_copy(module.build_integration_page(page)), "results.json": json.dumps(results, indent=1) + "\n"}
+    outputs = {
+        "index.html": refresh_home_descriptions(page, data),
+        "results.html": refresh_copy(module.build_results_page(page)),
+        "integrate.html": refresh_copy(module.build_integration_page(page)),
+        "results.json": json.dumps(results, indent=1) + "\n",
+    }
     for name, value in outputs.items():
         (out if name == "index.html" else out.parent / name).write_text(value)
     report = {"status": "CURRENT_EVALUATION_DISPLAY_BUILD_PASS", "snapshot_sha256": sha(SNAPSHOT),
