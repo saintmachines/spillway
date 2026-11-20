@@ -47,9 +47,8 @@ installation from PyPI has passed, set `pypi_version` to that version and rebuil
 The builder reads this file offline and accepts only the current project version.
 `source_ref` must name an existing tag or commit before the page is published.
 
-The paper link uses `docs/SPILLWAY_preprint.pdf`. Keep that file identical to the
-released preprint. Bibliographic URLs can use that PDF before a real arXiv
-identifier is assigned.
+Paper buttons and PDF citation metadata use the canonical arXiv PDF set by
+`PAPER_PDF_URL` in `build_page.py`.
 
 The GitHub README uses relative pictures so they also load in the private
 repository. Regenerate those pictures after the final page build:

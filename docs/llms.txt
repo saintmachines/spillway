@@ -6,7 +6,7 @@
 - Current SDK: [1.0.1 release](https://github.com/saintmachines/spillway/releases/tag/v1.0.1), with reviewed boundary fixes. [SDK and mini host-variant scope](release-1.0.1-scope.md). The charts and tables below retain their historical measurements.
 - Runtime provenance: 1.0.0 preserves the runtime measured in 0.1.4, with release metadata changes and unchanged experimental records. [Runtime equivalence](release-1.0.0.html#runtime-equivalence).
 - App integration: [integrate.html](integrate.html), with a runnable local example in [examples/](examples/README.md)
-- Paper: [arXiv:2611.07222](https://arxiv.org/abs/2611.07222), [PDF](SPILLWAY_preprint.pdf)
+- Paper: [arXiv:2611.07222](https://arxiv.org/abs/2611.07222), [PDF](https://arxiv.org/pdf/2611.07222)
 - Code: https://github.com/saintmachines/spillway
 - Results as JSON: [results.json](results.json). Full tables: [results.html](results.html)
 - Authors: Woosang Lim (SAINT Machines and KAIST), Yeseul Chang and Jaewoo Lee (Chung-Ang University). Project of SAINT Machines: https://saintmachines.ai. Contact: contact@saintmachines.ai

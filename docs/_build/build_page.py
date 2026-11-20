@@ -32,6 +32,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 REPO = "https://github.com/saintmachines/spillway"
 SITE = "https://saintmachines.github.io/spillway/"
+PAPER_PDF_URL = "https://arxiv.org/pdf/2611.07222"
 PUBLICATION_PATH = pathlib.Path(__file__).with_name("publication.json")
 
 
@@ -1249,7 +1250,7 @@ def build():
         "@@LEAK_MIN@@": str(BASE_LEAK_MIN), "@@LEAK_MAX@@": str(BASE_LEAK_MAX),
         "@@CALLS_S_W@@": f'{DATA["calls"]["SPILLWAY"][0]:.2f}', "@@CALLS_S_S@@": f'{DATA["calls"]["SPILLWAY"][1]:.2f}',
         "@@RATIO_MIN@@": str(int(RATIO_MIN)), "@@RATIO_MAX@@": str(int(RATIO_MAX)),
-        "@@REPO@@": REPO, "@@SITE@@": SITE, **tv_panels(), **publication_slots(),
+        "@@REPO@@": REPO, "@@SITE@@": SITE, "@@PAPER_PDF_URL@@": PAPER_PDF_URL, **tv_panels(), **publication_slots(),
     }
     unplaced = [k for k in subs if k not in page]  # a value typed over its placeholder would stop following the data
     assert not unplaced, unplaced
@@ -1275,7 +1276,7 @@ def build():
     assert menu, "the header menu panel"
     _ids = set(re.findall(r'\sid="([^"]+)"', page))
     _hrefs = re.findall(r'href="([^"]*)"', menu.group(1))
-    menu_destinations = {"integrate.html", "SPILLWAY_preprint.pdf", REPO, "https://saintmachines.ai"}
+    menu_destinations = {"integrate.html", PAPER_PDF_URL, REPO, "https://saintmachines.ai"}
     assert _hrefs and all((h.startswith("#") and h[1:] in _ids) or h in menu_destinations for h in _hrefs), [
         h for h in _hrefs if not ((h.startswith("#") and h[1:] in _ids) or h in menu_destinations)]
     check_marks(page)
@@ -1421,9 +1422,6 @@ def build_results_page(page):
     moved = re.sub(r'href="#([^"]+)"', lambda m: m.group(0) if m.group(1) in own else f'href="index.html#{m.group(1)}"', moved)  # home anchors stay home
     for k, v in {"@@MOVED@@": moved, **shared, **results_subs()}.items():
         body = body.replace(k, v)
-    footer = re.search(r"<footer>.*?</footer>", page, re.S).group(0)
-    footer = re.sub(r'href="#([^"]+)"', r'href="index.html#\1"', footer)
-    body = re.sub(r"<footer>.*?</footer>", lambda _: footer, body, count=1, flags=re.S)
     assert not re.findall(r"@@[A-Z_0-9]+@@", body)
     return "<!DOCTYPE html>\n<html lang=\"en\">\n" + head + "\n<body>\n" + body + "\n</body>\n</html>\n"
 
