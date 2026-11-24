@@ -1,5 +1,7 @@
 # Reproducing one AgentDojo cell
 
+> This guide documents the archived paper runner. Use the release tag identified by each experiment. SPILLWAY 1.1.0 ships the SDK and the AgentDojo contract helper.
+
 A *cell* of the paper's breadth grid is one AgentDojo suite, one backbone and one attack, run over the full grid
 of user tasks and injection tasks (Table 1 of the paper: 3 backbones x 4 suites, 949 attacked pairs per backbone:
 144 Banking, 105 Slack, 140 Travel, 560 Workspace). This page runs one such cell with the settings of the paper's

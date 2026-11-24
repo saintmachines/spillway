@@ -205,7 +205,7 @@ def main():
     results["source"] = SOURCE_LABEL
     results["evaluation_snapshot"] = "benchmarks/results/evaluation_20261118.json"
     results["evaluation_snapshot_sha256"] = sha(SNAPSHOT)
-    results["display_view"] = {"date": "2026-11-18", "library_version": module.project_version(),
+    results["display_view"] = {"date": "2026-11-18", "library_version": "1.0.1",
                                "configuration": "local judge and identity-target recovery enabled",
                                "agentdyn": "same core guard, explicit trusted native integration, three fixed-seed repeats"}
     results["notes"]["grid_means"] = "Final printed twelve-cell means; equal weight over three backbones and four suites."

@@ -192,7 +192,7 @@ def test_runner_option_reaches_policy_and_legacy_overrides_it():
     import os
     from unittest.mock import patch
 
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     from spillway_guard.agentdojo.candidate_policy import candidate_policy
 
     for arguments, expected in [(["--typed-identity-only", "--self-test"], True),
@@ -211,7 +211,7 @@ def test_frozen_reference_uses_strict_schema_indexing_and_restores_legacy(monkey
     from pathlib import Path
 
     pytest.importorskip("agentdojo")
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     from spillway_guard.agentdojo.candidate_policy import install_candidate_policy
 
     root = Path(__file__).resolve().parents[1]

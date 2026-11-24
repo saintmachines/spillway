@@ -7,8 +7,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import _path  # noqa: F401
+import pytest
 
-from spillway_guard.agentdojo import runner
+runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
 
 
 class TargetRecoveryRunnerTests(unittest.TestCase):

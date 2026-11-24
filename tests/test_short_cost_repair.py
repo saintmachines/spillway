@@ -139,7 +139,7 @@ def test_real_reference_query_and_runtime_receipt_hooks(monkeypatch):
     from types import SimpleNamespace
 
     pytest.importorskip("agentdojo")
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     from spillway_guard.agentdojo.candidate_policy import install_candidate_policy
     from spillway_guard.agentdojo.sensitive_context import _SourceRuntimeProxy
     from spillway_guard.source_known import SourceContracts

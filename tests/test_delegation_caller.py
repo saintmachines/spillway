@@ -4,7 +4,6 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import _path  # noqa: F401
-from test_runner import TargetRecoveryRunnerTests as _RunnerHelper
 
 from spillway_guard import Policy
 from spillway_guard.agentdojo.candidate_policy import candidate_policy, install_candidate_policy
@@ -48,6 +47,8 @@ def test_reference_wrapper_rejects_the_old_substring_allow():
 
 
 def test_cli_domain_option_reaches_actual_candidate_policy_and_legacy_wins():
+    from test_runner import TargetRecoveryRunnerTests as _RunnerHelper
+
     helper = _RunnerHelper()
     forwarded, environment = helper.prepare_in_environment({}, ["--refbind-domain-known", "--self-test"])
     assert "--refbind-domain-known" not in forwarded

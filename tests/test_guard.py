@@ -251,12 +251,10 @@ class GuardTests(unittest.TestCase):
             self.assertIn("task", build_prompt(m, "task", "t", {}))
 
     def test_judge_endpoint_without_path_gets_v1(self):
-        # The runner's SPW_OLLAMA_URL base has no path. Used as given it posted to /chat/completions, which Ollama
-        # does not serve, and every judged call was refused. A URL that has a path is kept as given.
-        from spillway_guard.agentdojo.runner import DEFAULT_JUDGE_URL
+        # An OpenAI-compatible local endpoint without a path uses /v1.
         request = JudgeRequest("routing", "t", "send_email", {"recipients": ["a@b.c"]}, True, 0.5)
         cases = {
-            DEFAULT_JUDGE_URL: "http://127.0.0.1:11434/v1",
+            "http://127.0.0.1:11434": "http://127.0.0.1:11434/v1",
             "http://127.0.0.1:11434/": "http://127.0.0.1:11434/v1",
             "http://127.0.0.1:11434/v1/": "http://127.0.0.1:11434/v1",
             "https://api.example.com/openai/v1": "https://api.example.com/openai/v1",

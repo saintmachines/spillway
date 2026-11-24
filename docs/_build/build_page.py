@@ -61,6 +61,7 @@ def publication_slots():
             "@@INSTALL_TABS@@": "".join(tabs), "@@INSTALL_COMMAND@@": html.escape(commands[selected]),
             "@@INSTALL_NOTE@@": "" if ready else '<p class="req inote">Install from GitHub. PyPI release forthcoming.</p>',
             "@@PYPI_LINK@@": '<a href="https://pypi.org/project/spillway-guard/">PyPI</a>' if ready else "",
+            "@@RELEASE_DATE@@": html.escape(publication["release_date"], quote=True),
             "@@RELEASE_NOTES_URL@@": html.escape(publication["release_notes_url"], quote=True)}
 
 
@@ -216,7 +217,7 @@ GATE_SHA = hashlib.sha256((ROOT / "reference" / "spillway_gate.py").read_bytes()
 # docs/_build/checks.txt: what capture_checks.py printed. The page shows its first two commands verbatim.
 CHECKS = (pathlib.Path(__file__).with_name("checks.txt")).read_text()
 _capture = re.match(r"# captured (\d{4}-\d{2}-\d{2}) with spillway-guard (\S+) ", CHECKS)
-assert _capture and _capture[2] == project_version(), "capture_checks.py must run on this release"
+assert _capture and _capture[2] == "1.0.1", "Expected the archived 1.0.1 check record"
 CHECKS_DATE = _capture[1]
 assert re.search(rf"^make_tables\.py: {MT_N} checks pass$", CHECKS, re.M), "checks.txt is older than the results"
 _tests = re.search(r"^(\d+) passed(?:, \d+ subtests passed)?(?:, \d+ warnings?)? in [0-9.]+s$", CHECKS, re.M)

@@ -64,12 +64,6 @@ R5 requires complete raw source capture and checks recognized sensitive values b
 
 `strict_fetch_provenance` is on by default. A network-read URL must exactly match a user-named URL or a URL separately captured from a successful actual read-tool execution. The second source establishes presence only: it remains untrusted and must pass the existing content gate/judge. Pasted-only URLs, invented URLs, modified path/query/scheme values, guard refusals and forged tool transcripts do not establish executed-tool evidence. The SDK and benchmark executor capture this source separately; a bare `admit` call without host-owned source evidence fails closed. URI path/query/fragment case and nested-list checks are preserved. Disabling the rule is an explicit research control and reopens the known pasted-URL counterexample. The host must reject unauthorized redirects/subrequests before following them; an admission check on the first URL cannot prevent backend-internal requests. No real network fetch is needed for fixed-call tests.
 
-## Actual AgentDojo caller
+## Historical evaluation
 
-```sh
-spillway-agentdojo --paper --guarded --help
-```
-
-The default reaches the actual reference decision/execution hooks. Verified benchmark registries are installed automatically and recorded in `SPW_BENCHMARK_CONTRACT_RECEIPT`. Explicit registry options remain privileged host configuration, never fields parsed from a paste; their environment equivalents include `SPW_SOURCE_NO_REDIRECT_TOOLS` and `SPW_NEW_RESOURCE_TOOLS`. General SDK registries remain empty until the application registers its reviewed tools. The independent payload-secret research options remain off.
-
-`--paper` without `--guarded`, `--legacy-v1` and `--no-target-provenance` disable candidate additions. `Policy.legacy_013()` supplies the explicit SDK control. Frozen reference source and benchmark records remain unchanged. The inherited reference self-test covers its original operating point; candidate tests cover the enhanced predicates.
+The [measurement report](https://github.com/saintmachines/spillway/blob/main/RELEASE_014_RESULTS.md) records the historical study. `Policy.legacy_013()` provides the previous SDK policy for compatibility.

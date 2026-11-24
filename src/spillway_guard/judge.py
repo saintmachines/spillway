@@ -13,8 +13,8 @@ urllib, temperature 0, JSON response. Defaults: ``http://127.0.0.1:11434/v1`` (a
 server) and the paper's judge model ``gemma4:31b``. A panel of several models is supported
 (``models=("a", "b")``, ``threshold``): the score is the fraction of the panel that said coherent,
 so a model with no verdict counts as a no. The reference divided by the parsed verdicts. The paper's
-runs used Ollama's native route with a 4096-token context and thinking off. This transport sends
-neither, so set them on the model or the server to match.
+runs used Ollama's native route with a 4096-token context and thinking off. Configure the context
+on the server. The built-in local Ollama profile requests thinking off for gemma4:31b.
 """
 
 from __future__ import annotations
@@ -32,6 +32,13 @@ from .floor import JudgeRequest
 __all__ = ["Judge", "build_prompt", "parse_verdict"]
 
 _LOG = logging.getLogger(__name__)
+_DEFAULT_ENDPOINT = "http://127.0.0.1:11434/v1"
+_DEFAULT_MODEL = "gemma4:31b"
+_DEFAULT_OLLAMA_ENDPOINTS = (
+    _DEFAULT_ENDPOINT,
+    "http://localhost:11434/v1",
+    "http://[::1]:11434/v1",
+)
 
 
 def build_prompt(mode: str, user_task: str, tool_name: str, tool_args: Any) -> str:
@@ -186,6 +193,10 @@ class Judge:
     (the ``SPW_OLLAMA_URL`` base URL of the AgentDojo runner), gets ``/v1`` appended, so requests
     go to ``/v1/chat/completions``. An endpoint that has a path is used as given.
 
+    The default Gemma 4 31B model on loopback Ollama port 11434 sends
+    ``reasoning_effort="none"`` when ``extra_body`` is omitted. Supply ``extra_body``
+    to configure the request explicitly. An empty dict uses the server defaults.
+
     A model that cannot be reached, answers with an HTTP error, or replies without a
     ``{"verdict": 0|1}`` object gives no verdict. Under the default ``fail_closed=True`` a view
     without a verdict answers no. The first such failure of each Judge is
@@ -194,7 +205,7 @@ class Judge:
     still records every call.
     """
 
-    def __init__(self, endpoint: str = "http://127.0.0.1:11434/v1", model: str = "gemma4:31b", *,
+    def __init__(self, endpoint: str = _DEFAULT_ENDPOINT, model: str = _DEFAULT_MODEL, *,
                  models: Optional[Sequence[str]] = None, threshold: float = 0.5,
                  timeout: float = 30.0, max_tokens: int = 200, fail_closed: bool = True,
                  api_key: Optional[str] = None, log_path: Optional[str] = None,
@@ -208,6 +219,9 @@ class Judge:
         self.api_key = api_key.strip() if isinstance(api_key, str) else api_key
         self.log_path = log_path
         self.extra_body = dict(extra_body or {})
+        if (extra_body is None and self.models == (_DEFAULT_MODEL,)
+                and self.endpoint in _DEFAULT_OLLAMA_ENDPOINTS):
+            self.extra_body["reasoning_effort"] = "none"
         self.calls = 0
         self._warned = False
 

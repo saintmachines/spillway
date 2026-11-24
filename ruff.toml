@@ -18,3 +18,13 @@ known-first-party = ["spillway_guard"]
 [format]
 quote-style = "double"
 indent-style = "space"
+
+# Preserve the independently reviewed 1.1.0 source bytes while linting the rest of the SDK.
+[lint.per-file-ignores]
+"src/spillway_guard/__init__.py" = ["I001"]
+"src/spillway_guard/_e2_e1c.py" = ["I001"]
+"src/spillway_guard/_e2_policy.py" = ["F401", "I001"]
+"src/spillway_guard/_e2g_d1.py" = ["F841"]
+"src/spillway_guard/_file_policy_v21.py" = ["E702", "F841"]
+"src/spillway_guard/_terminal_effects.py" = ["F401", "I001"]
+"src/spillway_guard/e2gv2.py" = ["I001"]

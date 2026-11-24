@@ -1,4 +1,4 @@
-"""The installed SDK and benchmark entry points must select the same final014 profile."""
+"""The installed SDK and AgentDojo contract helpers must select the same final014 profile."""
 import os
 from unittest.mock import patch
 
@@ -16,16 +16,6 @@ def test_default_entry_points_select_the_final_profile():
     with patch.dict(os.environ, {}, clear=True):
         assert candidate_policy() == final
     assert not final.payload_secret_guard and not final.payload_partial_guard
-
-
-def test_actual_runner_prepare_preserves_the_final_default():
-    from spillway_guard.agentdojo import runner
-    with patch.dict(os.environ, {}, clear=True), patch.object(runner, 'install_agent_shim', return_value=False):
-        runner.prepare(['--paper', '--guarded', '--help'])
-        assert candidate_policy() == DEFAULT_POLICY
-        assert os.environ['SPW_ESCALATE_MV'] == '1'
-        assert os.environ['SPW_MV_GUARD'] == '1'
-        assert os.environ['SPW_ROLEMARK'] == '1'
 
 
 def test_default_does_not_treat_free_json_keys_as_identity_authority():

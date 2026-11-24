@@ -10,7 +10,6 @@ import _path  # noqa: F401
 import pytest
 
 from spillway_guard import Guard, Lexicon, Policy, admit
-from spillway_guard.agentdojo import runner
 from spillway_guard.agentdojo.candidate_policy import candidate_policy, install_candidate_policy
 from spillway_guard.target_grounding import target_appears_in, user_target_aliases
 
@@ -148,6 +147,7 @@ def test_observed_literal_is_only_a_prefilter_not_strict_identity_provenance():
 
 
 def test_runner_consumes_candidate_flags_and_builds_policy():
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     with patch.dict(os.environ, {}, clear=True), patch.object(runner, "install_agent_shim", return_value=False):
         args, _ = runner.prepare(["--paper", "--guarded", "--ground-targets", "--trusted-target-aliases", "--delegation-span-veto"])
         assert not {"--ground-targets", "--trusted-target-aliases", "--delegation-span-veto"} & set(args)
@@ -156,6 +156,7 @@ def test_runner_consumes_candidate_flags_and_builds_policy():
 
 
 def test_actual_reference_callable_receives_ground_and_alias_policy():
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     pytest.importorskip("agentdojo")
     root = Path(__file__).resolve().parents[1]
     for p in (root / "reference", root / "reference/harness"):

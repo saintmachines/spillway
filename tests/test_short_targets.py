@@ -161,7 +161,7 @@ def test_frozen_reference_caller_and_indexer_receive_the_same_short_rule(monkeyp
     from pathlib import Path
 
     pytest.importorskip("agentdojo")
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     from spillway_guard.agentdojo.candidate_policy import install_candidate_policy
 
     root = Path(__file__).resolve().parents[1]

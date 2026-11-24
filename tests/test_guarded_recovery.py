@@ -8,10 +8,10 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import _path  # noqa: F401
+import pytest
 
 from spillway_guard import Guard, Policy, admit
 from spillway_guard import recovery_guard as guarded
-from spillway_guard.agentdojo import runner
 from spillway_guard.floor import norm, text_of
 from spillway_guard.sanitizer import sanitize
 
@@ -127,6 +127,7 @@ def test_predicates_are_verbatim_experiment_v1():
 
 
 def test_runner_selects_guarded_and_frozen_modes():
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     for argv, selected, switches in [
         (["--self-test"], "spillway_guarded", ("1", "1")),
         (["--paper", "--self-test"], "spillway_gate", ("0", "0")),

@@ -25,6 +25,8 @@ from .floor import (
                     taint_novel,
 )
 from .guard import Guard
+from .file_policy import file_access_mode
+from .e2gv2 import E2gV2Guard, E2VerdictRequest
 from .ingress import PasteBoundaryError, split_pasted
 from .judge import Judge
 from .lexicon import Lexicon
@@ -32,8 +34,8 @@ from .resource_contracts import ResourceContracts, ResourceField
 from .sanitizer import sanitize
 from .short_lineage import CreationContracts
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
-__all__ = ["ResourceContracts", "ResourceField", "CreationContracts", "PasteBoundaryError", "split_pasted", "Guard", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
+__all__ = ["file_access_mode", "ResourceContracts", "ResourceField", "CreationContracts", "PasteBoundaryError", "split_pasted", "Guard", "E2gV2Guard", "E2VerdictRequest", "Decision", "sanitize", "IdentityIndex", "Lexicon", "Judge", "Policy",
            "JudgeRequest", "admit", "taint_novel", "index_identity_leaves",
            "ALLOW", "BLOCK", "REFER_TO_JUDGE", "__version__"]

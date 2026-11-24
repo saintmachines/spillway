@@ -45,7 +45,7 @@ def test_new_agentdojo_version_needs_review_even_if_tools_keep_the_names():
 
 def test_pinned_installed_benchmark_contracts_reach_prepare_without_flags():
     pytest.importorskip("agentdojo")
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     with patch.dict(os.environ, {}, clear=True), patch.object(runner, "install_agent_shim", return_value=False):
         runner.prepare(["--paper", "--guarded", "--suite", "workspace", "--help"])
         receipt = json.loads(os.environ["SPW_BENCHMARK_CONTRACT_RECEIPT"])
@@ -65,7 +65,7 @@ def test_explicit_host_configuration_including_empty_wins():
 
 
 def test_legacy_explicit_control_does_not_inherit_enhanced_contracts():
-    from spillway_guard.agentdojo import runner
+    runner = pytest.importorskip("spillway_guard.agentdojo.runner", reason="Historical research runner is outside the 1.1.0 SDK")
     with patch.dict(os.environ, {}, clear=True), patch.object(runner, "install_agent_shim", return_value=False):
         runner.prepare(["--paper", "--legacy-v1", "--help"])
         assert os.environ["SPW_NEW_RESOURCE_TOOLS"] == ""
